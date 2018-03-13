@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!--————————————————————————————————————business向外提供dubbo此处开始———————————————————————————————————— -->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.SupplierQueryDubboService" ref="supplierQueryDubboService" timeout="1200000" version="1.0" />
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.SupplierWriteDubboService" ref="supplierWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+   	<dubbo:service interface="com.yatang.sc.facade.dubboservice.GoodsPriceQueryDubboService" ref="goodsPriceQueryDubboService" timeout="1200000" version="1.0"/>
+    <dubbo:service interface="com.yatang.sc.facade.dubboservice.GoodsPriceWriteDubboService" ref="goodsPriceWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+    <dubbo:service interface="com.yatang.sc.facade.dubboservice.DepositWriteDubboService" ref="depositWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+    <dubbo:service interface="com.yatang.sc.facade.dubboservice.DepositQueryDubboService" ref="depositQueryDubboService" timeout="1200000" version="1.0"/>
+    <dubbo:service interface="com.yatang.sc.facade.dubboservice.ProdPurchaseWriteDubboService" ref="prodPurchaseWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+    <dubbo:service interface="com.yatang.sc.facade.dubboservice.ProdPurchaseQueryDubboService" ref="prodPurchaseQueryDubboService" timeout="1200000" version="1.0"/>
+
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ProdPriceChangeWriteDubboService" ref="prodPriceChangeWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ProdPriceChangeQueryDubboService" ref="prodPriceChangeQueryDubboService" timeout="1200000" version="1.0"/>
+       <!--静态页面管理服务-->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.StaticPageQueryDubboService" ref="staticPageQueryDubboService" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.StaticPageWriteDubboService" ref="staticPageWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.AdPlanWriteDubboService" ref="adPlanWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.AdPlanQueryDubboService" ref="adPlanQueryDubboService" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.CategoryGoodsOrderQueryDubboService" ref="categoryGoodsOrderQueryDubboService" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.CategoryGoodsOrderWriteDubboService" ref="categoryGoodsOrderWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.HomeAdQueryDubboService" ref="homeAdQueryDubboService" timeout="1200000" version="1.0" />
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.HomeAdWriteDubboService" ref="homeAdWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.UserDubboService" ref="userDubboService1" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.RoleDubboService" ref="roleDubboService1" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ResourceDubboService" ref="resourceDubboService1" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.RecommendKeywordsWriteDubboService" ref="recommendKeywordsWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.RecommendKeywordsQueryDubboService" ref="recommendKeywordsQueryDubboService" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.DictionaryQueryDubboService" ref="dictionaryQueryDubboService" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.DictionaryWriteDubboService" ref="dictionaryWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+
+	<!--商品采购订单-->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.PmPurchaseOrderWriteDubboService" ref="pmPurchaseOrderWriteDubboService" timeout="1200000" version="1.0" retries="0" />
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.PmPurchaseOrderQueryDubboService" ref="pmPurchaseOrderQueryDubboService" timeout="1200000" version="1.0"/>
+	
+	<!-- 商品收货单 -->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.PmPurchaseReceiptWriteDubboService" ref="pmPurchaseReceiptWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.PmPurchaseReceiptQueryDubboService" ref="pmPurchaseReceiptQueryDubboService" timeout="1200000" version="1.0"/>
+
+	<!-- 商品采购退货单 -->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.PmPurchaseRefundQueryDubboService" ref="pmPurchaseRefundQueryDubboService" timeout="120000" version="1.0" />
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.PmPurchaseRefundWriteDubboService" ref="pmPurchaseRefundWriteDubboService" timeout="120000" version="1.0" />
+
+	<!-- 流程审批日志 -->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ProcessAuditLogQueryDubboService" ref="processAuditLogQueryDubboService" timeout="120000" version="1.0" />
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ProcessAuditLogWriteDubboService" ref="processAuditLogWriteDubboService" timeout="120000" version="1.0" />
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ProcessDefinitionQueryDubboService" ref="processDefinitionQueryDubboService" timeout="120000" version="1.0" />
+	
+	<!--app端 dubbo-->
+    <!--商品查询-->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ProductQueryDubboService" ref="productQueryDubboService" timeout="1200000" version="1.0"/>
+	<!--承诺查询dubbo-->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ServiceCommitmentsQueryDubboService" ref="serviceCommitmentsQueryDubboService" timeout="1200000" version="1.0"/>
+
+	<!--仓库信息读操作dubbo服务-->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.WarehouseLogicQueryDubboService" ref="warehouseLogicQueryDubboService" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.WarehousePhysicalQueryDubboService" ref="warehousePhysicalQueryDubboService" timeout="1200000" version="1.0"/>
+	<!--通用工具dubbo服务-->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.CommonUtilDubboService" ref="commonUtilDubboService" timeout="1200000" version="1.0"/>
+
+	<!--门店权限dubbo服务-->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.StorePermissionDubboService" ref="storePermissionDubboService" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ZiptoftpInfoDubboService" ref="ziptoftpInfoDubboService" timeout="1200000" version="1.0" retries="0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ProdPurchaseInfoImportWriteDubboService" ref="prodPurchaseInfoImportWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ProdPurchaseInfoImportQueryDubboService" ref="prodPurchaseInfoImportQueryDubboService" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ProdSellInfoImportWriteDubboService" ref="prodSellInfoImportWriteDubboService" timeout="1200000" version="1.0" retries="0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.ProdSellInfoImportQueryDubboService" ref="prodSellInfoImportQueryDubboService" timeout="1200000" version="1.0"/>
+
+	<!--商品地点管理-->
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.prodplace.ProdPlaceQueryDubboService" ref="prodPlaceQueryDubboService" timeout="1200000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.facade.dubboservice.prodplace.ProdPlaceWriteDubboService" ref="prodPlaceWriteDubboService" timeout="1200000" version="1.0"/>
+
+	<import resource="classpath*:com/yatang/xc/*/**/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/sc/glink/dubboservice/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/sc/inventory/dubboservice/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/sc/bpm/dubboservice/dubbo-consumer.xml" />
+
+	<!--<import resource="classpath*:com/yatang/sc/biz/dubboservice/dubbo-consumer.xml" />-->
+</beans>

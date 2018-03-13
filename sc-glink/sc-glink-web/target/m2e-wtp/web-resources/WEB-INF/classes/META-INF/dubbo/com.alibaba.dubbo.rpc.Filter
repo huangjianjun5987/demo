@@ -1,0 +1,1 @@
+#traceFilterc=com.yatang.trace.filter.dubbo.DubboRpcClientTraceFilter

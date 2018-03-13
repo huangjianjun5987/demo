@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 定义模块可被调用的服务,调用方,在Spring加载过程中引用此配置-->
+	<dubbo:reference interface="com.yatang.sc.inventory.dubboservice.ItemLocInventoryDubboService" id="itemLocInventoryDubboService" timeout="120000" version="1.0" />
+
+	<dubbo:reference interface="com.yatang.sc.inventory.dubboservice.TranDataDubboService" id="tranDataDubboService" timeout="120000" version="1.0" />
+
+	<!--库存调整-->
+	<dubbo:reference interface="com.yatang.sc.inventory.dubboservice.ImAdjustmentQueryDubboService" id="imAdjustmentQueryDubboService" timeout="120000" version="1.0" />
+	<dubbo:reference interface="com.yatang.sc.inventory.dubboservice.ImAdjustmentWriteDubboService" id="imAdjustmentWriteDubboService" timeout="120000" version="1.0" />
+
+	<!--批量查询移动加权平均成本-->
+	<dubbo:reference interface="com.yatang.sc.inventory.dubboservice.ItemLocInventoryQueryDubboService" id="itemLocInventoryQueryDubboService" timeout="120000" version="1.0" />
+
+	<!-- 第三方下单，仓库地址-->
+	<dubbo:reference interface="com.yatang.sc.inventory.dubboservice.AreaWarehouseQueryDubboService" id="areaWarehouseQueryDubboService" timeout="120000" version="1.0" />
+
+</beans>

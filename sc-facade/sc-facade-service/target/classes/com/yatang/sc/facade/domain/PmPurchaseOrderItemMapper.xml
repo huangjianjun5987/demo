@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.PmPurchaseOrderItemDao">
+    <resultMap id="BaseResultMap"
+               type="com.yatang.sc.facade.domain.PmPurchaseOrderItemPo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="purchase_order_id" property="purchaseOrderId"
+                jdbcType="VARCHAR"/>
+        <result column="product_id" property="productId" jdbcType="VARCHAR"/>
+        <result column="product_code" property="productCode" jdbcType="VARCHAR"/>
+        <result column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="international_code" property="internationalCode"
+                jdbcType="VARCHAR"/>
+        <result column="packing_specifications" property="packingSpecifications"
+                jdbcType="VARCHAR"/>
+        <result column="produce_place" property="producePlace"
+                jdbcType="VARCHAR"/>
+        <result column="purchase_inside_number" property="purchaseInsideNumber"
+                jdbcType="INTEGER"/>
+        <result column="unit_explanation" property="unitExplanation"
+                jdbcType="VARCHAR"/>
+        <result column="input_tax_rate" property="inputTaxRate"
+                jdbcType="DECIMAL"/>
+        <result column="purchase_price" property="purchasePrice"
+                jdbcType="DECIMAL"/>
+        <result column="purchase_number" property="purchaseNumber"
+                jdbcType="INTEGER"/>
+        <result column="total_amount" property="totalAmount" jdbcType="DECIMAL"/>
+        <result column="received_number" property="receivedNumber"
+                jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId"
+                jdbcType="VARCHAR"/>
+        <result column="modify_user_id" property="modifyUserId"
+                jdbcType="VARCHAR"/>
+        <result column="prod_purchase_id" property="prodPurchaseId"
+                jdbcType="VARCHAR"/>
+        <result column="tax_amount" property="taxAmount" jdbcType="DECIMAL"/>
+        <result column="total_without_tax_amount" property="totalWithoutTaxAmount"
+                jdbcType="DECIMAL"/>
+        <result column="is_valid" property="isValid" jdbcType="INTEGER"/>
+        <result column="in_validate_reason" property="inValidateReason"
+                jdbcType="VARCHAR"/>
+        <!--1019 新增商品品牌字段-->
+        <result column="product_brand_id" property="productBrandId"
+                jdbcType="VARCHAR"/>
+        <result column="product_brand_name" property="productBrandName"
+                jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, purchase_order_id, product_id, product_code,
+		product_name,
+		international_code,
+		packing_specifications, produce_place,
+		purchase_inside_number, unit_explanation,
+		input_tax_rate,
+		purchase_price, purchase_number, total_amount,
+		received_number,
+		create_time,
+		modify_time, create_user_id, modify_user_id,
+		prod_purchase_id, tax_amount,
+		total_without_tax_amount,
+		is_valid,
+		in_validate_reason,
+		product_brand_id,
+		product_brand_name
+	</sql>
+
+    <sql id="Alias_Column_List">
+		p1.id, p1.purchase_order_id, p1.product_id, p1.product_code,
+		p1.product_name,
+		p1.international_code,
+		p1.packing_specifications, p1.produce_place,
+		p1.purchase_inside_number, p1.unit_explanation,
+		p1.input_tax_rate,
+		p1.purchase_price, p1.purchase_number,p1.total_amount,
+		p1.received_number,
+		p1.create_time,
+		p1.modify_time, p1.create_user_id, p1.modify_user_id,
+		p1.prod_purchase_id, p1.tax_amount,
+		p1.total_without_tax_amount,
+		p1.is_valid,
+		p1.in_validate_reason,
+		p1.product_brand_id,
+		p1.product_brand_name
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from pm_purchase_order_item
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		pm_purchase_order_item
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+    <insert id="insert" parameterType="com.yatang.sc.facade.domain.PmPurchaseOrderItemPo">
+		insert into
+		pm_purchase_order_item (id, purchase_order_id, product_id,
+		product_code, product_name, international_code,
+		packing_specifications, produce_place, purchase_inside_number,
+		unit_explanation, input_tax_rate, purchase_price,
+		purchase_number,
+		total_amount, received_number,
+		create_time, modify_time,
+		create_user_id,
+		modify_user_id,product_brand_id,
+		product_brand_name)
+		values (#{id,jdbcType=BIGINT},
+		#{purchaseOrderId,jdbcType=VARCHAR},
+		#{productId,jdbcType=VARCHAR},
+		#{productCode,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR},
+		#{internationalCode,jdbcType=VARCHAR},
+		#{packingSpecifications,jdbcType=VARCHAR},
+		#{producePlace,jdbcType=VARCHAR},
+		#{purchaseInsideNumber,jdbcType=INTEGER},
+		#{unitExplanation,jdbcType=VARCHAR}, #{inputTaxRate,jdbcType=DECIMAL},
+		#{purchasePrice,jdbcType=DECIMAL},
+		#{purchaseNumber,jdbcType=INTEGER},
+		#{totalAmount,jdbcType=DECIMAL}, #{receivedNumber,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
+		#{createUserId,jdbcType=VARCHAR},
+		#{modifyUserId,jdbcType=VARCHAR},#{productBrandId,jdbcType=VARCHAR},
+		#{productBrandName,jdbcType=VARCHAR})
+	</insert>
+    <update id="updateByPrimaryKey" parameterType="com.yatang.sc.facade.domain.PmPurchaseOrderItemPo">
+	 update pm_purchase_order_item
+    set purchase_order_id = #{purchaseOrderId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
+      product_code = #{productCode,jdbcType=VARCHAR},
+      product_name = #{productName,jdbcType=VARCHAR},
+      international_code = #{internationalCode,jdbcType=VARCHAR},
+      packing_specifications = #{packingSpecifications,jdbcType=VARCHAR},
+      produce_place = #{producePlace,jdbcType=VARCHAR},
+      purchase_inside_number = #{purchaseInsideNumber,jdbcType=INTEGER},
+      unit_explanation = #{unitExplanation,jdbcType=VARCHAR},
+      input_tax_rate = #{inputTaxRate,jdbcType=DECIMAL},
+      purchase_price = #{purchasePrice,jdbcType=DECIMAL},
+      purchase_number = #{purchaseNumber,jdbcType=INTEGER},
+      total_amount = #{totalAmount,jdbcType=DECIMAL},
+      received_number = #{receivedNumber,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+      tax_amount = #{taxAmount,jdbcType=DECIMAL},
+      without_tax_amount = #{withoutTaxAmount,jdbcType=DECIMAL},
+      total_without_tax_amount = #{totalWithoutTaxAmount,jdbcType=DECIMAL},
+      product_brand_id=#{productBrandId,jdbcType=VARCHAR},
+      product_brand_name=#{productBrandName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+	</update>
+
+    <!--批量插入 -->
+    <insert id="batchInsertPmPurchaseOrderItem" parameterType="java.util.List">
+        insert into pm_purchase_order_item (purchase_order_id, product_id,
+        product_code, product_name, international_code,
+        packing_specifications, produce_place, purchase_inside_number,
+        unit_explanation, input_tax_rate, purchase_price,
+        purchase_number,
+        total_amount, received_number,
+        create_time, create_user_id,
+        prod_purchase_id, tax_amount,
+        total_without_tax_amount,product_brand_id,product_brand_name,
+        groups,dept,classs,subclass
+        )
+        values
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            ( #{item.purchaseOrderId,jdbcType=VARCHAR},
+            #{item.productId,jdbcType=VARCHAR},
+            #{item.productCode,jdbcType=VARCHAR},
+            #{item.productName,jdbcType=VARCHAR},
+            #{item.internationalCode,jdbcType=VARCHAR},
+            #{item.packingSpecifications,jdbcType=VARCHAR},
+            #{item.producePlace,jdbcType=VARCHAR},
+            #{item.purchaseInsideNumber,jdbcType=INTEGER},
+            #{item.unitExplanation,jdbcType=VARCHAR},
+            #{item.inputTaxRate,jdbcType=DECIMAL},
+            #{item.purchasePrice,jdbcType=DECIMAL},
+            #{item.purchaseNumber,jdbcType=INTEGER},
+            #{item.totalAmount,jdbcType=DECIMAL},
+            #{item.receivedNumber,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.createUserId,jdbcType=VARCHAR},
+            #{item.prodPurchaseId,jdbcType=VARCHAR},
+            #{item.taxAmount,jdbcType=DECIMAL},
+            #{item.totalWithoutTaxAmount,jdbcType=DECIMAL},
+            #{item.productBrandId,jdbcType=VARCHAR},
+            #{item.productBrandName,jdbcType=VARCHAR},
+            #{item.groups,jdbcType=VARCHAR},
+            #{item.dept,jdbcType=VARCHAR},
+            #{item.classs,jdbcType=VARCHAR},
+            #{item.subclass,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <!--批量删除=>物理删除(草稿状态) -->
+    <delete id="batchDeletePmPurchaseOrderItemsByIds" parameterType="java.util.List">
+        delete from pm_purchase_order_item
+        where purchase_order_id IN
+        <foreach collection="list" item="item" open="(" separator=","
+                 close=")">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <!--根据订单id获取订单下的id组成的Set集合 -->
+    <select id="getItemsSetByOrderId" resultType="java.lang.Long"
+            parameterType="java.lang.Long">
+		SELECT id
+		FROM
+		pm_purchase_order_item
+		where
+		purchase_order_id= #{purchaseOrderId,jdbcType=VARCHAR}
+	</select>
+    <!--根据子项id批量删除 -->
+    <delete id="batchDeletePmPurchaseOrderItems" parameterType="java.util.List">
+        delete from pm_purchase_order_item
+        where id IN
+        <foreach collection="list" item="item" open="(" separator=","
+                 close=")">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+    <!--批量更新采购订单信息 -->
+    <update id="batchUpdatePmPurchaseOrderItems" parameterType="java.util.List">
+        <foreach collection="list" item="item" open="" separator=";" close="">
+            update pm_purchase_order_item
+            set
+            purchase_price = #{item.purchasePrice,jdbcType=DECIMAL},
+            purchase_number = #{item.purchaseNumber,jdbcType=INTEGER},
+            total_amount = #{item.totalAmount,jdbcType=DECIMAL},
+            modify_time = #{item.modifyTime,jdbcType=TIMESTAMP},
+            modify_user_id = #{item.modifyUserId,jdbcType=VARCHAR},
+            tax_amount = #{item.taxAmount,jdbcType=DECIMAL},
+            total_without_tax_amount = #{item.totalWithoutTaxAmount,jdbcType=DECIMAL}
+            where id = #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <!--根据订单id删除订单子项=>物理删除(草稿状态) -->
+    <delete id="deletePmPurchaseOrderItemById" parameterType="java.lang.String">
+		delete
+		from pm_purchase_order_item
+		where purchase_order_id
+		=#{item,jdbcType=VARCHAR}
+	</delete>
+    <select id="selectPmPurchaseOrderItemByPurchaseReceiptItemId"
+            resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Alias_Column_List"/>
+        FROM pm_purchase_order_item p1,pm_purchase_receipt_items p2
+        WHERE p2.purchase_order_items_id=p1.id AND p2.id=#{id,jdbcType=BIGINT}
+    </select>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.facade.domain.PmPurchaseOrderItemPo">
+        update pm_purchase_order_item
+        <set>
+            <if test="purchaseOrderId != null">
+                purchase_order_id = #{purchaseOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="productCode != null">
+                product_code = #{productCode,jdbcType=VARCHAR},
+            </if>
+            <if test="productName != null">
+                product_name = #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="internationalCode != null">
+                international_code = #{internationalCode,jdbcType=VARCHAR},
+            </if>
+            <if test="packingSpecifications != null">
+                packing_specifications = #{packingSpecifications,jdbcType=VARCHAR},
+            </if>
+            <if test="producePlace != null">
+                produce_place = #{producePlace,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseInsideNumber != null">
+                purchase_inside_number = #{purchaseInsideNumber,jdbcType=INTEGER},
+            </if>
+            <if test="unitExplanation != null">
+                unit_explanation = #{unitExplanation,jdbcType=VARCHAR},
+            </if>
+            <if test="inputTaxRate != null">
+                input_tax_rate = #{inputTaxRate,jdbcType=DECIMAL},
+            </if>
+            <if test="purchasePrice != null">
+                purchase_price = #{purchasePrice,jdbcType=DECIMAL},
+            </if>
+            <if test="purchaseNumber != null">
+                purchase_number = #{purchaseNumber,jdbcType=INTEGER},
+            </if>
+            <if test="totalAmount != null">
+                total_amount = #{totalAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="receivedNumber != null">
+                received_number =IFNULL(received_number,0)+ #{receivedNumber,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id = #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="productBrandId != null">
+                product_brand_id = #{productBrandId,jdbcType=VARCHAR},
+            </if>
+            <if test="productBrandName != null">
+                product_brand_name = #{productBrandName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <!--子查询list-->
+    <select id="selectItemsInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from pm_purchase_order_item
+        where purchase_order_id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据采购单号和品牌名查询品牌值清单 yinyuxin-->
+    <select id="selectBrandsByOrderNo" resultMap="BaseResultMap" parameterType="com.yatang.sc.facade.domain.pm.PmPurchaseOrderItemQueryParamPo">
+        SELECT DISTINCT i.product_brand_id,i.product_brand_name
+        FROM pm_purchase_order_item i LEFT JOIN pm_purchase_order o ON o.id=i.purchase_order_id
+        WHERE i.is_valid=1 AND o.purchase_order_no=#{purchaseOrderNo,jdbcType=VARCHAR}
+        <if test="spAdrNo !=null">
+            AND o.sp_adr_no=#{spAdrNo,jdbcType=VARCHAR}
+        </if>
+        <if test="logicWareHouseCode !=null">
+            AND o.adr_type_code=#{logicWareHouseCode,jdbcType=VARCHAR}
+        </if>
+        <if test="name !=null">
+            AND i.product_brand_name LIKE CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="isSuccess = 1">
+            AND o.status= 4 AND (o.failed_reason != '超期关闭' OR o.failed_reason is NULL )
+        </if>
+    </select>
+
+    <!--根据采购单号和商品编号、条码或商品名称查询商品清单 yinyuxin-->
+    <select id="selectProductByOrderNo" resultMap="BaseResultMap" parameterType="com.yatang.sc.facade.domain.pm.PmPurchaseOrderItemQueryParamPo">
+        SELECT DISTINCT i.product_code,i.product_name
+        FROM pm_purchase_order_item i
+        LEFT JOIN pm_purchase_order o ON o.id=i.purchase_order_id
+        LEFT JOIN prod_purchase_info p ON p.product_id=i.product_id
+        WHERE i.is_valid=1 AND o.purchase_order_no=#{purchaseOrderNo,jdbcType=VARCHAR}
+        AND p.support_return=1
+        AND i.purchase_price>0
+        AND p.branch_company_id=o.branch_company_id
+        <if test="spAdrNo !=null">
+            AND o.sp_adr_no=#{spAdrNo,jdbcType=VARCHAR}
+        </if>
+        <if test="logicWareHouseCode !=null">
+            AND o.adr_type_code=#{logicWareHouseCode,jdbcType=VARCHAR}
+        </if>
+        <if test="productName !=null">
+            AND (  i.product_name LIKE CONCAT('%',#{productName,jdbcType=VARCHAR},'%')
+            OR i.product_code = #{productName,jdbcType=VARCHAR}
+            OR i.international_code = #{productName,jdbcType=VARCHAR} )
+        </if>
+        <if test="isSuccess = 1">
+            AND o.status= 4 AND (o.failed_reason != '超期关闭' OR o.failed_reason is NULL )
+        </if>
+    </select>
+
+    <!--根据采购单号、商品code、品牌id查询采购商品清单-->
+    <select id="addRefundProducts" parameterType="com.yatang.sc.facade.domain.pm.PmPurchaseOrderItemQueryParamPo" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Alias_Column_List"/>
+        FROM pm_purchase_order_item p1 LEFT JOIN pm_purchase_order o ON o.id=p1.purchase_order_id
+        WHERE p1.is_valid=1 AND o.purchase_order_no=#{purchaseOrderNo,jdbcType=VARCHAR}
+        AND p1.purchase_price>0
+        <if test="spAdrNo !=null">
+            AND o.sp_adr_no=#{spAdrNo,jdbcType=VARCHAR}
+        </if>
+        <if test="logicWareHouseCode !=null">
+            AND o.adr_type_code=#{logicWareHouseCode,jdbcType=VARCHAR}
+        </if>
+        <if test="brandId!=null">
+            AND p1.product_brand_id=#{brandId,jdbcType=VARCHAR}
+        </if>
+        <if test="productCode!=null">
+            AND p1.product_code=#{productCode,jdbcType=VARCHAR}
+        </if>
+        <if test="isSuccess = 1">
+            AND o.status= 4 AND (o.failed_reason != '超期关闭' OR o.failed_reason is NULL )
+    </if>
+    </select>
+    
+    <select id="selectBypurchaseOrderIdAndPrimaryKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List"/>
+    from pm_purchase_order_item 
+    where 
+    id = #{id,jdbcType=BIGINT} 
+    and purchase_order_id=#{purchaseOrderId,jdbcType=VARCHAR}
+    and product_code=#{itemCode,jdbcType=VARCHAR}
+    and #{receivedNum,jdbcType=BIGINT}<![CDATA[ <= ]]>purchase_number
+    </select>
+    <select id="selectByPurchaseOrderIdAndProductCode" resultMap="BaseResultMap">
+    select
+        <include refid="Base_Column_List"/>
+        from pm_purchase_order_item
+        where purchase_order_id = #{purchaseOrderId,jdbcType=VARCHAR} and product_code=#{itemCode,jdbcType=VARCHAR}
+    </select>
+</mapper>

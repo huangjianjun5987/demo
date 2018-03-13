@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yatang.sc.inventory.dao.ItemLocSohDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.inventory.domain.ItemLocSoh">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="item_id" jdbcType="VARCHAR" property="itemId"/>
+        <result column="loc" jdbcType="VARCHAR" property="loc"/>
+        <result column="unit_cost" jdbcType="DOUBLE" property="unitCost"/>
+        <result column="av_cost" jdbcType="DOUBLE" property="avCost"/>
+        <result column="stock_on_hand" jdbcType="BIGINT" property="stockOnHand"/>
+        <result column="in_transit_qty" jdbcType="BIGINT" property="inTransitQty"/>
+        <result column="order_reserved_qty" jdbcType="BIGINT" property="orderReservedQty"/>
+        <result column="tsf_reserved_qty" jdbcType="BIGINT" property="tsfReservedQty"/>
+        <result column="sell_in_transit_qty" jdbcType="BIGINT" property="sellInTransitQty"/>
+        <result column="tsf_expected_qty" jdbcType="BIGINT" property="tsfExpectedQty"/>
+        <result column="rtv_qty" jdbcType="BIGINT" property="rtvQty"/>
+        <result column="ref_no_1" jdbcType="VARCHAR" property="refNo1"/>
+        <result column="ref_no_2" jdbcType="VARCHAR" property="refNo2"/>
+        <result column="ref_no_4" jdbcType="VARCHAR" property="refNo4"/>
+        <result column="ref_no_5" jdbcType="VARCHAR" property="refNo5"/>
+        <result column="last_update_datetime" jdbcType="TIMESTAMP" property="lastUpdateDatetime"/>
+        <result column="last_update_id" jdbcType="VARCHAR" property="lastUpdateId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, item_id, loc, unit_cost, av_cost, stock_on_hand, in_transit_qty, order_reserved_qty,
+    tsf_reserved_qty, sell_in_transit_qty, tsf_expected_qty, rtv_qty, ref_no_1, ref_no_2,
+    ref_no_3, ref_no_4, ref_no_5, last_update_datetime, last_update_id
+  </sql>
+
+    <!--用于关联查询用  yinyuxin -->
+    <sql id="Base_Column_List_Join">
+        i.id, i.item_id, i.loc, i.unit_cost, i.av_cost, i.stock_on_hand, i.in_transit_qty, i.order_reserved_qty,
+        i.tsf_reserved_qty, i.sell_in_transit_qty, i.tsf_expected_qty, i.rtv_qty, i.ref_no_1, i.ref_no_2,
+        i.ref_no_3, i.ref_no_4, i.ref_no_5, i.last_update_datetime, i.last_update_id
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from item_loc_soh
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from item_loc_soh
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.yatang.sc.inventory.domain.ItemLocSoh">
+    insert into item_loc_soh (id, item_id, loc,
+    unit_cost, av_cost, stock_on_hand,last_update_datetime,
+    last_update_id,product_code)
+    values (#{id,jdbcType=BIGINT}, #{itemId,jdbcType=VARCHAR}, #{loc,jdbcType=VARCHAR},
+    #{unitCost,jdbcType=DOUBLE}, #{avCost,jdbcType=DOUBLE}, #{stockOnHand,jdbcType=BIGINT},
+    #{lastUpdateDatetime,jdbcType=TIMESTAMP},
+    #{lastUpdateId,jdbcType=VARCHAR},#{productCode,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.yatang.sc.inventory.domain.ItemLocSoh">
+        insert into item_loc_soh
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="itemId != null">
+                item_id,
+            </if>
+            <if test="loc != null">
+                loc,
+            </if>
+            <if test="unitCost != null">
+                unit_cost,
+            </if>
+            <if test="avCost != null">
+                av_cost,
+            </if>
+            <if test="stockOnHand != null">
+                stock_on_hand,
+            </if>
+            <if test="inTransitQty != null">
+                in_transit_qty,
+            </if>
+            <if test="orderReservedQty != null">
+                order_reserved_qty,
+            </if>
+            <if test="tsfReservedQty != null">
+                tsf_reserved_qty,
+            </if>
+            <if test="sellInTransitQty != null">
+                sell_in_transit_qty,
+            </if>
+            <if test="tsfExpectedQty != null">
+                tsf_expected_qty,
+            </if>
+            <if test="rtvQty != null">
+                rtv_qty,
+            </if>
+            <if test="refNo1 != null">
+                ref_no_1,
+            </if>
+            <if test="refNo2 != null">
+                ref_no_2,
+            </if>
+            <if test="refNo3 != null">
+                ref_no_3,
+            </if>
+            <if test="refNo4 != null">
+                ref_no_4,
+            </if>
+            <if test="refNo5 != null">
+                ref_no_5,
+            </if>
+            <if test="lastUpdateDatetime != null">
+                last_update_datetime,
+            </if>
+            <if test="lastUpdateId != null">
+                last_update_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="itemId != null">
+                #{itemId,jdbcType=VARCHAR},
+            </if>
+            <if test="loc != null">
+                #{loc,jdbcType=VARCHAR},
+            </if>
+            <if test="unitCost != null">
+                #{unitCost,jdbcType=DOUBLE},
+            </if>
+            <if test="avCost != null">
+                #{avCost,jdbcType=DOUBLE},
+            </if>
+            <if test="stockOnHand != null">
+                #{stockOnHand,jdbcType=BIGINT},
+            </if>
+            <if test="inTransitQty != null">
+                #{inTransitQty,jdbcType=BIGINT},
+            </if>
+            <if test="orderReservedQty != null">
+                #{orderReservedQty,jdbcType=BIGINT},
+            </if>
+            <if test="tsfReservedQty != null">
+                #{tsfReservedQty,jdbcType=BIGINT},
+            </if>
+            <if test="sellInTransitQty != null">
+                #{sellInTransitQty,jdbcType=BIGINT},
+            </if>
+            <if test="tsfExpectedQty != null">
+                #{tsfExpectedQty,jdbcType=BIGINT},
+            </if>
+            <if test="rtvQty != null">
+                #{rtvQty,jdbcType=BIGINT},
+            </if>
+            <if test="refNo1 != null">
+                #{refNo1,jdbcType=VARCHAR},
+            </if>
+            <if test="refNo2 != null">
+                #{refNo2,jdbcType=VARCHAR},
+            </if>
+            <if test="refNo3 != null">
+                #{refNo3,jdbcType=VARCHAR},
+            </if>
+            <if test="refNo4 != null">
+                #{refNo4,jdbcType=VARCHAR},
+            </if>
+            <if test="refNo5 != null">
+                #{refNo5,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDatetime != null">
+                #{lastUpdateDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateId != null">
+                #{lastUpdateId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.inventory.domain.ItemLocSoh">
+        update item_loc_soh
+        <set>
+            <if test="itemId != null">
+                item_id = #{itemId,jdbcType=VARCHAR},
+            </if>
+            <if test="loc != null">
+                loc = #{loc,jdbcType=VARCHAR},
+            </if>
+            <if test="unitCost != null">
+                unit_cost = #{unitCost,jdbcType=DOUBLE},
+            </if>
+            <if test="avCost != null">
+                av_cost = #{avCost,jdbcType=DOUBLE},
+            </if>
+            <if test="stockOnHand != null">
+                stock_on_hand = #{stockOnHand,jdbcType=BIGINT},
+            </if>
+            <if test="inTransitQty != null">
+                in_transit_qty = #{inTransitQty,jdbcType=BIGINT},
+            </if>
+            <if test="orderReservedQty != null">
+                order_reserved_qty = #{orderReservedQty,jdbcType=BIGINT},
+            </if>
+            <if test="tsfReservedQty != null">
+                tsf_reserved_qty = #{tsfReservedQty,jdbcType=BIGINT},
+            </if>
+            <if test="sellInTransitQty != null">
+                sell_in_transit_qty = #{sellInTransitQty,jdbcType=BIGINT},
+            </if>
+            <if test="tsfExpectedQty != null">
+                tsf_expected_qty = #{tsfExpectedQty,jdbcType=BIGINT},
+            </if>
+            <if test="rtvQty != null">
+                rtv_qty = #{rtvQty,jdbcType=BIGINT},
+            </if>
+            <if test="refNo1 != null">
+                ref_no_1 = #{refNo1,jdbcType=VARCHAR},
+            </if>
+            <if test="refNo2 != null">
+                ref_no_2 = #{refNo2,jdbcType=VARCHAR},
+            </if>
+            <if test="refNo3 != null">
+                ref_no_3 = #{refNo3,jdbcType=VARCHAR},
+            </if>
+            <if test="refNo4 != null">
+                ref_no_4 = #{refNo4,jdbcType=VARCHAR},
+            </if>
+            <if test="refNo5 != null">
+                ref_no_5 = #{refNo5,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDatetime != null">
+                last_update_datetime = #{lastUpdateDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateId != null">
+                last_update_id = #{lastUpdateId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yatang.sc.inventory.domain.ItemLocSoh">
+    update item_loc_soh
+    set item_id = #{itemId,jdbcType=VARCHAR},
+    loc = #{loc,jdbcType=VARCHAR},
+    unit_cost = #{unitCost,jdbcType=DOUBLE},
+    av_cost = #{avCost,jdbcType=DOUBLE},
+    stock_on_hand = #{stockOnHand,jdbcType=BIGINT},
+    in_transit_qty = #{inTransitQty,jdbcType=BIGINT},
+    order_reserved_qty = #{orderReservedQty,jdbcType=BIGINT},
+    tsf_reserved_qty = #{tsfReservedQty,jdbcType=BIGINT},
+    sell_in_transit_qty = #{sellInTransitQty,jdbcType=BIGINT},
+    tsf_expected_qty = #{tsfExpectedQty,jdbcType=BIGINT},
+    rtv_qty = #{rtvQty,jdbcType=BIGINT},
+    ref_no_1 = #{refNo1,jdbcType=VARCHAR},
+    ref_no_2 = #{refNo2,jdbcType=VARCHAR},
+    ref_no_3 = #{refNo3,jdbcType=VARCHAR},
+    ref_no_4 = #{refNo4,jdbcType=VARCHAR},
+    ref_no_5 = #{refNo5,jdbcType=VARCHAR},
+    last_update_datetime = #{lastUpdateDatetime,jdbcType=TIMESTAMP},
+    last_update_id = #{lastUpdateId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <update id="saleOut" parameterType="java.util.Map">
+    UPDATE item_loc_soh SET
+      order_reserved_qty = (order_reserved_qty + #{itemQty,jdbcType=BIGINT})
+    WHERE item_id = #{itemId,jdbcType=VARCHAR} AND loc=#{loc,jdbcType=VARCHAR} AND stock_on_hand >= order_reserved_qty + #{itemQty,jdbcType=BIGINT}
+  </update>
+
+    <update id="agreeSaleOutd" parameterType="java.util.Map">
+    UPDATE item_loc_soh SET
+      order_reserved_qty = (order_reserved_qty - #{itemQty,jdbcType=BIGINT}),
+      stock_on_hand = (stock_on_hand - #{stock,jdbcType=BIGINT}),
+      sell_in_transit_qty= (sell_in_transit_qty + #{stock,jdbcType=BIGINT})
+    WHERE item_id = #{itemId,jdbcType=VARCHAR} AND loc=#{loc,jdbcType=VARCHAR} AND stock_on_hand >= #{stock,jdbcType=BIGINT}
+  </update>
+
+    <update id="bAgreeSaleOut" parameterType="java.util.Map">
+    UPDATE item_loc_soh SET
+      sell_in_transit_qty= (sell_in_transit_qty - #{completeQty,jdbcType=BIGINT})
+    WHERE item_id = #{itemId,jdbcType=VARCHAR} AND loc=#{loc,jdbcType=VARCHAR}
+  </update>
+
+    <update id="saleOutUndelivered" parameterType="java.util.Map">
+    UPDATE item_loc_soh SET
+      order_reserved_qty = (order_reserved_qty + #{stock,jdbcType=BIGINT}),
+      stock_on_hand = stock_on_hand + (#{stock,jdbcType=BIGINT} - #{completeQty,jdbcType=BIGINT}),
+      sell_in_transit_qty= (sell_in_transit_qty - #{stock,jdbcType=BIGINT})
+    WHERE item_id = #{itemId,jdbcType=VARCHAR} AND loc=#{loc,jdbcType=VARCHAR}
+  </update>
+
+    <update id="cancelSaleOrder" parameterType="java.util.Map">
+    UPDATE item_loc_soh SET
+      order_reserved_qty = (order_reserved_qty - #{itemQty,jdbcType=BIGINT})
+    WHERE item_id = #{itemId,jdbcType=VARCHAR} AND loc=#{loc,jdbcType=VARCHAR}
+  </update>
+
+    <!--获取当前库存信息-->
+    <select id="getItemLocSohByProductId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from item_loc_soh
+        where item_id = #{productId,jdbcType=VARCHAR}
+
+        AND loc= #{loc,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateItemLocSoh" parameterType="com.yatang.sc.inventory.domain.ItemLocSoh">
+      update item_loc_soh
+        set
+        unit_cost = #{unitCost,jdbcType=DOUBLE},
+        av_cost = #{avCost,jdbcType=DOUBLE},
+        stock_on_hand = #{stockOnHand,jdbcType=BIGINT},
+        last_update_datetime = #{lastUpdateDatetime,jdbcType=TIMESTAMP},
+        last_update_id = #{lastUpdateId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <!--根据商品id,逻辑仓库或者商品id+逻辑仓库查询入库商品信息-->
+    <select id="queryItemInventoryListByParam" parameterType="com.yatang.sc.inventory.domain.ItemInventoryQueryParamPo"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_Join"/>
+        from item_loc_soh i
+        <if test="branchCompanyIds !=null and branchCompanyIds.size>0">
+            LEFT JOIN warehouse_logic_info w ON i.loc=w.warehouse_code
+        </if>
+        <where>
+            1=1
+            <if test="productId != null and productId !=''">
+                AND i.item_id =#{productId,jdbcType=VARCHAR}
+            </if>
+            <if test="productCode != null and productCode !=''">
+                AND i.product_code =#{productCode,jdbcType=VARCHAR}
+            </if>
+            <if test="branchCompanyIds != null and branchCompanyIds.size >0">
+                AND w.branch_company_id IN
+                <foreach collection="branchCompanyIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="logicWareHouseCode != null and logicWareHouseCode !=''">
+                AND i.loc=#{logicWareHouseCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    <!--库存调整增加库存-->
+    <update id="addInventoryItemNum">
+        UPDATE item_loc_soh
+        SET
+          stock_on_hand = stock_on_hand + #{quantity,jdbcType=BIGINT}
+        WHERE item_id = #{productId,jdbcType=VARCHAR} AND loc=#{warehouseCode,jdbcType=VARCHAR}
+    </update>
+
+    <!--库存调整减少库存-->
+    <update id="decreaseInventoryItemNum">
+        UPDATE item_loc_soh
+        SET
+          stock_on_hand = stock_on_hand - #{quantity,jdbcType=BIGINT}
+        WHERE item_id = #{productId,jdbcType=VARCHAR} AND loc=#{warehouseCode,jdbcType=VARCHAR}
+           AND stock_on_hand >= #{quantity,jdbcType=BIGINT}
+    </update>
+    <!--库存调整减少库存-->
+    <select id="queryItemInventory" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from item_loc_soh
+        WHERE item_id=#{productId,jdbcType=VARCHAR} AND loc=#{loc,jdbcType=VARCHAR} limit 0,1
+    </select>
+
+
+    <select id="queryItemInventoryByProductCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from item_loc_soh
+        WHERE product_code=#{productCode,jdbcType=VARCHAR} AND loc=#{loc,jdbcType=VARCHAR} limit 0,1
+    </select>
+
+    <select id="getItemLocInventory" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from item_loc_soh
+        WHERE loc = #{loc} AND item_id = #{itemId}
+    </select>
+
+    <!--根据商品id,loc批量查询库存信息-->
+    <select id="batchQueryItemInventoryListByList" parameterType="java.util.List"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from item_loc_soh
+        where item_id IN
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+            #{item.productId, jdbcType=VARCHAR}
+        </foreach>
+        AND loc IN
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+            #{item.logicWareHouseCode, jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <!--采购退货：更新退货预留 yinyuxin -->
+    <update id="updateRtvQty" parameterType="com.yatang.sc.inventory.domain.ItemLocSoh">
+        UPDATE item_loc_soh i
+        SET
+        i.rtv_qty = i.rtv_qty + #{rtvQty,jdbcType=BIGINT}
+        WHERE 1=1
+        <if test="loc !=null">
+            AND i.loc=#{loc,jdbcType=VARCHAR}
+        </if>
+        <if test="itemId !=null">
+            AND i.item_id=#{itemId,jdbcType=VARCHAR}
+        </if>
+        <if test="productCode !=null">
+            AND i.product_code = #{productCode,jdbcType=VARCHAR}
+        </if>
+    </update>
+    <!--采购退货：更新退货预留，并且更新现有库存 yinyuxin -->
+    <update id="updateBatchStockOnHandByRtvQty" parameterType="com.yatang.sc.inventory.domain.ItemLocSoh">
+        UPDATE item_loc_soh i
+        SET
+        i.rtv_qty =i.rtv_qty + #{rtvQty,jdbcType=BIGINT},
+        i.stock_on_hand= i.stock_on_hand - #{stockOnHand,jdbcType=BIGINT}
+        WHERE 1=1
+        <if test="loc !=null">
+            AND i.loc=#{loc,jdbcType=VARCHAR}
+        </if>
+        <if test="itemId !=null">
+            AND i.item_id=#{itemId,jdbcType=VARCHAR}
+        </if>
+        <if test="productCode !=null">
+            AND i.product_code = #{productCode,jdbcType=VARCHAR}
+        </if>
+    </update>
+</mapper>

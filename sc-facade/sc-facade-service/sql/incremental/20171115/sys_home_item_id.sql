@@ -1,0 +1,1 @@
+ALTER TABLE `sys_home_item_ad` ADD COLUMN product_class_code VARCHAR(255) COMMENT '商品分类编码 ';

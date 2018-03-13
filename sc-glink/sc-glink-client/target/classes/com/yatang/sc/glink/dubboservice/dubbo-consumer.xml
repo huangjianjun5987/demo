@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<dubbo:reference interface="com.yatang.sc.kidd.service.KiddFacadeService" id="kiddFacadeService" version="1.0.0" timeout="120000" retries="0" />
+
+	<dubbo:reference interface="com.yatang.sc.kidd.service.ProductService" id="kiddProductService" version="1.0.0" timeout="120000" retries="0" />
+	<dubbo:reference interface="com.yatang.sc.kidd.service.InventoryService" id="kiddInventoryService" version="1.0.0" timeout="120000"  retries="0" />
+
+	<dubbo:reference interface="com.yatang.sc.kidd.service.KiddSaleOrderService" id="kiddSaleOrderService" version="1.0.0" timeout="120000"  retries="0" />
+	<dubbo:reference interface="com.yatang.sc.kidd.service.KiddOrderCancelService" id="kiddOrderCancelService" version="1.0.0" timeout="120000"  retries="0" />
+	<dubbo:reference interface="com.yatang.sc.kidd.service.KiddPurchaseService" id="kiddPurchaseService" version="1.0.0" timeout="120000"  retries="0" />
+	<dubbo:reference interface="com.yatang.sc.kidd.service.KiddReturnOrderService" id="kiddReturnOrderService" version="1.0.0" timeout="120000"  retries="0" />
+	<dubbo:reference interface="com.yatang.sc.kidd.service.KiddPurchaseReturnService" id="kiddPurchaseReturnService" version="1.0.0" timeout="120000"  retries="0" />
+</beans>

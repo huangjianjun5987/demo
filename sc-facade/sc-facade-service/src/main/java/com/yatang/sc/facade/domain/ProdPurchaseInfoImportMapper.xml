@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.ProdPurchaseInfoImportDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.facade.domain.ProdPurchaseInfoImportPo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="imports_id" property="importsId" jdbcType="BIGINT"/>
+        <result column="sp_id" property="spId" jdbcType="VARCHAR"/>
+        <result column="sp_adr_id" property="spAdrId" jdbcType="INTEGER"/>
+        <result column="product_id" property="productId" jdbcType="VARCHAR"/>
+        <result column="line_number" property="lineNumber" jdbcType="BIGINT"/>
+        <result column="handle_result" property="handleResult" jdbcType="INTEGER"/>
+        <result column="handle_information" property="handleInformation" jdbcType="VARCHAR"/>
+        <result column="product_information" property="productInformation" jdbcType="VARCHAR"/>
+        <result column="newest_price" property="newestPrice" jdbcType="DECIMAL"/>
+        <result column="price_id" property="priceId" jdbcType="BIGINT"/>
+        <result column="sp_no" property="spNo" jdbcType="VARCHAR"/>
+        <result column="sp_adr_no" property="spAdrNo" jdbcType="VARCHAR"/>
+        <result column="product_code" property="productCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, imports_id, sp_id, sp_adr_id, product_id, line_number,
+        handle_result, handle_information, product_information, newest_price,
+        price_id, sp_no, sp_adr_no, product_code
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM prod_purchase_info_import
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="getProdPurchaseInfoImportByParam" resultMap="BaseResultMap" parameterType="com.yatang.sc.facade.domain.ProdPurchasePriceUpdateParamPo">
+        SELECT
+          a.id, imports_id, sp_id,sp_no ,sp_adr_id, sp_adr_no, product_id, product_code, line_number, handle_result,
+          handle_information, product_information, newest_price, price_id
+        FROM prod_purchase_info_import a
+        JOIN prod_purchase_info_imports b ON a.imports_id = b.id
+        WHERE 1=1
+        <if test="importsId != null">
+            AND a.imports_id = #{importsId,jdbcType=BIGINT}
+        </if>
+        <if test="spId != null">
+            AND a.sp_id = #{spId,jdbcType=VARCHAR}
+        </if>
+        <if test="spAdrId != null">
+            AND a.sp_adr_id = #{spAdrId,jdbcType=INTEGER}
+        </if>
+        <if test="productId != null">
+            AND a.product_id = #{productId,jdbcType=VARCHAR}
+        </if>
+        <if test="handleResult != null">
+            AND a.handle_result = #{handleResult,jdbcType=INTEGER}
+        </if>
+        <if test="userId != null">
+            AND b.create_user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="uploadStartDate != null">
+            AND DATE(b.create_time) <![CDATA[  >=  ]]> DATE(#{uploadStartDate})
+        </if>
+        <if test="uploadEndDate != null">
+            AND DATE(b.create_time) <![CDATA[  <=  ]]> DATE(#{uploadEndDate})
+        </if>
+    </select>
+
+    <!--批量导入采购进价记录-->
+    <insert id="batchInsertProdPurchaseInfoImport" parameterType="java.util.List">
+        insert into prod_purchase_info_import
+        (imports_id, sp_id, sp_adr_id, product_id, line_number,
+        handle_result, handle_information, product_information,newest_price,
+        price_id, sp_no, sp_adr_no, product_code)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.importsId,jdbcType=BIGINT},
+            #{item.spId,jdbcType=VARCHAR},
+            #{item.spAdrId,jdbcType=INTEGER},
+            #{item.productId,jdbcType=VARCHAR},
+            #{item.lineNumber,jdbcType=BIGINT},
+            #{item.handleResult,jdbcType=INTEGER},
+            #{item.handleInformation,jdbcType=VARCHAR},
+            #{item.productInformation,jdbcType=VARCHAR},
+            #{item.newestPrice,jdbcType=DECIMAL},
+            #{item.priceId,jdbcType=BIGINT},
+            #{item.spNo,jdbcType=VARCHAR},
+            #{item.spAdrNo,jdbcType=VARCHAR},
+            #{item.productCode,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.facade.domain.ProdPurchaseInfoImportPo">
+        update prod_purchase_info_import
+        <set>
+            <if test="importsId != null">
+                imports_id = #{importsId,jdbcType=BIGINT},
+            </if>
+            <if test="lineNumber != null">
+                line_number = #{lineNumber,jdbcType=BIGINT},
+            </if>
+            <if test="handleResult != null">
+                handle_result = #{handleResult,jdbcType=INTEGER},
+            </if>
+            <if test="handleInformation != null">
+                handle_information = #{handleInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="productId != null" >
+                product_id = #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="productInformation != null">
+                product_information = #{productInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="newestPrice != null">
+                newest_price = #{newestPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="spId != null">
+                sp_id = #{spId,jdbcType=VARCHAR},
+            </if>
+            <if test="spAdrId != null">
+                sp_adr_id = #{spAdrId,jdbcType=INTEGER},
+            </if>
+            <if test="priceId != null" >
+                price_id = #{priceId,jdbcType=BIGINT},
+            </if>
+            <if test="spNo != null">
+                sp_no = #{spNo,jdbcType=VARCHAR},
+            </if>
+            <if test="spAdrNo != null">
+                sp_adr_no = #{spAdrNo,jdbcType=VARCHAR},
+            </if>
+            <if test="productCode != null">
+                product_code = #{productCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateHandleResult" parameterType="com.yatang.sc.facade.domain.ProdPurchaseInfoImportPo">
+        update prod_purchase_info_import
+        set handle_result = #{handleResult,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <select id="queryByImportsId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM prod_purchase_info_import
+        WHERE imports_id = #{importsId,jdbcType=BIGINT}
+    </select>
+
+</mapper>

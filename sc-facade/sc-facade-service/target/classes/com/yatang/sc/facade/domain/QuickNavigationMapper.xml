@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.QuickNavigationDao">
+    <resultMap id="baseResultMap" type="com.yatang.sc.facade.domain.QuickNavigationPo">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="navigation_position" property="navigationPosition" jdbcType="VARCHAR" />
+        <result column="navigation_type" property="navigationType" jdbcType="INTEGER" />
+        <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+        <result column="navigation_name" property="navigationName" jdbcType="VARCHAR" />
+        <result column="link_address" property="linkAddress" jdbcType="VARCHAR" />
+        <result column="pic_address" property="picAddress" jdbcType="VARCHAR" />
+        <result column="create_person" property="createPerson" jdbcType="BIGINT"/>
+        <result column="update_person" property="updatePerson" jdbcType="BIGINT"/>
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="area_id" property="areaId" jdbcType="VARCHAR"/>
+        <result column="link_keyword" property="linkKeyword" jdbcType="VARCHAR"/>
+        <result column="link_id" property="linkId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, navigation_position, navigation_type, goods_id, navigation_name, link_address,pic_address,create_person,update_person,status, area_id,link_keyword,link_id
+    </sql>
+
+    <select id="queryById" resultMap="baseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List" />
+        from sys_home_quick_navigation
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="listByPosition" resultMap="baseResultMap">
+        SELECT <include refid="Base_Column_List" /> FROM sys_home_quick_navigation
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="com.yatang.sc.facade.domain.QuickNavigationPo">
+        UPDATE sys_home_quick_navigation
+        <set>
+            <trim suffixOverrides=",">
+                <if test="navigationType != null">
+                    navigation_type = #{navigationType,jdbcType=INTEGER},
+                </if>
+                <if test="goodsId != null">
+                    goods_id = #{goodsId,jdbcType=VARCHAR},
+                </if>
+                <if test="navigationName != null">
+                    navigation_name = #{navigationName,jdbcType=VARCHAR},
+                </if>
+                <if test="linkAddress != null">
+                    link_address = #{linkAddress,jdbcType=VARCHAR},
+                </if>
+                <if test="picAddress != null">
+                    pic_address = #{picAddress,jdbcType=VARCHAR},
+                </if>
+                <if test="createPerson != null">
+                    create_person = #{createPerson,jdbcType=INTEGER},
+                </if>
+                <if test="updatePerson != null">
+                    update_person = #{updatePerson,jdbcType=VARCHAR},
+                </if>
+                <if test="status != null">
+                    status = #{status,jdbcType=INTEGER},
+                </if>
+                <if test="linkKeyword != null">
+                    link_keyword = #{linkKeyword,jdbcType=VARCHAR},
+                </if>
+                <if test="linkId != null">
+                    link_id = #{linkId,jdbcType=VARCHAR},
+                </if>
+
+            </trim>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateCertainQuickNavigation" parameterType="com.yatang.sc.facade.domain.QuickNavigationPo">
+        UPDATE sys_home_quick_navigation
+        <set>
+            <trim suffixOverrides=",">
+                <if test="navigationType != null">
+                    navigation_type = #{navigationType,jdbcType=INTEGER},
+                </if>
+                <if test="goodsId != null">
+                    goods_id = #{goodsId,jdbcType=VARCHAR},
+                </if>
+                <if test="navigationName != null">
+                    navigation_name = #{navigationName,jdbcType=VARCHAR},
+                </if>
+                <if test="linkAddress != null">
+                    link_address = #{linkAddress,jdbcType=VARCHAR},
+                </if>
+                <if test="picAddress != null">
+                    pic_address = #{picAddress,jdbcType=VARCHAR},
+                </if>
+                <if test="createPerson != null">
+                    create_person = #{createPerson,jdbcType=INTEGER},
+                </if>
+                <if test="updatePerson != null">
+                    update_person = #{updatePerson,jdbcType=VARCHAR},
+                </if>
+                <if test="status != null">
+                    status = #{status,jdbcType=INTEGER},
+                </if>
+                <if test="linkKeyword != null">
+                    link_keyword = #{linkKeyword,jdbcType=VARCHAR},
+                </if>
+                <if test="linkId != null">
+                    link_id = #{linkId,jdbcType=VARCHAR},
+                </if>
+
+            </trim>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="queryQuickNavigationsByAreaId" parameterType="java.lang.String" resultMap="baseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_home_quick_navigation
+        WHERE area_id=#{areaId,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.yatang.sc.facade.domain.QuickNavigationPo" >
+        INSERT INTO sys_home_quick_navigation
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            area_id,
+            navigation_position,
+            status,
+            gmt_create,
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            #{areaId,jdbcType=VARCHAR},
+            #{navigationPosition,jdbcType=VARCHAR},
+            #{status,jdbcType=INTEGER},
+            now(),
+        </trim>
+    </insert>
+
+</mapper>

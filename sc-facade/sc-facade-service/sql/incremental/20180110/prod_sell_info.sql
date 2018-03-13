@@ -1,0 +1,1 @@
+ALTER TABLE prod_sell_info ADD COLUMN price_protection TINYINT NOT NULL DEFAULT 0 COMMENT '价格保护';

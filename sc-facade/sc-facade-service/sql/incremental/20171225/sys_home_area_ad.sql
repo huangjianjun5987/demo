@@ -1,0 +1,1 @@
+ALTER TABLE sys_home_area_ad MODIFY COLUMN area_type INT(11) COMMENT 'area类型字段，1=banner；2=floor；3=carousel；4=quick-nav; 5=hot';

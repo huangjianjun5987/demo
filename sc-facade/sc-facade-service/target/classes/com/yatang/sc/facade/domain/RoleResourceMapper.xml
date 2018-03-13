@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.RoleResourceDao">
+	<resultMap id="BaseResultMap" type="com.yatang.sc.facade.domain.RolePo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="role_id" property="roleId" jdbcType="BIGINT" />
+		<result column="resource_id" property="resourceId" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, role_id, resource_id
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role_resource
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<select id="selectByRoleId" resultType="java.lang.Long"
+		parameterType="java.lang.Long">
+		select
+		resource_id
+		from sys_role_resource
+		where role_id = #{roleId,jdbcType=BIGINT}
+	</select>
+
+	<select id="countRelatedResWithRole" resultType="java.lang.Integer"
+		parameterType="java.lang.Long">
+		select
+		count(id)
+		from sys_role_resource
+		where resource_id = #{resourceId,jdbcType=BIGINT}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from sys_role_resource
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<delete id="deleteRoleResRelation" parameterType="java.lang.Long">
+		delete from sys_role_resource
+		where role_id = #{roleId,jdbcType=BIGINT}
+	</delete>
+
+	<delete id="deleteResRoleRelation" parameterType="java.lang.Long">
+		delete from sys_role_resource
+		where resource_id = #{resourceId,jdbcType=BIGINT}
+	</delete>
+
+	<insert id="insert" parameterType="com.yatang.sc.facade.domain.RolePo">
+		insert into sys_role_resource (role_id, resource_id)
+		values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=BIGINT},
+		#{resourceId,jdbcType=BIGINT}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.yatang.sc.facade.domain.RolePo">
+		insert into sys_role_resource
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="roleId != null">
+				role_id,
+			</if>
+			<if test="resourceId != null">
+				resource_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=BIGINT},
+			</if>
+			<if test="resourceId != null">
+				#{resourceId,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	
+	<insert id="insertByBatch" parameterType="java.util.List">
+        insert into sys_role_resource (role_id, resource_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.roleId,jdbcType=BIGINT}, #{item.resourceId,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+    
+    <delete id="deleteByRoleIdAndResId">
+        delete from sys_role_resource
+        where role_id = #{roleId,jdbcType=BIGINT} AND resource_id IN
+        <foreach collection="resourceIds" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    
+    
+</mapper>

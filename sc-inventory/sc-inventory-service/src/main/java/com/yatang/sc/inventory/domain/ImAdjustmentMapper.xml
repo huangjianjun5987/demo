@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.inventory.dao.ImAdjustmentDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.inventory.domain.ImAdjustmentQueryListPo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="adjustment_no" property="adjustmentNo" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="adjustment_time" property="adjustmentTime" jdbcType="TIMESTAMP"/>
+        <result column="warehouse_code" property="warehouseCode" jdbcType="VARCHAR"/>
+        <result column="total_quantity" property="totalQuantity" jdbcType="BIGINT"/>
+        <result column="total_adjustment_cost" property="totalAdjustmentCost" jdbcType="DECIMAL"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="external_bill_no" property="externalBillNo" jdbcType="VARCHAR"/>
+        <result column="failed_reason" property="failedReason" jdbcType="VARCHAR"/>
+        <result column="audit_user_id" property="auditUserId" jdbcType="VARCHAR"/>
+        <result column="audit_user_name" property="auditUserName" jdbcType="VARCHAR"/>
+        <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="create_user_Name" property="createUserName" jdbcType="VARCHAR"/>
+        <result column="modify_user_id" property="modifyUserId" jdbcType="VARCHAR"/>
+        <result column="modify_user_Name" property="modifyUserName" jdbcType="VARCHAR"/>
+        <result column="branch_company_id" property="branchCompanyId" jdbcType="VARCHAR"/>
+        <collection property="imAdjustmentItemVos" ofType="com.yatang.sc.inventory.domain.ImAdjustmentItemPo"
+                    select="com.yatang.sc.inventory.dao.ImAdjustmentItemDao.selectItemsInfo"
+                    column="{adjustmentId=id}"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, adjustment_no, type, status, adjustment_time, warehouse_code, total_quantity,
+    total_adjustment_cost, description, external_bill_no, failed_reason, audit_user_id, audit_user_name,branch_company_id,
+    audit_time, create_time, modify_time, create_user_id, create_user_name, modify_user_id, modify_user_name
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from im_adjustment
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!--根据外部单据号判重-->
+    <select id="getImAdjustmentByOutBizCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from im_adjustment
+        where external_bill_no = #{outBizCode,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from im_adjustment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.yatang.sc.inventory.domain.ImAdjustmentPo">
+    insert into im_adjustment (id, adjustment_no,type,
+      status, adjustment_time, warehouse_code,
+      total_quantity, total_adjustment_cost, description,
+      external_bill_no, failed_reason, audit_user_id, audit_user_name,
+      audit_time, create_time, modify_time,
+      create_user_id, create_user_name, modify_user_id, modify_user_name, branch_company_id)
+    values (#{id,jdbcType=BIGINT}, #{adjustmentNo,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER}, #{adjustmentTime,jdbcType=TIMESTAMP}, #{warehouseCode,jdbcType=VARCHAR},
+      #{totalQuantity,jdbcType=BIGINT}, #{totalAdjustmentCost,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR},
+      #{externalBillNo,jdbcType=VARCHAR}, #{failedReason,jdbcType=VARCHAR}, #{auditUserId,jdbcType=VARCHAR}, #{auditUserName,jdbcType=VARCHAR},
+      #{auditTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
+      #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{modifyUserId,jdbcType=VARCHAR}, #{modifyUserName,jdbcType=VARCHAR}, #{branchCompanyId,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.yatang.sc.inventory.domain.ImAdjustmentPo">
+        <selectKey resultType="java.lang.Long" order="AFTER"
+                   keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into im_adjustment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adjustmentNo != null">
+                adjustment_no,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="adjustmentTime != null">
+                adjustment_time,
+            </if>
+            <if test="warehouseCode != null">
+                warehouse_code,
+            </if>
+            <if test="totalQuantity != null">
+                total_quantity,
+            </if>
+            <if test="totalAdjustmentCost != null">
+                total_adjustment_cost,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="externalBillNo != null">
+                external_bill_no,
+            </if>
+            <if test="failedReason != null">
+                failed_reason,
+            </if>
+            <if test="auditUserId != null">
+                audit_user_id,
+            </if>
+            <if test="auditUserName != null">
+                audit_user_name,
+            </if>
+            <if test="auditTime != null">
+                audit_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createUserName != null">
+                create_user_name,
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id,
+            </if>
+            <if test="modifyUserName != null">
+                modify_user_name,
+            </if>
+            <if test="branchCompanyId != null">
+                branch_company_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adjustmentNo != null">
+                #{adjustmentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="adjustmentTime != null">
+                #{adjustmentTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="warehouseCode != null">
+                #{warehouseCode,jdbcType=VARCHAR},
+            </if>
+            <if test="totalQuantity != null">
+                #{totalQuantity,jdbcType=BIGINT},
+            </if>
+            <if test="totalAdjustmentCost != null">
+                #{totalAdjustmentCost,jdbcType=DECIMAL},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="externalBillNo != null">
+                #{externalBillNo,jdbcType=VARCHAR},
+            </if>
+            <if test="failedReason != null">
+                #{failedReason,jdbcType=VARCHAR},
+            </if>
+            <if test="auditUserId != null">
+                #{auditUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="auditUserName != null">
+                #{auditUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="auditTime != null">
+                #{auditTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserName != null">
+                #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserId != null">
+                #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserName != null">
+                #{modifyUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="branchCompanyId != null">
+                #{branchCompanyId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.inventory.domain.ImAdjustmentPo">
+        update im_adjustment
+        <set>
+            <if test="adjustmentNo != null">
+                adjustment_no = #{adjustmentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="adjustmentTime != null">
+                adjustment_time = #{adjustmentTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="warehouseCode != null">
+                warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+            </if>
+            <if test="totalQuantity != null">
+                total_quantity = #{totalQuantity,jdbcType=BIGINT},
+            </if>
+            <if test="totalAdjustmentCost != null">
+                total_adjustment_cost = #{totalAdjustmentCost,jdbcType=DECIMAL},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="externalBillNo != null">
+                external_bill_no = #{externalBillNo,jdbcType=VARCHAR},
+            </if>
+            <if test="failedReason != null">
+                failed_reason = #{failedReason,jdbcType=VARCHAR},
+            </if>
+            <if test="auditUserId != null">
+                audit_user_id = #{auditUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="auditUserName != null">
+                audit_user_name = #{auditUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="auditTime != null">
+                audit_time = #{auditTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserName != null">
+                create_user_name = #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id = #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserName != null">
+                modify_user_name = #{modifyUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="branchCompanyId != null">
+                branch_company_id = #{branchCompanyId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yatang.sc.inventory.domain.ImAdjustmentPo">
+        update im_adjustment
+        set adjustment_no = #{adjustmentNo,jdbcType=VARCHAR},
+          type = #{type,jdbcType=INTEGER},
+          status = #{status,jdbcType=INTEGER},
+          adjustment_time = #{adjustmentTime,jdbcType=TIMESTAMP},
+          warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+          total_quantity = #{totalQuantity,jdbcType=BIGINT},
+          total_adjustment_cost = #{totalAdjustmentCost,jdbcType=DECIMAL},
+          description = #{description,jdbcType=VARCHAR},
+          external_bill_no = #{externalBillNo,jdbcType=VARCHAR},
+          failed_reason = #{failedReason,jdbcType=VARCHAR},
+          audit_user_id = #{auditUserId,jdbcType=VARCHAR},
+          audit_user_name = #{auditUserName,jdbcType=VARCHAR},
+          audit_time = #{auditTime,jdbcType=TIMESTAMP},
+          create_time = #{createTime,jdbcType=TIMESTAMP},
+          modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+          create_user_id = #{createUserId,jdbcType=VARCHAR},
+          create_user_name = #{createUserName,jdbcType=VARCHAR},
+          modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+           modify_user_name = #{modifyUserName,jdbcType=VARCHAR}
+           branch_company_id = #{branchCompanyId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <update id="updateAdjustmentReceipt">
+        UPDATE im_adjustment SET  status = #{status,jdbcType=INTEGER},
+         total_adjustment_cost = #{totalAdjustmentCost,jdbcType=DECIMAL}
+        WHERE  id = #{id,jdbcType=BIGINT}
+    </update>
+    <!--根据参数分页查询库存调整列表-->
+    <select id="queryListImAdjustment" resultMap="BaseResultMap"
+            parameterType="com.yatang.sc.inventory.domain.ImAdjustmentQueryParamPo">
+        select
+        ia.id, ia.adjustment_no, ia.type, ia.status, ia.warehouse_code,
+        ia.total_adjustment_cost, ia.total_quantity, ia.external_bill_no, ia.branch_company_id
+        from im_adjustment ia
+        <where>1=1
+            <if test="branchCompanyId != null ">
+                AND ia.branch_company_id = #{branchCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="id != null ">
+                AND ia.id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="status != null ">
+                AND ia.status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="productId != null ">
+                AND EXISTS (SELECT item.id FROM im_adjustment_item item WHERE a.id=item.adjustment_id AND
+                item.product_id=#{productId,jdbcType=VARCHAR})
+            </if>
+            <if test="adjustmentTime != null ">
+                AND
+                <![CDATA[ date_format(ia.adjustment_time,'%Y-%m-%d') >= date_format(#{adjustmentTime,jdbcType=TIMESTAMP},'%Y-%m-%d') ]]>
+            </if>
+            <if test="type != null ">
+                AND ia.type = #{type,jdbcType=INTEGER}
+            </if>
+            <if test="warehouseCode != null ">
+                AND ia.warehouse_code = #{warehouseCode,jdbcType=VARCHAR}
+            </if>
+            <if test="externalBillNo != null ">
+                AND ia.external_bill_no = #{externalBillNo,jdbcType=VARCHAR}
+            </if>
+            <if test="adjustmentStartTime != null and adjustmentEndTime != null">
+                and date_format(ia.adjustment_time,'%Y-%m-%d')
+                BETWEEN
+                date_format(#{adjustmentStartTime,jdbcType=TIMESTAMP},'%Y-%m-%d')
+                AND
+                date_format(#{adjustmentEndTime,jdbcType=TIMESTAMP},'%Y-%m-%d')
+            </if>
+
+            <if test="adjustmentStartTime != null and adjustmentEndTime == null">
+                and
+                <![CDATA[ date_format(ia.adjustment_time,'%Y-%m-%d') >= date_format(#{adjustmentStartTime,jdbcType=TIMESTAMP},'%Y-%m-%d') ]]>
+            </if>
+            <if test="adjustmentStartTime == null and adjustmentEndTime != null">
+                and
+                <![CDATA[ date_format(ia.adjustment_time,'%Y-%m-%d') <= date_format(#{adjustmentEndTime,jdbcType=TIMESTAMP},'%Y-%m-%d') ]]>
+            </if>
+        </where>
+        ORDER BY ia.id DESC
+    </select>
+    <!--跟据传入id查询库存调整单详情-->
+    <select id="getImAdjustmentById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from im_adjustment
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+</mapper>

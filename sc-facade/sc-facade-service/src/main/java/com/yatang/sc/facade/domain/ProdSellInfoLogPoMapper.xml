@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.ProdSellInfoLogDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.facade.domain.ProdSellInfoLogPo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="branch_company_id" property="branchCompanyId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="lowest_price" property="lowestPrice" jdbcType="DECIMAL" />
+    <result column="operate" property="operate" jdbcType="VARCHAR" />
+    <result column="operate_date" property="operateDate" jdbcType="TIMESTAMP" />
+    <result column="operate_user_id" property="operateUserId" jdbcType="VARCHAR" />
+    <result column="operate_user_name" property="operateUserName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, branch_company_id, product_id, lowest_price, operate, operate_date, operate_user_id, 
+    operate_user_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from prod_sell_info_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from prod_sell_info_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.facade.domain.ProdSellInfoLogPo" >
+    insert into prod_sell_info_log (id, branch_company_id, product_id, 
+      lowest_price, operate, operate_date, 
+      operate_user_id, operate_user_name)
+    values (#{id,jdbcType=BIGINT}, #{branchCompanyId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR},
+      #{lowestPrice,jdbcType=DECIMAL}, #{operate,jdbcType=VARCHAR}, #{operateDate,jdbcType=TIMESTAMP}, 
+      #{operateUserId,jdbcType=VARCHAR}, #{operateUserName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.facade.domain.ProdSellInfoLogPo" >
+    insert into prod_sell_info_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="branchCompanyId != null" >
+        branch_company_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="lowestPrice != null" >
+        lowest_price,
+      </if>
+      <if test="operate != null" >
+        operate,
+      </if>
+      <if test="operateDate != null" >
+        operate_date,
+      </if>
+      <if test="operateUserId != null" >
+        operate_user_id,
+      </if>
+      <if test="operateUserName != null" >
+        operate_user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="branchCompanyId != null" >
+        #{branchCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="lowestPrice != null" >
+        #{lowestPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="operate != null" >
+        #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="operateDate != null" >
+        #{operateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateUserId != null" >
+        #{operateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="operateUserName != null" >
+        #{operateUserName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.facade.domain.ProdSellInfoLogPo" >
+    update prod_sell_info_log
+    <set >
+      <if test="branchCompanyId != null" >
+        branch_company_id = #{branchCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="lowestPrice != null" >
+        lowest_price = #{lowestPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="operate != null" >
+        operate = #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="operateDate != null" >
+        operate_date = #{operateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateUserId != null" >
+        operate_user_id = #{operateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="operateUserName != null" >
+        operate_user_name = #{operateUserName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.facade.domain.ProdSellInfoLogPo" >
+    update prod_sell_info_log
+    set branch_company_id = #{branchCompanyId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
+      lowest_price = #{lowestPrice,jdbcType=DECIMAL},
+      operate = #{operate,jdbcType=VARCHAR},
+      operate_date = #{operateDate,jdbcType=TIMESTAMP},
+      operate_user_id = #{operateUserId,jdbcType=VARCHAR},
+      operate_user_name = #{operateUserName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

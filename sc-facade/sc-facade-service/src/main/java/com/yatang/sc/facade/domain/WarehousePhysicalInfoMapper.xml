@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yatang.sc.facade.dao.WarehousePhysicalInfoDao">
+	<resultMap id="BaseResultMap"
+		type="com.yatang.sc.facade.domain.WarehousePhysicalInfoPo">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+		<result column="third_warehouse_code" jdbcType="VARCHAR"
+			property="thirdWarehouseCode" />
+		<result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
+		<result column="warehouse_service" jdbcType="VARCHAR" property="warehouseService" />
+		<result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
+		<result column="province" jdbcType="VARCHAR" property="province" />
+		<result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="county_code" jdbcType="VARCHAR" property="countyCode" />
+		<result column="county" jdbcType="VARCHAR" property="county" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="contact_person" jdbcType="VARCHAR" property="contactPerson" />
+		<result column="contact_mode" jdbcType="VARCHAR" property="contactMode" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+		<result column="create_user" jdbcType="VARCHAR" property="createUser" />
+		<result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, warehouse_code, third_warehouse_code,warehouse_name,
+		warehouse_service, province_code, province, city_code,
+		city,
+		county_code, county, address, contact_person, contact_mode,
+		create_time, modify_time,
+		create_user, modify_user
+	</sql>
+	<sql id="join_Column_List">
+		p.id, p.warehouse_code, p.third_warehouse_code,p.warehouse_name,
+		p.warehouse_service, p.province_code, p.province, p.city_code,
+		p.city,
+		p.county_code, p.county, p.address, p.contact_person, p.contact_mode,
+		p.create_time, p.modify_time,
+		p.create_user, p.modify_user
+	</sql>
+	<select id="getWarehousePhysicalByWarehouseLogicId"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="join_Column_List" />
+		from warehouse_physical_info p
+		inner join warehouse_logic_info l
+		on
+		p.id=l.physical_warehouse_id
+		where p.id=#{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from warehouse_physical_info
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		warehouse_physical_info
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.yatang.sc.facade.domain.WarehousePhysicalInfoPo">
+		insert into
+		warehouse_physical_info (id,
+		warehouse_code,third_warehouse_code,
+		warehouse_name,
+		warehouse_service, province_code, province,
+		city_code,
+		city, county_code,
+		county, address, contact_person,
+		contact_mode,
+		create_time, modify_time,
+		create_user, modify_user)
+		values
+		(#{id,jdbcType=INTEGER}, #{warehouseCode,jdbcType=VARCHAR},
+		#{thirdWarehouseCode,jdbcType=VARCHAR},
+		#{warehouseName,jdbcType=VARCHAR},
+		#{warehouseService,jdbcType=VARCHAR},
+		#{provinceCode,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR},
+		#{cityCode,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+		#{countyCode,jdbcType=VARCHAR},
+		#{county,jdbcType=VARCHAR},
+		#{address,jdbcType=VARCHAR}, #{contactPerson,jdbcType=VARCHAR},
+		#{contactMode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{modifyTime,jdbcType=TIMESTAMP},
+		#{createUser,jdbcType=VARCHAR},
+		#{modifyUser,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yatang.sc.facade.domain.WarehousePhysicalInfoPo">
+		insert into warehouse_physical_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="warehouseCode != null">
+				warehouse_code,
+			</if>
+			<if test="thirdWarehouseCode != null">
+				third_warehouse_code,
+			</if>
+			<if test="warehouseName != null">
+				warehouse_name,
+			</if>
+			<if test="warehouseService != null">
+				warehouse_service,
+			</if>
+			<if test="provinceCode != null">
+				province_code,
+			</if>
+			<if test="province != null">
+				province,
+			</if>
+			<if test="cityCode != null">
+				city_code,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="countyCode != null">
+				county_code,
+			</if>
+			<if test="county != null">
+				county,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="contactPerson != null">
+				contact_person,
+			</if>
+			<if test="contactMode != null">
+				contact_mode,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="modifyTime != null">
+				modify_time,
+			</if>
+			<if test="createUser != null">
+				create_user,
+			</if>
+			<if test="modifyUser != null">
+				modify_user,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="warehouseCode != null">
+				#{warehouseCode,jdbcType=VARCHAR},
+			</if>
+			<if test="thirdWarehouseCode != null">
+				#{thirdWarehouseCode,jdbcType=VARCHAR},
+			</if>
+			<if test="warehouseName != null">
+				#{warehouseName,jdbcType=VARCHAR},
+			</if>
+			<if test="warehouseService != null">
+				#{warehouseService,jdbcType=VARCHAR},
+			</if>
+			<if test="provinceCode != null">
+				#{provinceCode,jdbcType=VARCHAR},
+			</if>
+			<if test="province != null">
+				#{province,jdbcType=VARCHAR},
+			</if>
+			<if test="cityCode != null">
+				#{cityCode,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="countyCode != null">
+				#{countyCode,jdbcType=VARCHAR},
+			</if>
+			<if test="county != null">
+				#{county,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="contactPerson != null">
+				#{contactPerson,jdbcType=VARCHAR},
+			</if>
+			<if test="contactMode != null">
+				#{contactMode,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyTime != null">
+				#{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="modifyUser != null">
+				#{modifyUser,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.facade.domain.WarehousePhysicalInfoPo">
+		update warehouse_physical_info
+		<set>
+			<if test="warehouseCode != null">
+				warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+			</if>
+			<if test="thirdWarehouseCode != null">
+				third_warehouse_code =
+				#{thirdWarehouseCode,jdbcType=VARCHAR},
+			</if>
+			<if test="warehouseName != null">
+				warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+			</if>
+			<if test="warehouseService != null">
+				warehouse_service = #{warehouseService,jdbcType=VARCHAR},
+			</if>
+			<if test="provinceCode != null">
+				province_code = #{provinceCode,jdbcType=VARCHAR},
+			</if>
+			<if test="province != null">
+				province = #{province,jdbcType=VARCHAR},
+			</if>
+			<if test="cityCode != null">
+				city_code = #{cityCode,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				city = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="countyCode != null">
+				county_code = #{countyCode,jdbcType=VARCHAR},
+			</if>
+			<if test="county != null">
+				county = #{county,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="contactPerson != null">
+				contact_person = #{contactPerson,jdbcType=VARCHAR},
+			</if>
+			<if test="contactMode != null">
+				contact_mode = #{contactMode,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyTime != null">
+				modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				create_user = #{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="modifyUser != null">
+				modify_user = #{modifyUser,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yatang.sc.facade.domain.WarehousePhysicalInfoPo">
+		update
+		warehouse_physical_info
+		set warehouse_code =
+		#{warehouseCode,jdbcType=VARCHAR},third_warehouse_code =
+		#{thirdWarehouseCode,jdbcType=VARCHAR},
+		warehouse_name =
+		#{warehouseName,jdbcType=VARCHAR},
+		warehouse_service =
+		#{warehouseService,jdbcType=VARCHAR},
+		province_code =
+		#{provinceCode,jdbcType=VARCHAR},
+		province =
+		#{province,jdbcType=VARCHAR},
+		city_code = #{cityCode,jdbcType=VARCHAR},
+		city = #{city,jdbcType=VARCHAR},
+		county_code =
+		#{countyCode,jdbcType=VARCHAR},
+		county = #{county,jdbcType=VARCHAR},
+		address = #{address,jdbcType=VARCHAR},
+		contact_person =
+		#{contactPerson,jdbcType=VARCHAR},
+		contact_mode =
+		#{contactMode,jdbcType=VARCHAR},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		modify_time =
+		#{modifyTime,jdbcType=TIMESTAMP},
+		create_user =
+		#{createUser,jdbcType=VARCHAR},
+		modify_user =
+		#{modifyUser,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getWarehouseByProviceName" parameterType="string"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from warehouse_physical_info w
+		where
+		w.province=#{province,jdbcType=VARCHAR}
+	</select>
+</mapper>

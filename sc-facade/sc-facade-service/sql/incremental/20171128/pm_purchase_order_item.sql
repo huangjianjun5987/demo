@@ -1,0 +1,1 @@
+ALTER TABLE pm_purchase_order_item ADD COLUMN return_type INT(2) DEFAULT 1 COMMENT '是否可以退货给供应商  1：是  0：否';

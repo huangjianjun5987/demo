@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.UserRoleDao">
+	<resultMap id="BaseResultMap" type="com.yatang.sc.facade.domain.UserRolePo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="role_id" property="roleId" jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_id, role_id
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user_role
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="selectByUserId" resultType="java.lang.Long"
+		parameterType="java.lang.Long">
+		select
+		role_id
+		from sys_user_role
+		where user_id = #{userId,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectUserIdsByRoleId" resultType="java.lang.Long"
+		parameterType="java.lang.Long">
+		select
+		user_id
+		from sys_user_role
+		where role_id = #{roleId,jdbcType=BIGINT}
+	</select>
+
+	<select id="countUserByRole" resultType="java.lang.Integer"
+		parameterType="java.lang.Long">
+		select
+		count(id)
+		from sys_user_role
+		where role_id = #{roleId,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from sys_user_role
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<delete id="deleteUserRoleRelation" parameterType="java.lang.Long">
+		delete from sys_user_role
+		where role_id = #{roleId,jdbcType=BIGINT}
+	</delete>
+
+	<delete id="deleteByUserAndRole">
+		delete from sys_user_role
+		where user_id = #{userId,jdbcType=BIGINT} and role_id = #{roleId,jdbcType=BIGINT}
+	</delete>
+	
+	<insert id="insert" parameterType="com.yatang.sc.facade.domain.UserRolePo">
+		insert into sys_user_role (id, user_id, role_id
+		)
+		values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT},
+		#{roleId,jdbcType=BIGINT}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.yatang.sc.facade.domain.UserRolePo">
+		insert into sys_user_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="roleId != null">
+				role_id,
+			</if>
+		</trim>
+		
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	
+	<insert id="insertByBatch" parameterType="java.util.List">
+        insert into sys_user_role (user_id, role_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.userId,jdbcType=BIGINT}, #{item.roleId,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+    
+    <delete id="deleteByUserIdAndRolesId">
+        delete from sys_user_role
+        where user_id = #{userId,jdbcType=BIGINT} AND role_id IN
+        <foreach collection="roleIds" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+	
+</mapper>

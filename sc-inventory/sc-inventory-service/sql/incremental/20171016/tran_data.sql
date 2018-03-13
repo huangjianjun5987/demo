@@ -1,0 +1,1 @@
+ALTER TABLE tran_data ADD taxes DOUBLE(20,3) NULL COMMENT '税额';

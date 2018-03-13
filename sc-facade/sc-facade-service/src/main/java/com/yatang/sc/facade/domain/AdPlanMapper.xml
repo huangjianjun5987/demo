@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.AdPlanDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.facade.domain.AdPlanPo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="plan_name" property="planName" jdbcType="VARCHAR"/>
+        <result column="pic_name1" property="picName1" jdbcType="VARCHAR"/>
+        <result column="pic_url1" property="picUrl1" jdbcType="VARCHAR"/>
+        <result column="link_url1" property="linkUrl1" jdbcType="VARCHAR"/>
+        <result column="pic_name2" property="picName2" jdbcType="VARCHAR"/>
+        <result column="link_url2" property="linkUrl2" jdbcType="VARCHAR"/>
+        <result column="pic_url2" property="picUrl2" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, plan_name, pic_name1, pic_url1, link_url1, pic_name2, link_url2,
+		pic_url2, create_time,
+		status
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from ad_plan
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from ad_plan
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+    <insert id="insert" parameterType="com.yatang.sc.facade.domain.AdPlanPo">
+		insert into ad_plan (id, plan_name, pic_name1,
+		pic_url1, link_url1, pic_name2,
+		link_url2, pic_url2, create_time,create_user_id,
+		status)
+		values (#{id,jdbcType=INTEGER}, #{planName,jdbcType=VARCHAR},
+		#{picName1,jdbcType=VARCHAR},
+		#{picUrl1,jdbcType=VARCHAR}, #{linkUrl1,jdbcType=VARCHAR}, #{picName2,jdbcType=VARCHAR},
+		#{linkUrl2,jdbcType=VARCHAR}, #{picUrl2,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},#{createUserId,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER})
+	</insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.facade.domain.AdPlanPo">
+        update ad_plan
+        <set>
+            <if test="planName != null">
+                plan_name = #{planName,jdbcType=VARCHAR},
+            </if>
+            <if test="picName1 != null">
+                pic_name1 = #{picName1,jdbcType=VARCHAR},
+            </if>
+            <if test="picUrl1 != null">
+                pic_url1 = #{picUrl1,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUrl1 != null">
+                link_url1 = #{linkUrl1,jdbcType=VARCHAR},
+            </if>
+            <if test="picName2 != null">
+                pic_name2 = #{picName2,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUrl2 != null">
+                link_url2 = #{linkUrl2,jdbcType=VARCHAR},
+            </if>
+            <if test="picUrl2 != null">
+                pic_url2 = #{picUrl2,jdbcType=VARCHAR},
+            </if>
+            modify_user_id=#{modifyUserId,jdbcType=VARCHAR},
+            modify_time=#{modifyTime,jdbcType=TIMESTAMP}
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!--queryAllAdPlanList -->
+
+    <select id="queryAllAdPlanList" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from ad_plan
+    </select>
+    <!--changeAdPlanState -->
+    <update id="changeAdPlanState" parameterType="com.yatang.sc.facade.domain.AdPlanModifyParamPo">
+        update ad_plan
+        <set>
+            <if test="status==0">
+                status =0,
+            </if>
+            <if test="status==1">
+                status =1,
+            </if>
+            modify_user_id=#{modifyUserId,jdbcType=VARCHAR},
+            modify_time=#{modifyTime,jdbcType=TIMESTAMP}
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!--stopAllAdPlanState -->
+    <update id="stopAllAdPlanState" parameterType="com.yatang.sc.facade.domain.AdPlanModifyParamPo">
+		update ad_plan set status = 0,
+			modify_user_id=#{modifyUserId,jdbcType=VARCHAR},
+			modify_time=#{modifyTime,jdbcType=TIMESTAMP}
+		WHERE status=1
+	</update>
+
+    <!--checkModifyAdPlan -->
+    <select id="checkModifyAdPlan" resultType="java.lang.Integer"
+            parameterType="com.yatang.sc.facade.domain.AdPlanPo">
+		SELECT count(1) from ad_plan WHERE id=#{id,jdbcType=INTEGER} AND plan_name=
+		#{planName,jdbcType=VARCHAR}
+		and pic_name1=#{picName1,jdbcType=VARCHAR}
+		and pic_url1=#{picUrl1,jdbcType=VARCHAR}and
+		link_url1=#{linkUrl1,jdbcType=VARCHAR}and
+		pic_name2=#{picName2,jdbcType=VARCHAR}
+		and link_url2=#{linkUrl2,jdbcType=VARCHAR}and
+		pic_url2=#{picUrl2,jdbcType=VARCHAR}
+	</select>
+</mapper>

@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.SpAdrBasicDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.facade.domain.SpAdrBasicPo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="provider_no" property="providerNo" jdbcType="VARCHAR"/>
+        <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
+        <result column="goods_arrival_cycle" property="goodsArrivalCycle" jdbcType="INTEGER"/>
+        <result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+        <result column="grade" property="grade" jdbcType="INTEGER"/>
+        <result column="opera_status" property="operaStatus" jdbcType="INTEGER"/>
+        <result column="settlement_period" property="settlementPeriod" jdbcType="INTEGER"/>
+        <result column="pay_condition" property="payCondition" jdbcType="INTEGER"/>
+        <result column="belong_area" property="belongArea" jdbcType="INTEGER"/>
+        <result column="belong_area_name" property="belongAreaName" jdbcType="VARCHAR"/>
+        <result column="pay_type" property="payType" jdbcType="INTEGER"/>
+        <result column="audit_person" property="auditPerson" jdbcType="VARCHAR"/>
+        <result column="audit_date" property="auditDate" jdbcType="TIMESTAMP"/>
+        <result column="modify_id" property="modifyId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <association property="modification" javaType="com.yatang.sc.facade.domain.SpAdrBasicPo"
+                     column="modify_id" select="selectByPrimaryKey"/>
+    </resultMap>
+
+
+    <resultMap id="SearchAdrBoxMap" type="com.yatang.sc.facade.domain.SpSearchBoxPo">
+        <result column="sp_id" property="spId" jdbcType="VARCHAR"/>
+        <result column="sp_no" property="spNo" jdbcType="VARCHAR"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="sp_adr_id" property="spAdrid" jdbcType="INTEGER"/>
+        <result column="provider_no" property="providerNo" jdbcType="VARCHAR"/>
+        <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
+        <result column="org_id" property="branchCompanyId" jdbcType="INTEGER"/>
+        <result column="goods_arrival_cycle" property="goodsArrivalCycle" jdbcType="INTEGER"/>
+        <result column="pay_type" property="payType" jdbcType="INTEGER"/>
+        <result column="settlement_period" property="settlementPeriod" jdbcType="INTEGER"/>
+        <result column="pay_condition" property="payCondition" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		id, provider_no, provider_name, goods_arrival_cycle, org_id, grade,
+		opera_status,
+		settlement_period,pay_condition, belong_area, belong_area_name, pay_type, audit_person, audit_date, modify_id,
+		status
+	</sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from sp_adr_basic_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from sp_adr_basic_info
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+    <insert id="insertSelective" parameterType="com.yatang.sc.facade.domain.SpAdrBasicPo">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+        insert into sp_adr_basic_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="providerNo != null">
+                provider_no,
+            </if>
+            <if test="providerName != null">
+                provider_name,
+            </if>
+            <if test="goodsArrivalCycle != null">
+                goods_arrival_cycle,
+            </if>
+            <if test="orgId != null">
+                org_id,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+            <if test="operaStatus != null">
+                opera_status,
+            </if>
+            <if test="settlementPeriod != null">
+                settlement_period,
+            </if>
+            <if test="payCondition != null">
+                pay_condition,
+            </if>
+            <if test="belongArea != null">
+                belong_area,
+            </if>
+            <if test="belongAreaName != null">
+                belong_area_name,
+            </if>
+            <if test="payType != null">
+                pay_type,
+            </if>
+            <if test="auditPerson != null">
+                audit_person,
+            </if>
+            <if test="auditDate != null">
+                audit_date,
+            </if>
+            <if test="modifyId != null">
+                modify_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="providerNo != null">
+                #{providerNo,jdbcType=VARCHAR},
+            </if>
+            <if test="providerName != null">
+                #{providerName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsArrivalCycle != null">
+                #{goodsArrivalCycle,jdbcType=INTEGER},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="operaStatus != null">
+                #{operaStatus,jdbcType=INTEGER},
+            </if>
+            <if test="settlementPeriod != null">
+                #{settlementPeriod,jdbcType=INTEGER},
+            </if>
+            <if test="payCondition != null">
+                #{payCondition,jdbcType=INTEGER},
+            </if>
+            <if test="belongArea != null">
+                #{belongArea,jdbcType=INTEGER},
+            </if>
+            <if test="belongAreaName != null">
+                #{belongAreaName,jdbcType=VARCHAR},
+            </if>
+            <if test="payType != null">
+                #{payType,jdbcType=INTEGER},
+            </if>
+            <if test="auditPerson != null">
+                #{auditPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="auditDate != null">
+                #{auditDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyId != null">
+                #{modifyId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.facade.domain.SpAdrBasicPo">
+        update sp_adr_basic_info
+        <set>
+            <if test="providerNo != null">
+                provider_no = #{providerNo,jdbcType=VARCHAR},
+            </if>
+            <if test="providerName != null">
+                provider_name = #{providerName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsArrivalCycle != null">
+                goods_arrival_cycle = #{goodsArrivalCycle,jdbcType=INTEGER},
+            </if>
+            <if test="orgId != null">
+                org_id = #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="operaStatus != null">
+                opera_status = #{operaStatus,jdbcType=INTEGER},
+            </if>
+            <if test="settlementPeriod != null">
+                settlement_period = #{settlementPeriod,jdbcType=INTEGER},
+            </if>
+            <if test="payCondition != null">
+                pay_condition = #{payCondition,jdbcType=INTEGER},
+            </if>
+            <if test="belongArea != null">
+                belong_area = #{belongArea,jdbcType=INTEGER},
+            </if>
+            <if test="belongAreaName != null">
+                belong_area_name = #{belongAreaName,jdbcType=VARCHAR},
+            </if>
+            <if test="payType != null">
+                pay_type = #{payType,jdbcType=INTEGER},
+            </if>
+            <if test="auditPerson != null">
+                audit_person = #{auditPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="auditDate != null">
+                audit_date = #{auditDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyId != null">
+                modify_id = #{modifyId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="queryMaxNo" resultType="java.lang.String">
+		select max(provider_no) from sp_adr_basic_info
+	</select>
+
+    <select id="supplierAdrSearchBox" resultMap="SearchAdrBoxMap">
+        select ai.parent_id sp_id,bi.sp_no,bi.company_name,ai.id sp_adr_id,abi.provider_no,abi.provider_name,
+        abi.org_id,abi.goods_arrival_cycle,abi.settlement_period ,abi.pay_type,abi.pay_condition
+        from supplier_adr_info ai
+        inner join sp_adr_basic_info abi on ai.basic_id = abi.id
+        inner join supplier_info si on si.id=ai.parent_id
+        inner join sp_basic_info bi on bi.id= si.basic_id
+        where ai.status = 2
+        <if test="pId != null">
+            and ai.parent_id = #{pId}
+        </if>
+        <if test="branchCompanyIds != null and branchCompanyIds.size >0">
+            and abi.org_id IN
+            <foreach collection="branchCompanyIds" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="condition != null and condition != ''">
+            and (abi.provider_no = #{condition} or abi.provider_name like concat('%',(#{condition}),'%'))
+        </if>
+    </select>
+
+    <!--查询不可以用的分公司id-->
+    <select id="queryUselessOrgId" parameterType="com.yatang.sc.facade.domain.QueryAvailableBranchCompanyPo"
+            resultType="java.lang.String">
+        SELECT org_id FROM (
+        SELECT sa.id, sa.org_id FROM sp_adr_basic_info sa
+        WHERE sa.id = (
+        SELECT sa.modify_id FROM sp_adr_basic_info sa
+        INNER JOIN supplier_adr_info si ON sa.id = si.basic_id
+        WHERE si.parent_id = #{parentId,jdbcType=VARCHAR} AND sa.modify_id IS NOT NULL
+        )
+
+        UNION ALL
+
+        SELECT sa.id, sa.org_id FROM sp_adr_basic_info sa
+        INNER JOIN supplier_adr_info si ON sa.id = si.basic_id
+        WHERE si.parent_id = #{parentId,jdbcType=VARCHAR} AND sa.modify_id IS NULL
+        ) t
+        <where>
+            1=1
+            <if test="id != null">
+                AND t.id != #{id,jdbcType=INTEGER}
+            </if>
+        </where>
+
+    </select>
+
+    <!--校验供应商地点编号-->
+    <select id="checkSupplierAddNo" parameterType="com.yatang.sc.facade.domain.SpAdrBasicPo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sp_adr_basic_info
+        <where>
+            1=1
+            <if test="providerNo != null">
+                AND provider_no = #{providerNo,jdbcType=VARCHAR}
+            </if>
+            <if test="id!=null">
+                AND id!=#{id,jdbcType=INTEGER}
+            </if>
+            <if test="status == 1">
+                AND (modify_id!=#{id,jdbcType=INTEGER} OR modify_id IS NULL)
+            </if>
+        </where>
+    </select>
+
+    <!--商品地点关系查询供应商及供应商地点值清单（查询子公司对应的供应商及供应商地点）-->
+    <select id="prodSpAdrSearchBox" resultMap="ProdSpSearchMap" parameterType="com.yatang.sc.facade.domain.ProdSpAdrSearchParamPo">
+        select ai.parent_id sp_id,bi.sp_no,bi.company_name,ai.id sp_adr_id,abi.provider_no,abi.provider_name
+        from supplier_adr_info ai
+        inner join sp_adr_basic_info abi on ai.basic_id = abi.id
+        inner join supplier_info si on si.id=ai.parent_id
+        inner join sp_basic_info bi on bi.id= si.basic_id
+        where ai.status = 2 and si.status = 2
+        <if test="parentId != null">
+            and ai.parent_id = #{parentId}
+        </if>
+        <if test="branchCompanyIds != null and branchCompanyIds.size >0">
+            and abi.org_id IN
+            <foreach collection="branchCompanyIds" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="queryType == 1 and condition != null and condition != ''">
+            and (bi.sp_no = #{condition} or bi.company_name like concat('%',(#{condition}),'%'))
+        </if>
+        <if test="queryType == 2 and condition != null and condition != ''">
+            and (abi.provider_no = #{condition} or abi.provider_name like concat('%',(#{condition}),'%'))
+        </if>
+    </select>
+
+    <resultMap id="ProdSpSearchMap" type="com.yatang.sc.facade.domain.ProdSpAdrSearchBoxPo">
+        <result column="sp_id" property="spId" jdbcType="VARCHAR"/>
+        <result column="sp_no" property="spNo" jdbcType="VARCHAR"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="sp_adr_id" property="spAdrId" jdbcType="INTEGER"/>
+        <result column="provider_no" property="providerNo" jdbcType="VARCHAR"/>
+        <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.PmPurchaseReceiptDao">
+    <resultMap id="BaseResultMap"
+               type="com.yatang.sc.facade.domain.pm.PmPurchaseReceiptPo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="purchase_receipt_no" property="purchaseReceiptNo"
+                jdbcType="VARCHAR"/>
+        <result column="purchase_order_id" property="purchaseOrderId"
+                jdbcType="VARCHAR"/>
+        <result column="asn" property="asn" jdbcType="VARCHAR"/>
+        <result column="estimated_received_date" property="estimatedReceivedDate"
+                jdbcType="TIMESTAMP"/>
+        <result column="received_time" property="receivedTime"
+                jdbcType="TIMESTAMP"/>
+        <result column="branch_company_id" property="branchCompanyId"
+                jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="exception_reason" property="exceptionReason"
+                jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId"
+                jdbcType="VARCHAR"/>
+        <result column="modify_user_id" property="modifyUserId"
+                jdbcType="VARCHAR"/>
+        <result column="sale_order_id" property="saleOrderId" jdbcType="VARCHAR"/>
+        <result column="ticket_url" property="ticketUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, purchase_receipt_no, purchase_order_id, asn, estimated_received_date,
+		received_time,
+		branch_company_id, status,exception_reason, create_time, modify_time, create_user_id,
+		modify_user_id, sale_order_id, ticket_url
+	</sql>
+    <sql id="Base_Column_ListOfR">
+		r.id, r.purchase_receipt_no, r.purchase_order_id, r.asn,
+		r.estimated_received_date, r.received_time,
+		r.branch_company_id, r.status,r.exception_reason, r.create_time, r.modify_time,
+		r.create_user_id, r.modify_user_id
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from pm_purchase_receipt
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="selectByPurchaseOrderId" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from pm_purchase_receipt
+        where purchase_order_id = #{purchaseOrderId,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from pm_purchase_receipt
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+    <insert id="insert" parameterType="com.yatang.sc.facade.domain.pm.PmPurchaseReceiptPo">
+		insert into pm_purchase_receipt (id, purchase_receipt_no,
+		purchase_order_id,
+		asn, estimated_received_date, received_time,
+		branch_company_id, status,exception_reason, create_time,
+		modify_time, create_user_id, modify_user_id
+		)
+		values (#{id,jdbcType=BIGINT}, #{purchaseReceiptNo,jdbcType=VARCHAR},
+		#{purchaseOrderId,jdbcType=VARCHAR},
+		#{asn,jdbcType=VARCHAR}, #{estimatedReceivedDate,jdbcType=TIMESTAMP},
+		#{receivedTime,jdbcType=TIMESTAMP},
+		#{branchCompanyId,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER},#{exceptionReason,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{modifyTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, #{modifyUserId,jdbcType=VARCHAR}
+		)
+	</insert>
+    <insert id="insertSelective" parameterType="com.yatang.sc.facade.domain.pm.PmPurchaseReceiptPo">
+        <selectKey keyProperty="id" resultType="long">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into pm_purchase_receipt
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="purchaseReceiptNo != null">
+                purchase_receipt_no,
+            </if>
+            <if test="purchaseOrderId != null">
+                purchase_order_id,
+            </if>
+            <if test="asn != null">
+                asn,
+            </if>
+            <if test="estimatedReceivedDate != null">
+                estimated_received_date,
+            </if>
+            <if test="receivedTime != null">
+                received_time,
+            </if>
+            <if test="branchCompanyId != null">
+                branch_company_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="exceptionReason != null">
+                exception_reason,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="purchaseReceiptNo != null">
+                #{purchaseReceiptNo,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseOrderId != null">
+                #{purchaseOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="asn != null">
+                #{asn,jdbcType=VARCHAR},
+            </if>
+            <if test="estimatedReceivedDate != null">
+                #{estimatedReceivedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="receivedTime != null">
+                #{receivedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="branchCompanyId != null">
+                #{branchCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="exceptionReason!=null">
+                #{exceptionReason,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserId != null">
+                #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.facade.domain.pm.PmPurchaseReceiptPo">
+        update pm_purchase_receipt
+        <set>
+            <if test="purchaseReceiptNo != null">
+                purchase_receipt_no = #{purchaseReceiptNo,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseOrderId != null">
+                purchase_order_id = #{purchaseOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="asn != null">
+                asn = #{asn,jdbcType=VARCHAR},
+            </if>
+            <if test="estimatedReceivedDate != null">
+                estimated_received_date = #{estimatedReceivedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="receivedTime != null">
+                received_time = #{receivedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="branchCompanyId != null">
+                branch_company_id = #{branchCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="exceptionReason != null">
+                exception_reason=#{exceptionReason,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id = #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="ticketUrl != null">
+                ticket_url = #{ticketUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPurchaseReceiptNoSelective" parameterType="com.yatang.sc.facade.domain.pm.PmPurchaseReceiptPo">
+        update pm_purchase_receipt
+        <set>
+            <if test="purchaseOrderId != null">
+                purchase_order_id = #{purchaseOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="asn != null">
+                asn = #{asn,jdbcType=VARCHAR},
+            </if>
+            <if test="estimatedReceivedDate != null">
+                estimated_received_date = #{estimatedReceivedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="receivedTime != null">
+                received_time = #{receivedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="branchCompanyId != null">
+                branch_company_id = #{branchCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="exceptionReason != null">
+                exception_reason=#{exceptionReason,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id = #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where purchase_receipt_no = #{purchaseReceiptNo,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.yatang.sc.facade.domain.pm.PmPurchaseReceiptPo">
+		update pm_purchase_receipt
+		set purchase_receipt_no = #{purchaseReceiptNo,jdbcType=VARCHAR},
+		purchase_order_id = #{purchaseOrderId,jdbcType=VARCHAR},
+		asn = #{asn,jdbcType=VARCHAR},
+		estimated_received_date = #{estimatedReceivedDate,jdbcType=TIMESTAMP},
+		received_time = #{receivedTime,jdbcType=TIMESTAMP},
+		branch_company_id = #{branchCompanyId,jdbcType=VARCHAR},
+		status = #{status,jdbcType=INTEGER},
+		exception_reason=#{exceptionReason,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+		create_user_id = #{createUserId,jdbcType=VARCHAR},
+		modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+    <!-- 模板外自定义的sql -->
+    <select id="queryListByParam" parameterType="com.yatang.sc.facade.domain.pm.PmPurchaseReceiptParamPo"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_ListOfR"/>
+        from pm_purchase_receipt r
+        left join pm_purchase_order o
+        on r.purchase_order_id = o.id
+        where 1=1
+        <if test="purchaseOrderNo != null">
+            and o.purchase_order_no like CONCAT(CONCAT('%', #{purchaseOrderNo,jdbcType=VARCHAR}), '%')
+        </if>
+        <if test="status !=null">
+            and r.status=#{status,jdbcType=INTEGER}
+        </if>
+        <if test="purchaseReceiptNo != null">
+            and r.purchase_receipt_no like CONCAT(CONCAT('%', #{purchaseReceiptNo,jdbcType=VARCHAR}), '%')
+        </if>
+        <if test="receivedTimeStart !=null">
+            AND
+            <![CDATA[ date_format(r.received_time,'%Y-%m-%d') >= date_format(#{receivedTimeStart,jdbcType=TIMESTAMP},'%Y-%m-%d') ]]>
+        </if>
+        <if test="receivedTimeEnd !=null">
+            AND
+            <![CDATA[ date_format(r.received_time,'%Y-%m-%d') <= date_format(#{receivedTimeEnd,jdbcType=TIMESTAMP},'%Y-%m-%d') ]]>
+        </if>
+        <if test="branchCompanyId !=null">
+            AND (r.branch_company_id = #{branchCompanyId,jdbcType=VARCHAR}
+            <if test="adrTypeCodes !=null">
+                <foreach collection="adrTypeCodes" item="item">
+                    OR adr_type_code = #{item,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+            )
+        </if>
+        <if test="purchaseOrderType !=null">
+            AND o.purchase_order_type = #{purchaseOrderType,jdbcType=INTEGER}
+        </if>
+        <if test="spNo !=null">
+            AND o.sp_no = #{spNo,jdbcType=VARCHAR}
+        </if>
+        <if test="spAdrNo !=null">
+            AND o.sp_adr_no = #{spAdrNo,jdbcType=VARCHAR}
+        </if>
+        <if test="adrType !=null">
+            AND o.adr_type = #{adrType,jdbcType=INTEGER}
+        </if>
+        <if test="adrTypeCode !=null">
+            AND o.adr_type_code = #{adrTypeCode,jdbcType=VARCHAR}
+        </if>
+        <if test="startAuditTime !=null">
+            AND
+            <![CDATA[ date_format(o.audit_time,'%Y-%m-%d') >= date_format(#{startAuditTime,jdbcType=TIMESTAMP},'%Y-%m-%d') ]]>
+        </if>
+        <if test="endAuditTime !=null">
+            AND
+            <![CDATA[ date_format(o.audit_time,'%Y-%m-%d') <= date_format(#{endAuditTime,jdbcType=TIMESTAMP},'%Y-%m-%d') ]]>
+        </if>
+        <if test="businessMode != null">
+            AND o.business_mode = #{businessMode,jdbcType=INTEGER}
+        </if>
+        order by r.create_time desc
+
+    </select>
+
+    <select id="getAllPurchaseReceiptCount" resultType="java.lang.Long" parameterType="java.lang.Integer">
+		select
+		count(id)
+		from pm_purchase_receipt
+		WHERE status = #{status,jdbcType=INTEGER}
+	</select>
+
+    <select id="selectByPurchaseReceiptNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM pm_purchase_receipt
+        WHERE purchase_receipt_no = #{purchaseReceiptNo}
+    </select>
+    <!-- 查询列表 ,查询条件与原型图对应 -->
+    <!-- <select id="queryListByParam" parameterType="com.yatang.sc.facade.domain.pm.PmPurchaseReceiptParamPo"
+        resultMap="BaseResultMap"> -->
+    <!-- select -->
+    <!-- <include refid="Base_Column_List" /> -->
+    <!-- from pm_purchase_receipt -->
+    <!-- where 1=1 -->
+    <!-- <if test="purchaseReceiptNo !=null"> -->
+    <!-- AND purchase_receipt_no = #{purchaseReceiptNo,jdbcType=VARCHAR} -->
+    <!-- </if> -->
+    <!-- <if test="purchaseOrderIds !=null and purchaseOrderIds.length>0"> -->
+    <!-- AND purchase_order_id in -->
+    <!-- <foreach collection="purchaseOrderIds" index="index" item="purchaseOrderId"
+        open="(" separator="," close=")"> -->
+    <!-- #{purchaseOrderId} -->
+    <!-- </foreach> -->
+    <!-- </if> -->
+    <!-- <if test="receivedTimeStart !=null and receivedTimeStart != ''" > -->
+    <!-- AND received_time &gt;= #{receivedTimeStart,jdbcType=TIMESTAMP} -->
+    <!-- </if> -->
+    <!-- <if test="receivedTimeEnd !=null and receivedTimeEnd != ''" > -->
+    <!-- AND received_time &lt;= #{receivedTimeEnd,jdbcType=TIMESTAMP} -->
+    <!-- </if> -->
+    <!-- <if test="branchCompanyId !=null" > -->
+    <!-- AND branch_company_id = #{branchCompanyId,jdbcType=INTEGER} -->
+    <!-- </if> -->
+    <!-- <if test="status !=null" > -->
+    <!-- AND status = #{status,jdbcType=INTEGER} -->
+    <!-- </if> -->
+    <!-- </select> -->
+
+
+    <!--查询收货单list add by yangshuang-->
+    <select id="queryPurchaseReceiptListByPurchaseOrderId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pm_purchase_receipt
+        where purchase_order_id = #{purchaseOrderId,jdbcType=VARCHAR}
+        <if test="containAsn">
+            AND asn is not NULL
+        </if>
+    </select>
+    <!--根据采购单id查询收货单是否有待下发的单据-->
+    <select id="selectIsUnfinishedByPurchaseOrderId" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select
+		count(id)
+		from pm_purchase_receipt
+		where status =0 AND purchase_order_id = #{purchaseOrderId,jdbcType=VARCHAR}
+	</select>
+</mapper>

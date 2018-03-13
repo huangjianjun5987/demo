@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		 http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!-- 注解扫描器 -->
+	<context:component-scan base-package="com.yatang.sc.facade,com.busi.idgenerator" />
+
+	<!-- 加载db.properties文件中的内容，db.properties文件中key命名要有一定的特殊规则 -->
+	<context:property-placeholder location="classpath:server.properties" />
+
+	<bean class="org.springframework.jmx.export.MBeanExporter">
+		<property name="autodetectModeName">
+			<value>AUTODETECT_NONE</value>
+		</property>
+	</bean>
+
+	<!-- dataSource -->
+	<bean id="basicDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="initialSize">
+			<value>${jdbc.initialSize}</value>
+		</property>
+		<property name="minIdle">
+			<value>${jdbc.minIdle}</value>
+		</property>
+		<property name="maxActive">
+			<value>${jdbc.maxActive}</value>
+		</property>
+		<property name="maxWait">
+			<value>${jdbc.maxWait}</value>
+		</property>
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="validationQuery" value="select 1 from dual" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="20" />
+		<property name="filters" value="stat,logback,config" />
+		<property name="removeAbandoned" value="false" />
+		<property name="removeAbandonedTimeout" value="180" />
+		<property name="logAbandoned" value="true" />
+		<!-- <property name="connectionProperties" value="config.decrypt=true" 
+			/> -->
+	</bean>
+	<bean id="dataSource" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>javax.sql.DataSource</value>
+		</property>
+		<property name="target" ref="basicDataSource">
+		</property>
+	</bean>
+
+	<!-- sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml"></property>
+		<property name="mapperLocations"
+			value="classpath*:com/yatang/sc/facade/domain/*Mapper.xml"></property>
+	</bean>
+
+	<!-- 配置SqlSessionTemplate -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- mapper scan -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.yatang.sc.facade.dao"></property>
+		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate"></property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 使用annotation注解方式配置事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- ======================== 引入ID generator的消费者 ======================== -->
+	<import resource="classpath*:com/busi/idgenerator/dubbo-consumer.xml" />
+	<aop:config>
+		<aop:advisor advice-ref="idGeneratorInterceptor"
+			pointcut="execution(* com.yatang.sc.facade.dao.*.insert*(..))" />
+	</aop:config>
+
+	<!-- solr索引消息生产者 -->
+	<bean id="productIndexMQProducer" class="com.busi.mq.producer.SimpleMQProducer"
+		init-method="init" destroy-method="destroy">
+		<property name="namesrvAddr" value="${rocketmq.product.index.nameserver.address}" />
+		<property name="producerGroup" value="${rocketmq.product.index.producergroup}" />
+		<property name="encoder" ref="productIndexMQEncoder" />
+	</bean>
+	<bean id="productIndexMQEncoder" class="com.busi.mq.message.encoder.JSONStringEncoder">
+		<property name="msgTopic" value="${rocketmq.product.index.topic}" />
+		<property name="msgTag" value="${rocketmq.product.index.tag}" />
+	</bean>
+
+	<bean id="redisDistributedLockFactory" class="com.yatang.sc.common.lock.RedisDistributedLockFactory"
+		  init-method="initFactory">
+		<property name="lockRedisServer" value="${lock.redis.server}"/>
+	</bean>
+
+	<import resource="applicationContext-mongodb.xml"/>
+
+</beans>

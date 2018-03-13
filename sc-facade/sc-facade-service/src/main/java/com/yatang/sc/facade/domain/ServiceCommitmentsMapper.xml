@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.ServiceCommitmentsDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.facade.domain.ServiceCommitmentsPo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="promise_content" property="promiseContent" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, promise_content, sort, status
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from service_commitments
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from service_commitments
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.yatang.sc.facade.domain.ServiceCommitmentsPo">
+    insert into service_commitments (id, promise_content, sort, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{promiseContent,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.yatang.sc.facade.domain.ServiceCommitmentsPo">
+        insert into service_commitments
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="promiseContent != null">
+                promise_content,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="promiseContent != null">
+                #{promiseContent,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.facade.domain.ServiceCommitmentsPo">
+        update service_commitments
+        <set>
+            <if test="promiseContent != null">
+                promise_content = #{promiseContent,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yatang.sc.facade.domain.ServiceCommitmentsPo">
+    update service_commitments
+    set promise_content = #{promiseContent,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="queryAllServiceCommitmentsList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from service_commitments WHERE status=1;
+    </select>
+</mapper>

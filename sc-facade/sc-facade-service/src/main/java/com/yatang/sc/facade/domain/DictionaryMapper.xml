@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.DictionaryDao" >
+  	<resultMap id="BaseResultMap" type="com.yatang.sc.facade.domain.DictionaryPo" >
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="dictionary" property="dictionary" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="dictionaryType" property="dictionaryType" jdbcType="INTEGER"/>
+  	</resultMap>
+
+	<resultMap id="BaseDictionaryContentResultMap" type="com.yatang.sc.facade.domain.DictionaryContentPo" >
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="dictionary_id" property="dictionaryId" jdbcType="INTEGER" />
+		<result column="contentName" property="contentName" jdbcType="VARCHAR" />
+		<result column="contentCode" property="contentCode" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="INTEGER"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, dictionary, code,	remark ,dictionaryType
+	</sql>
+
+	<select id="dictionaryListByParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM sys_dictionary
+		WHERE 1=1
+		<if test="dictionaryType != null">AND dictionaryType= #{dictionaryType,jdbcType=INTEGER} </if>
+		<if test="dictionaryType == null">AND dictionaryType= 0 </if>
+		AND CONCAT(dictionary, code) LIKE CONCAT('%',(#{keyword,jdbcType=VARCHAR}),'%')
+		ORDER BY ID ASC
+	</select>
+	
+	<select id="dictionarySelectByCode" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM sys_dictionary
+		WHERE 1=1
+		<if test="dictionaryType != null">
+			AND dictionaryType= #{dictionaryType,jdbcType=INTEGER} 
+			AND dictionaryCode=#{dictionaryCode,jdbcType=VARCHAR}
+		</if>
+		<if test="dictionaryType == null">
+			AND dictionaryType= 0 
+			AND CONCAT(dictionary, code) LIKE CONCAT('%',(#{keyword,jdbcType=VARCHAR}),'%')
+		</if>
+		ORDER BY ID ASC
+	</select>
+
+	<select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM sys_dictionary
+		WHERE id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<!--按字典名称和字典编码查询是否存在-->
+	<select id="checkByDictionaryAndCode"  parameterType="com.yatang.sc.facade.domain.DictionaryPo" resultType="java.lang.Integer">
+		select count(*)
+		from sys_dictionary
+		<where>
+			1=1
+			<if test="dictionary != null" >
+				AND dictionary = #{dictionary,jdbcType=VARCHAR}
+			</if>
+			<if test="code != null" >
+				AND code = #{code,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertDictionary" parameterType="com.yatang.sc.facade.domain.DictionaryPo">
+		insert into sys_dictionary 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		<if test="id != null">id,</if>
+		<if test="dictionary != null">dictionary,</if>
+		<if test="code != null">code,</if>
+		<if test="remark != null">remark,</if>
+		<if test="dictionaryType != null">dictionaryType,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dictionary != null" >
+        #{dictionary,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryType != null" >
+        #{dictionaryType,jdbcType=INTEGER}
+      </if>
+    </trim>
+		
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.yatang.sc.facade.domain.DictionaryPo" >
+		update sys_dictionary
+    <set >
+      <if test="dictionary != null" >
+        dictionary = #{dictionary,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryType != null" >
+        dictionaryType = #{dictionaryType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from sys_dictionary
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+
+	<delete id="deleteContentById" parameterType="java.lang.Integer">
+		delete from sys_dictionary_content
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<!--数据字典维护-->
+
+	<select id="queryDictionaryContentById"  parameterType="java.lang.Integer" resultMap="BaseDictionaryContentResultMap">
+		select *
+		from sys_dictionary_content
+		where dictionary_id = #{dictionaryId,jdbcType=INTEGER}
+	</select>
+
+	<!--按字典内容名称和排序号查询是否存在-->
+	<select id="checkByContent"  parameterType="com.yatang.sc.facade.domain.DictionaryContentPo" resultType="java.lang.Integer">
+		select count(*)
+		from sys_dictionary_content
+		<where>
+			dictionary_id = #{dictionaryId,jdbcType=INTEGER}
+			<if test="contentName != null" >
+				AND contentName = #{contentName,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertDictionaryContent" parameterType="com.yatang.sc.facade.domain.DictionaryContentPo">
+		insert into sys_dictionary_content 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		<if	test="dictionaryId != null">dictionary_id,</if>
+		<if	test="contentName != null"> contentName,</if>
+		<if	test="contentCode != null">contentCode,</if>
+		<if	test="state != null">state,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dictionaryId != null" >
+        #{dictionaryId,jdbcType=INTEGER},
+      </if>
+      <if test="contentName != null" >
+        #{contentName,jdbcType=VARCHAR},
+      </if>
+      <if test="contentCode != null" >
+        #{contentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+	</insert>
+
+	<update id="updateByContentState" parameterType="com.yatang.sc.facade.domain.DictionaryContentPo" >
+		update sys_dictionary_content
+		<set >
+			<if test="contentName != null" >
+				contentName = #{contentName,jdbcType=VARCHAR},
+			</if>
+			<if test="contentCode != null" >
+				contentCode = #{contentCode,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null" >
+				state = #{state,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

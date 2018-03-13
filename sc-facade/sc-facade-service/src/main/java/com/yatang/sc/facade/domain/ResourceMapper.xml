@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.facade.dao.ResourceDao">
+	<resultMap id="BaseResultMap" type="com.yatang.sc.facade.domain.ResourcePo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="permission_code" property="permissionCode" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="BIGINT" />
+		<result column="parent_ids" property="parentIds" jdbcType="VARCHAR" />
+		<result column="available" property="available" jdbcType="BIT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+		<result column="display_name" property="displayName" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="sequence" property="sequence" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, permission_code, name, type, parent_id, parent_ids, available,
+		create_time, update_time, menu_url, display_name, description,
+		sequence
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from sys_resource
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="queryPermissionsByRoleIds" resultMap="BaseResultMap"
+		parameterType="java.util.Set">
+
+		SELECT <include refid="Base_Column_List" />
+		FROM sys_resource sr
+		WHERE sr.id IN(
+		SELECT srr.resource_id FROM sys_role_resource srr WHERE srr.role_id IN
+		<foreach collection="roleIds" separator="," open="(" close=")" item="roleId">
+			#{roleId,jdbcType=BIGINT}
+	    </foreach>
+		)
+
+	</select>
+
+	<select id="queryResByIds" resultMap="BaseResultMap"
+			parameterType="java.util.Set">
+		select
+		<include refid="Base_Column_List" />
+		from sys_resource
+		where id in
+		<foreach collection="resIds" open="(" close=")" item="resId" separator=",">
+			#{resId,jdbcType=BIGINT}
+		</foreach>
+	</select>
+
+	<select id="selectByParentId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from sys_resource
+		where parent_id = #{parentId,jdbcType=BIGINT}
+	</select>
+	
+	<select id="findAll" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from sys_resource
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from sys_resource
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<insert id="insert" parameterType="com.yatang.sc.facade.domain.ResourcePo">
+		insert into sys_resource (id, permission, name,
+		type, parent_id, parent_ids,
+		available, create_time, update_time
+		)
+		values (#{id,jdbcType=BIGINT}, #{permission,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{type,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{parentIds,jdbcType=VARCHAR},
+		#{available,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.yatang.sc.facade.domain.ResourcePo">
+		insert into sys_resource
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="permissionCode != null">
+				permission_code,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="parentIds != null">
+				parent_ids,
+			</if>
+			<if test="available != null">
+				available,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="menuUrl != null">
+				menu_url,
+			</if>
+			<if test="displayName != null">
+				display_name,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="sequence != null">
+				sequence,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="permissionCode != null">
+				#{permissionCode,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=BIGINT},
+			</if>
+			<if test="parentIds != null">
+				#{parentIds,jdbcType=VARCHAR},
+			</if>
+			<if test="available != null">
+				#{available,jdbcType=BIT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="menuUrl != null">
+				#{menuUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="displayName != null">
+				#{displayName,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="sequence != null">
+				#{sequence,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.facade.domain.ResourcePo">
+		update sys_resource
+		<set>
+			<if test="permissionCode != null">
+				permission_code = #{permissionCode,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=BIGINT},
+			</if>
+			<if test="parentIds != null">
+				parent_ids = #{parentIds,jdbcType=VARCHAR},
+			</if>
+			<if test="available != null">
+				available = #{available,jdbcType=BIT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+
+			<if test="menuUrl != null">
+				menu_url = #{menuUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="displayName != null">
+				display_name = #{displayName,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="sequence != null">
+				sequence = #{sequence,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.yatang.sc.facade.domain.ResourcePo">
+		update sys_resource
+		set permission = #{permission,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		type = #{type,jdbcType=VARCHAR},
+		parent_id = #{parentId,jdbcType=BIGINT},
+		parent_ids = #{parentIds,jdbcType=VARCHAR},
+		available = #{available,jdbcType=BIT},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>
