@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<mvc:annotation-driven validator="validator" content-negotiation-manager="contentNegotiationManager" conversion-service="conversionService">
+		<mvc:message-converters register-defaults="false">
+			<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+			<bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>  
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<context:component-scan base-package="com.yatang.sc.provider,com.yatang.sc.provider.web"/>
+
+	<!--添加aop代理-->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<context:component-scan base-package="com.yatang.sc.provider" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+	
+	<context:property-placeholder location="classpath*:server.properties" />
+
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+	
+	<!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<!-- 在web环境中一定要定位到classpath 否则默认到当前web应用下找 -->
+				<value>classpath:messages</value>
+			</list>
+		</property>
+		<property name="useCodeAsDefaultMessage" value="false" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="cacheSeconds" value="60" />
+	</bean>
+	
+	<!-- 支持json -->
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="favorPathExtension" value="false" />
+		<property name="favorParameter" value="false" />
+		<property name="ignoreAcceptHeader" value="false" />
+		<property name="mediaTypes">
+			<value>
+				atom=application/atom+xml
+				html=text/html
+				json=application/json
+				*=*/*
+			</value>
+		</property>
+	</bean>
+
+	<!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
+	<bean id="multipartResolver"
+		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 默认编码 -->
+		<property name="defaultEncoding" value="utf-8"/>
+		<!-- 文件大小最大值 -->
+		<property name="maxUploadSize" value="10485760000"/>
+		<!-- 内存中的最大值 -->
+		<property name="maxInMemorySize" value="40960"/>
+	</bean>
+
+	<bean id="logInterceptor" class="com.yatang.sc.provider.interceptor.LogInterceptor"/>
+  
+	<!-- 方法拦截器（拦截Controller包中的所有被RequestMapping注解的方法） MethodInterceptor -->  
+	<aop:config proxy-target-class="true">  
+	    <aop:pointcut id="controllerMethodPointcut" expression="execution(* com.yatang.sc.provider.operation.web.*.*(..)) and  
+	        @annotation(org.springframework.web.bind.annotation.RequestMapping)"/>  
+	    <aop:advisor advice-ref="logInterceptor" pointcut-ref="controllerMethodPointcut" />  
+	</aop:config>
+
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="com.yatang.sc.provider.web.DateConvert"/>
+			</set>
+		</property>
+	</bean>
+</beans>

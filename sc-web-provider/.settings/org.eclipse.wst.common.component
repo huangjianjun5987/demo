@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="sc-web-provider">
+        <wb-resource deploy-path="/WEB-INF/web.xml" source-path="/src/main/webapp/WEB-INF/web.xml"/>
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="sc-facade-client-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-facade-client/sc-facade-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-purchase-client-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-purchase-client/sc-purchase-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-order-common-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-order-common/sc-order-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-common-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-common/sc-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="sc-web-provider"/>
+        <property name="java-output-path" value="/sc-web-provider/target/classes"/>
+    </wb-module>
+</project-modules>
