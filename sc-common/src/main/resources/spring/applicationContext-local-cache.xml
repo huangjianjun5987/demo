@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 注解扫描器 -->
+	<context:component-scan base-package="com.yatang.sc.common" />
+	
+	<!--缓存拦截器-->
+	<bean id="localCacheAop" class="com.yatang.sc.common.localcache.aop.LocalCacheAop"/>
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="localCacheAopPointcut" expression="execution(* com.yatang.sc..*.*(..))"/>
+		<aop:advisor advice-ref="localCacheAop" pointcut-ref="localCacheAopPointcut"/>
+	</aop:config>
+	<!-- 使用annotation注解方式配置缓存 -->
+	<cache:annotation-driven />
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">    
+        <property name="maxIdle" value="300" />    
+        <property name="maxTotal" value="600" />    
+        <property name="maxWaitMillis" value="1000"></property>    
+        <property name="testOnBorrow" value="true" />    
+    </bean>
+    
+    <!-- redis服务器中心 -->
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="poolConfig" />
+        <property name="hostName" value="${redis.slave.host:127.0.0.1}" />
+        <property name="port" value="${redis.slave.port:6379}" />
+        <!-- <property name="password" value="${redis.password}" /> -->
+        <property name="timeout" value="${redis.slave.timeout:10000}"></property>
+    </bean>
+    <!-- redis清除服务器中心 -->
+    <bean id="evictConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="poolConfig" />
+        <property name="hostName" value="${redis.master.host:127.0.0.1}" />
+        <property name="port" value="${redis.master.evict.port:6380}" />
+        <!-- <property name="password" value="${redis.password}" /> -->
+        <property name="timeout" value="${redis.master.evict.timeout:10000}"></property>
+    </bean>
+    
+    <bean id="redisTemplate" class="com.yatang.sc.common.cache.CustomRedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="evictConnectionFactory" ref="evictConnectionFactory" />
+        <property name="keySerializer">
+            <bean
+                class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="valueSerializer">
+            <bean
+                class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+        </property>
+    </bean>
+        
+    <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">  
+        <constructor-arg name="redisOperations" ref="redisTemplate" />  
+         <!--<property name="defaultExpiration" value="${redis.defaultExpiration:1}"></property>-->
+    </bean>  
+</beans>

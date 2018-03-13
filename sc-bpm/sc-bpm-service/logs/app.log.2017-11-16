@@ -1,0 +1,6 @@
+2017-11-16 14:29:18,049 ERROR [com.alibaba.druid.filter.FilterManager] - load filter error, filter not found : logback
+2017-11-16 14:29:18,266 INFO [com.alibaba.druid.pool.DruidDataSource] - {dataSource-1} inited
+2017-11-16 14:29:20,144 INFO [com.alibaba.druid.pool.DruidDataSource] - {dataSource-1} closed
+2017-11-16 14:29:49,439 ERROR [com.alibaba.druid.filter.FilterManager] - load filter error, filter not found : logback
+2017-11-16 14:29:49,653 INFO [com.alibaba.druid.pool.DruidDataSource] - {dataSource-1} inited
+2017-11-16 14:29:51,372 INFO [com.alibaba.druid.pool.DruidDataSource] - {dataSource-1} closed
