@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.payment.dao.PayRefundDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.payment.domain.PayRefundPO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="pay_trade_no" property="payTradeNo" jdbcType="VARCHAR"/>
+        <result column="pay_no" property="payNo" jdbcType="VARCHAR"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="refund_no" property="refundNo" jdbcType="VARCHAR"/>
+        <result column="refund_trade_no" property="refundTradeNo" jdbcType="VARCHAR"/>
+        <result column="refund_amount" property="refundAmount"/>
+        <result column="total_paied_amount" property="totalPaiedAmount"/>
+        <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="CHAR"/>
+        <result column="request_user_id" property="requestUserId" jdbcType="VARCHAR"/>
+        <result column="request_user_name" property="requestUserName" jdbcType="VARCHAR"/>
+        <result column="approved_time" property="approvedTime" jdbcType="VARCHAR"/>
+        <result column="approved_operator_id" property="approvedOperatorId" jdbcType="VARCHAR"/>
+        <result column="approved_operator_name" property="approvedOperatorName" jdbcType="VARCHAR"/>
+        <result column="refund_time" property="refundTime" jdbcType="VARCHAR"/>
+        <result column="refund_operator_id" property="refundOperatorId" jdbcType="VARCHAR"/>
+        <result column="refund_operator_name" property="refundOperatorName" jdbcType="VARCHAR"/>
+        <result column="try_refund_count" property="tryRefundCount" jdbcType="INTEGER"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,create_time, pay_trade_no, pay_no,
+        order_no, refund_no,refund_trade_no, refund_amount,
+         reason,status,request_user_id, request_user_name,
+         approved_time,approved_operator_id,approved_operator_name,refund_time,
+         refund_operator_id,refund_operator_name,try_refund_count,remark,total_paied_amount,pay_type
+    </sql>
+
+    <insert id="insert" parameterType="com.yatang.sc.payment.domain.PayRefundPO">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO scp_refund(
+         create_time, pay_trade_no, pay_no,
+         order_no, refund_no,refund_trade_no, refund_amount,
+         reason,status,request_user_id, request_user_name,
+         approved_time,approved_operator_id,approved_operator_name,refund_time,
+         refund_operator_id,refund_operator_name,remark,total_paied_amount,pay_type
+        )
+        VALUES (now(),#{payTradeNo},#{payNo},#{orderNo},#{refundNo},#{refundTradeNo},#{refundAmount},
+        #{reason},#{status},#{requestUserId},#{requestUserName},#{approvedTime},#{approvedOperatorId},
+        #{approvedOperatorName},#{refundTime},#{refundOperatorId},#{refundOperatorName},#{remark},#{totalPaiedAmount},#{payType})
+    </insert>
+
+    <update id="update" parameterType="com.yatang.sc.payment.domain.PayRefundPO">
+        update scp_refund
+        <set>
+            <if test="refundTradeNo != null">
+                refund_trade_no = #{refundTradeNo},
+            </if>
+            <if test="reason != null">
+                reason = #{reason},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="approvedTime != null">
+                approved_time = #{approvedTime},
+            </if>
+            <if test="approvedOperatorId != null">
+                approved_operator_id = #{approvedOperatorId},
+            </if>
+            <if test="approvedOperatorName != null">
+                approved_operator_name = #{approvedOperatorName},
+            </if>
+            <if test="refundTime != null">
+                refund_time = #{refundTime},
+            </if>
+            <if test="refundOperatorId != null">
+                refund_operator_id = #{refundOperatorId},
+            </if>
+            <if test="refundOperatorName != null">
+                refund_operator_name = #{refundOperatorName},
+            </if>
+            <if test="tryRefundCount != null">
+                try_refund_count = #{tryRefundCount},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="totalPaiedAmount != null">
+                total_paied_amount = #{totalPaiedAmount},
+            </if>
+            <if test="payType != null">
+                pay_type = #{payType},
+            </if>
+            <if test="refundAmount != null">
+                refund_amount = #{refundAmount},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="queryRefundsByPayNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_refund
+        where pay_no = #{payNo}
+    </select>
+
+    <select id="queryRefundsByRefundNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_refund
+        where refund_no = #{refundNo}
+        LIMIT 1
+    </select>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_refund
+        where id = #{id}
+        LIMIT 1
+    </select>
+
+    <select id="queryRefundsByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_refund
+        where status !='error' AND status != 'closed' AND order_no = #{orderNo} ORDER BY create_time DESC
+    </select>
+
+</mapper>

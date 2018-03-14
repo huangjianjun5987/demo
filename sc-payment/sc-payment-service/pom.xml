@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>sc-payment</artifactId>
+        <groupId>com.yatang.sc</groupId>
+        <version>dev-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>sc-payment-service</artifactId>
+    <packaging>jar</packaging>
+
+    <name>sc-payment-service</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.yatang.sc</groupId>
+            <artifactId>sc-order-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.yatang.sc</groupId>
+            <artifactId>sc-payment-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!--AliPay Sdk-->
+        <dependency>
+            <artifactId>alipay-sdk</artifactId>
+            <groupId>com.alipay.api</groupId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>itbt-common</artifactId>
+            <groupId>com.itbt</groupId>
+            <version>1.0</version>
+        </dependency>
+
+        <!-- druid dataSource -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <!-- mybatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.yatang.sc</groupId>
+            <artifactId>sc-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.yatang.xc.oc.base.redis</groupId>
+            <artifactId>xcoc-redis-client</artifactId>
+            <version>prd-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.payment.dao.PayRefundRecordsDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.payment.domain.PayRefundRecordsPO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="refund_id" property="refundId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="operator_id" property="operatorId" jdbcType="VARCHAR"/>
+        <result column="operator_name" property="operatorName" jdbcType="VARCHAR"/>
+        <result column="pre_status" property="preStatus" jdbcType="CHAR" />
+        <result column="current_status" property="currentStatus" jdbcType="CHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,refund_id, create_time, operator_id,
+        operator_name, pre_status,current_status, remark
+    </sql>
+
+    <insert id="insert" parameterType="com.yatang.sc.payment.domain.PayRefundRecordsPO">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO scp_refund_records(
+          create_time, refund_id, operator_id, operator_name, pre_status,current_status, remark
+        )
+        VALUES (now(),#{refundId},#{operatorId},#{operatorName},#{preStatus},#{currentStatus},#{remark})
+    </insert>
+
+
+    <select id="queryRefundRecordsByRefundId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_refund_records
+        where refund_id = #{refundId}
+    </select>
+</mapper>

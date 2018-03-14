@@ -1,0 +1,2 @@
+update scp_payment_config set app_id='yatang_gyl',merc_id='YT_XC_GYL',sign_key='969c9a164a2146d69398f4f7e97d8e79',public_key='itbt_pay',pay_server='https://jr.yatang.cn',pre_pay_api='/payApi/indexh5'
+where id='';

@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>sc-payment-web</artifactId>
+        <groupId>com.yatang.sc</groupId>
+        <version>dev-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>sc-payment-web-notifier</artifactId>
+    <packaging>war</packaging>
+
+    <profiles>
+        <profile>
+            <id>sit</id>
+            <properties>
+                <war.name>sc-payment-notifier</war.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>uat</id>
+            <properties>
+                <war.name>sc-payment-notifier</war.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>prd</id>
+            <properties>
+                <war.name>sc-payment-notifier</war.name>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.3.0.RC0</version>
+                <configuration>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <webApp>
+                        <contextPath>/</contextPath>
+                    </webApp>
+                    <httpConnector>
+                        <port>8881</port>
+                        <idleTimeout>60000</idleTimeout>
+                    </httpConnector>
+                    <!-- <stopKey>stop</stopKey>
+                    <stopPort>8080</stopPort> -->
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>

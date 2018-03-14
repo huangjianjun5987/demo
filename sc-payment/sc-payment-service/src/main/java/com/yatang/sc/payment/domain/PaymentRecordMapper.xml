@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.payment.dao.PaymentRecordDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.payment.domain.PaymentRecordPO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="pay_no" property="payNo" jdbcType="VARCHAR"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="total_fee" property="totalFee"/>
+        <result column="pay_status" property="payStatus" jdbcType="CHAR"/>
+        <result column="request_from" property="requestFrom" jdbcType="VARCHAR"/>
+        <result column="pay_type_code" property="payTypeCode" jdbcType="VARCHAR"/>
+        <result column="pay_type_name" property="payTypeName" jdbcType="VARCHAR"/>
+        <result column="pay_way_code" property="payWayCode" jdbcType="VARCHAR"/>
+        <result column="pay_way_name" property="payWayName" jdbcType="VARCHAR"/>
+        <result column="pay_trade_no" property="payTradeNo" jdbcType="VARCHAR"/>
+        <result column="nonce_str" property="nonceStr" jdbcType="VARCHAR"/>
+        <result column="pay_account" property="payAccount" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,create_time, pay_no, total_fee,order_no, pay_status,
+        request_from, pay_type_code, pay_type_name,nonce_str,
+        pay_way_code,pay_way_name,
+        pay_trade_no,remark,pay_account
+    </sql>
+
+    <select id="queryPayRecordsByOrderNo" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_payment_record
+        where order_no = #{orderNo}
+        <foreach collection="payStatusList" open=" AND pay_status in (" close=")" item="payStatus" separator=",">
+            #{payStatus}
+        </foreach>
+    </select>
+
+    <select id="queryPayRecordsByPayNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_payment_record
+        where pay_no = #{payNo}
+        limit 0,1
+    </select>
+    <select id="queryRefundsByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_payment_record
+        where order_no = #{orderNo} ORDER BY create_time DESC
+    </select>
+    <insert id="insert" parameterType="com.yatang.sc.payment.domain.PaymentRecordPO">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO scp_payment_record(`create_time`,`pay_no`,`order_no`,`total_fee`,
+        `pay_status`,`request_from`,`pay_type_code`,`pay_type_name`,`pay_way_code`,`pay_way_name`,`nonce_str`,
+        `pay_trade_no`,`remark`,`pay_account`)
+        VALUES (now(),#{payNo},#{orderNo},#{totalFee},#{payStatus},#{requestFrom},
+        #{payTypeCode},#{payTypeName},#{payWayCode},#{payWayName},#{nonceStr},#{payTradeNo},#{remark},#{payAccount})
+    </insert>
+    <update id="update" parameterType="com.yatang.sc.payment.domain.PaymentRecordPO">
+        update scp_payment_record
+        <set>
+            <if test="payNo != null">
+                pay_no = #{payNo},
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo},
+            </if>
+            <if test="totalFee != null">
+                total_fee = #{totalFee},
+            </if>
+            <if test="payStatus != null">
+                pay_status = #{payStatus},
+            </if>
+            <if test="requestFrom != null">
+                request_from = #{requestFrom},
+            </if>
+            <if test="payTypeCode != null">
+                pay_type_code = #{payTypeCode},
+            </if>
+            <if test="payTypeName != null">
+                pay_type_name = #{payTypeName},
+            </if>
+            <if test="payWayCode != null">
+                pay_way_code = #{payWayCode},
+            </if>
+            <if test="payWayName != null">
+                pay_way_name = #{payWayName},
+            </if>
+            <if test="payTradeNo != null">
+                pay_trade_no = #{payTradeNo},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="payAccount != null">
+                pay_account = #{payAccount},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
