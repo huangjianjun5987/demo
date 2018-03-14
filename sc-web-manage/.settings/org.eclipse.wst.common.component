@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="sc-web-manage">
+        <wb-resource deploy-path="/WEB-INF/web.xml" source-path="/src/main/webapp/WEB-INF/web.xml"/>
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="sc-common-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-common/sc-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-web-common-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-web-common/sc-web-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-facade-client-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-facade-client/sc-facade-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-bpm-client-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-bpm-client/sc-bpm-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-purchase-client-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-purchase-client/sc-purchase-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-order-common-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-order-common/sc-order-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-oms-client-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-oms-client/sc-oms-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-settlement-client-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-settlement-client/sc-settlement-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-payment-client-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-payment-client/sc-payment-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-payment-common-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-payment-common/sc-payment-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-inventory-client-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-inventory-client/sc-inventory-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-fulfillment-client-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-fulfillment-client/sc-fulfillment-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-glink-client-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-glink-client/sc-glink-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sc-glink-common-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/sc-glink-common/sc-glink-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="busi-kidd-dev-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/busi-kidd/busi-kidd">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="sc-web-manage"/>
+        <property name="java-output-path" value="/sc-web-manage/target/classes"/>
+    </wb-module>
+</project-modules>

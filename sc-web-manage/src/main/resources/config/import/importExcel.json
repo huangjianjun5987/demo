@@ -1,0 +1,71 @@
+{
+  "purchasePriceUpdate": [
+    {
+      "name": "uploadId",
+      "displayName": "上传ID"
+    },
+    {
+      "name": "supplierNo",
+      "displayName": "供应商编码"
+    },
+    {
+      "name": "supplierAddressNo",
+      "displayName": "供应商地点编码"
+    },
+    {
+      "name": "productNo",
+      "displayName": "商品编码"
+    },
+    {
+      "name": "price",
+      "displayName": "最新采购进价"
+    },
+    {
+      "name": "handleResult",
+      "displayName": "处理结果"
+    },
+    {
+      "name": "handleInformation",
+      "displayName": "处理信息"
+    },
+    {
+      "name": "uploadDate",
+      "displayName": "上传日期"
+    }
+  ],
+
+  "sellPriceUpdate": [
+    {
+      "name": "uploadId",
+      "displayName": "上传ID"
+    },
+    {
+      "name": "branchCompanyId",
+      "displayName": "子公司ID"
+    },
+    {
+      "name": "productNo",
+      "displayName": "商品编码"
+    },
+    {
+      "name": "interval",
+      "displayName": "销售数量区间"
+    },
+    {
+      "name": "price",
+      "displayName": "最新售价"
+    },
+    {
+      "name": "handleResult",
+      "displayName": "处理结果"
+    },
+    {
+      "name": "handleInformation",
+      "displayName": "处理信息"
+    },
+    {
+      "name": "uploadDate",
+      "displayName": "上传日期"
+    }
+  ]
+}

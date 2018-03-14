@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+     xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    
+    <context:component-scan base-package="com.yatang.sc.operation,
+					    					com.yatang.sc.common,
+					    					com.yatang.sc.web.common,
+					    					com.yatang.sc.workflow.web" />
+	<context:property-placeholder location="classpath*:server.properties" />
+    <!-- 引入供java类里面使用配置文件 -->
+<!--    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:server.properties</value>
+            </list>
+        </property>
+    </bean>-->
+	<!-- Dubbo config -->
+	<dubbo:application name="${dubbo.application}" />
+	<dubbo:registry protocol="zookeeper" address="${dubbo.zookeeper.host}" timeout="10000"/>
+	<dubbo:protocol name="dubbo" port="${dubbo.protocol.port}" />
+	<dubbo:monitor protocol="${dubbo.monitor}" />
+	<dubbo:consumer check="${dubbo.consumer.check}" />
+    
+    
+    <!--图片服务器配置bean-->
+    <bean id="imageDomainJoinUrlUtil" class="com.yatang.sc.operation.util.ImageDomainJoinUrlUtil">
+        <property name="imageViewDomain" value="${image.view.domain}"></property>
+    </bean>
+
+	<!-- 支持上传文件 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	<!--缓存拦截器-->
+	<bean id="localCacheAop" class="com.yatang.sc.common.localcache.aop.LocalCacheAop"/>
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="localCacheAopPointcut" expression="execution(* com.yatang.sc.operation.service..*.*(..))"/>
+		<aop:advisor advice-ref="localCacheAop" pointcut-ref="localCacheAopPointcut"/>
+	</aop:config>
+	<!-- 引入client工程中定义的 dubbo consumer配置 -->
+	<import resource="classpath*:com/yatang/sc/biz/dubboservice/dubbo-consumer.xml" />
+    <import resource="classpath*:com/yatang/sc/purchase/dubboservice/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/sc/settlement/dubboservice/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/xc/*/**/dubbo-consumer.xml" />
+    <import resource="classpath*:com/yatang/sc/fulfillment/dubboservice/dubbo-consumer.xml"/>
+    <import resource="classpath*:com/yatang/sc/order/dubboservice/dubbo-consumer.xml" />
+    <import resource="classpath*:com/yatang/sc/payment/dubbo/service/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/sc/inventory/dubboservice/dubbo-consumer.xml" />
+	<import resource="classpath*:com/busi/idgenerator/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/sc/glink/dubboservice/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/sc/bpm/dubboservice/dubbo-consumer.xml" />
+</beans>

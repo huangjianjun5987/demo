@@ -1,0 +1,589 @@
+{
+  "order": [
+    {
+      "name": "id",
+      "displayName": "订单编号",
+      "order": 1
+    },
+    {
+      "name": "createdByOrderId",
+      "displayName": "父订单编号",
+      "order": 2
+    },
+    {
+      "name": "submitTime",
+      "displayName": "订单日期",
+      "order": 3,
+      "converterName": "date"
+    },
+    {
+      "name": "orderType",
+      "displayName": "订单类型",
+      "order": 4
+    },
+    {
+      "name": "thirdParyOrderNo",
+      "displayName": "第三方订单编号",
+      "order": 5
+    },
+    {
+      "name": "shippingNo",
+      "displayName": "物流单号",
+      "order": 6
+    },
+    {
+      "name": "orderState",
+      "displayName": "订单状态",
+      "order": 7
+    },
+    {
+      "name": "paymentState",
+      "displayName": "支付状态",
+      "order": 8
+    },
+    {
+      "name": "shippingState",
+      "displayName": "物流状态",
+      "order": 9
+    },
+    {
+      "name": "BranchCompanyName",
+      "displayName": "子公司",
+      "order": 10
+    },
+    {
+      "name": "franchiseeId",
+      "displayName": "加盟商编号",
+      "order": 11
+    },
+    {
+      "name": "franchiseeStoreId",
+      "displayName": "门店编号",
+      "order": 12
+    },
+    {
+      "name": "franchiseeStoreName",
+      "displayName": "小超名称",
+      "order": 13
+    },
+    {
+      "name": "total",
+      "displayName": "订单总金额",
+      "order": 14
+    },
+    {
+      "name": "actualTotal",
+      "displayName": "订单实付金额",
+      "order": 15
+    },
+    {
+      "name": "userDiscountAmount",
+      "displayName": "会员优惠金额",
+      "order": 16
+    },
+    {
+      "name": "couponDiscountAmount",
+      "displayName": "优惠券优惠",
+      "order": 17
+    },
+    {
+      "name": "discountAmount",
+      "displayName": "活动优惠",
+      "order": 18
+    },
+    {
+      "name": "discountTotalAmount",
+      "displayName": "优惠总金额",
+      "order": 19
+    },
+    {
+      "name": "description",
+      "displayName": "运营备注",
+      "order": 20
+    },
+    {
+      "name": "cancelReason",
+      "displayName": "取消原因",
+      "order": 21
+    },
+    {
+      "name": "consigneeName",
+      "displayName": "收货人",
+      "order": 22
+    },
+    {
+      "name": "province",
+      "displayName": "省",
+      "order": 23
+    },
+    {
+      "name": "city",
+      "displayName": "市",
+      "order": 24
+    },
+    {
+      "name": "district",
+      "displayName": "区",
+      "order": 25
+    },
+    {
+      "name": "detailAddress",
+      "displayName": "街道地址",
+      "order": 26
+    },
+    {
+      "name": "cellphone",
+      "displayName": "手机号码",
+      "order": 27
+    },
+    {
+      "name": "telePhone",
+      "order": 28,
+      "displayName": "固定号码"
+    },
+    {
+      "name": "postcode",
+      "displayName": "邮编",
+      "order": 29
+    },
+    {
+      "name": "productCode",
+      "displayName": "商品编码",
+      "order": 30
+    },
+    {
+      "name": "internationalCode",
+      "displayName": "商品条码",
+      "order": 31
+    },
+    {
+      "name": "productName",
+      "displayName": "商品名称",
+      "order": 32
+    },
+    {
+      "name": "firstLevelCategoryName",
+      "displayName": "一级商品分类",
+      "order": 33
+    },
+    {
+      "name": "secondLevelCategoryName",
+      "displayName": "二级商品分类",
+      "order": 34
+    },
+    {
+      "name": "thirdLevelCategoryName",
+      "displayName": "三级商品分类",
+      "order": 35
+    },
+    {
+      "name": "quantity",
+      "displayName": "数量",
+      "order": 36
+    },
+    {
+      "name": "salePrice",
+      "displayName": "商品销售单价",
+      "order": 37
+    },
+    {
+      "name": "amount",
+      "displayName": "商品销售金额",
+      "order": 38
+    },
+    {
+      "name": "avCost",
+      "displayName": "商品移动加权价",
+      "order": 39
+    },
+    {
+      "name": "cost",
+      "displayName": "成本金额",
+      "order": 40
+    },
+    {
+      "name": "stateDetail",
+      "displayName": "库存是否充足",
+      "order": 41
+    }
+  ],
+
+  "purchase_receive": [
+    {
+      "name": "purchaseReceiptNo",
+      "displayName": "收货单号",
+      "order": 1
+    },
+    {
+      "name": "purchaseOrderNo",
+      "displayName": "采购单号",
+      "order": 2
+    },
+    {
+      "name": "itemTotalAmount",
+      "displayName": "采购金额(含税)",
+      "order": 3
+    },
+    {
+      "name": "productCode",
+      "displayName": "商品编码",
+      "order": 4
+    },
+    {
+      "name": "internationalCode",
+      "displayName": "商品条码",
+      "order": 5
+    },
+    {
+      "name": "productName",
+      "displayName": "商品名称",
+      "order": 6
+    },
+    {
+      "name": "firstLevelCategoryName",
+      "displayName": "一级商品分类名称",
+      "order": 7
+    },
+    {
+      "name": "secondLevelCategoryName",
+      "displayName": "二级商品分类名称",
+      "order": 8
+    },
+    {
+      "name": "thirdLevelCategoryName",
+      "displayName": "三级商品分类名称",
+      "order": 9
+    },
+    {
+      "name": "purchaseNumber",
+      "displayName": "采购数量",
+      "order": 10
+    },
+    {
+      "name": "purchaseInsideNumber",
+      "displayName": "采购内装数",
+      "order": 11
+    },
+    {
+      "name": "deliveryNumber",
+      "displayName": "供应商出库数量",
+      "order": 12
+    },
+    {
+      "name": "receivedNumber",
+      "displayName": "收货数量",
+      "order": 13
+    },
+    {
+      "name": "receivedUnitPriceWithoutTax",
+      "displayName": "收货单价(不含税)",
+      "order": 14
+    },
+    {
+      "name": "taxAmount",
+      "displayName": "税金",
+      "order": 15
+    },
+    {
+      "name": "receivedUnitPrice",
+      "displayName": "收货单价(含税)",
+      "order": 16
+    },
+    {
+      "name": "receiptTotalAmount",
+      "displayName": "收货单总金额",
+      "order": 17
+    },
+    {
+      "name": "auditTime",
+      "displayName": "采购日期(审核日期)",
+      "order": 18,
+      "converterName": "date"
+    },
+    {
+      "name": "purchaseOrderType",
+      "displayName": "采购单类型",
+      "order": 19,
+      "converterName": "purchaseOrderType"
+    },
+    {
+      "name": "shippingStatus",
+      "displayName": "物流状态",
+      "order": 20
+    },
+    {
+      "name": "branchCompanyName",
+      "displayName": "子公司名",
+      "order": 21
+    },
+    {
+      "name": "spNo",
+      "displayName": "供应商编号",
+      "order": 22
+    },
+    {
+      "name": "spName",
+      "displayName": "供应商名称",
+      "order": 23
+    },
+    {
+      "name": "spAdrNo",
+      "displayName": "供应商地点编码",
+      "order": 24
+    },
+    {
+      "name": "spAdrName",
+      "displayName": "供应商地点名称",
+      "order": 25
+    },
+    {
+      "name": "adrName",
+      "displayName": "仓库地点",
+      "order": 26
+    },
+    {
+      "name": "estimatedDeliveryDate",
+      "displayName": "预计送货日期",
+      "order": 27,
+      "converterName": "date"
+    },
+    {
+      "name": "estimatedReceivedDate",
+      "displayName": "预计到货日期",
+      "order": 28,
+      "converterName": "date"
+    },
+    {
+      "name": "receivedTime",
+      "displayName": "收货日期",
+      "order": 29,
+      "converterName": "date"
+    },
+    {
+      "name": "status",
+      "displayName": "收货单状态",
+      "order": 30,
+      "converterName": "purchaseReceiptOrderStatus"
+    }
+  ]
+
+  ,
+
+  "updatePurchasePriceExport": [
+    {
+      "name": "importsId",
+      "displayName": "上传ID",
+      "order": 1
+    },
+    {
+      "name": "spNo",
+      "displayName": "供应商编码",
+      "order": 2
+    },
+    {
+      "name": "spAdrNo",
+      "displayName": "供应商地点编码",
+      "order": 3
+    },
+    {
+      "name": "productCode",
+      "displayName": "商品编码",
+      "order": 4
+    },
+    {
+      "name": "newestPrice",
+      "displayName": "最新采购进价",
+      "order": 5
+    },
+    {
+      "name": "handleResult",
+      "displayName": "处理结果",
+      "converterName": "handleResultConverter",
+      "order": 6
+    },
+    {
+      "name": "handleInformation",
+      "displayName": "处理信息",
+      "order": 7
+    },
+    {
+      "name": "uploadDate",
+      "displayName": "上传日期",
+      "converterName": "date",
+      "order": 8
+    }
+  ]
+
+  ,
+
+  "updateSellPriceExport": [
+    {
+      "name": "importsId",
+      "displayName": "上传ID",
+      "order": 1
+    },
+    {
+      "name": "branchCompanyId",
+      "displayName": "子公司ID",
+      "order": 2
+    },
+    {
+      "name": "productCode",
+      "displayName": "商品编码",
+      "order": 3
+    },
+    {
+      "name": "section",
+      "displayName": "销售数量区间",
+      "order": 4
+    },
+    {
+      "name": "newestPrice",
+      "displayName": "最新售价",
+      "order": 5
+    },
+    {
+      "name": "handleResult",
+      "displayName": "处理结果",
+      "converterName": "handleResultConverter",
+      "order": 6
+    },
+    {
+      "name": "handleInformation",
+      "displayName": "处理信息",
+      "order": 7
+    },
+    {
+      "name": "uploadDate",
+      "displayName": "上传日期",
+      "converterName": "date",
+      "order": 8
+    }
+  ]
+
+  ,
+
+  "purchasePriceChangeExcelTemplate": [
+    {
+      "name": "spNo",
+      "displayName": "供应商编码",
+      "order": 1
+    },
+    {
+      "name": "spAdrNo",
+      "displayName": "供应商地点编码",
+      "order": 2
+    },
+    {
+      "name": "productCode",
+      "displayName": "商品编码",
+      "order": 3
+    },
+    {
+      "name": "newestPrice",
+      "displayName": "最新采购进价",
+      "order": 4
+    }
+  ]
+
+  ,
+
+  "sellPriceChangeExcelTemplate": [
+    {
+      "name": "branchCompany",
+      "displayName": "子公司ID",
+      "order": 1
+    },
+    {
+      "name": "productCode",
+      "displayName": "商品编码",
+      "order": 2
+    },
+    {
+      "name": "interval",
+      "displayName": "销售数量区间",
+      "order": 3
+    },
+    {
+      "name": "price",
+      "displayName": "最新售价",
+      "order": 4
+    }
+  ]
+
+  ,
+
+  "repeatedProdPlaceExcel": [
+    {
+      "name": "firstLevelCategoryName",
+      "displayName": "部类",
+      "order": 1
+    },
+    {
+      "name": "secondLevelCategoryName",
+      "displayName": "大类",
+      "order": 2
+    },
+    {
+      "name": "thirdLevelCategoryName",
+      "displayName": "中类",
+      "order": 3
+    },
+    {
+      "name": "fourthLevelCategoryName",
+      "displayName": "小类",
+      "order": 4
+    },
+    {
+      "name": "brand",
+      "displayName": "品牌",
+      "order": 5
+    },
+    {
+      "name": "productCode",
+      "displayName": "商品编号",
+      "order": 6
+    },
+    {
+      "name": "productName",
+      "displayName": "商品名称",
+      "order": 7
+    },
+    {
+      "name": "branchCompanyId",
+      "displayName": "所属子公司编码",
+      "order": 8
+    },
+    {
+      "name": "branchCompanyName",
+      "displayName": "所属子公司名称",
+      "order": 9
+    },
+    {
+      "name": "storeCode",
+      "displayName": "门店编码",
+      "order": 10
+    },
+    {
+      "name": "storeName",
+      "displayName": "门店名称",
+      "order": 11
+    },
+    {
+      "name": "adrSupCode",
+      "displayName": "供应商地点编码",
+      "order": 12
+    },
+    {
+      "name": "adrSupName",
+      "displayName": "供应商地点名称",
+      "order": 13
+    },
+    {
+      "name": "logisticsType",
+      "displayName": "物流模式",
+      "order": 14
+    }
+  ]
+
+}
