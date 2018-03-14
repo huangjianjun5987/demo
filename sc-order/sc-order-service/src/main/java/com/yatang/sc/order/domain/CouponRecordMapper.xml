@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yatang.sc.order.dao.CouponRecordDao">
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.CouponRecordPo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="promo_id" jdbcType="VARCHAR" property="promoId" />
+    <result column="discount_amount" jdbcType="DOUBLE" property="discountAmount" />
+    <result column="record_date" jdbcType="TIMESTAMP" property="recordTime"/>
+  </resultMap>
+
+  <resultMap id="baseResultMapDetail" type="com.yatang.sc.order.domain.CouponRecordDetailPo">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="franchisee_id" property="franchiseeId" jdbcType="VARCHAR" />
+    <result column="branch_company_id" property="branchCompanyId" jdbcType="VARCHAR" />
+    <result column="franchisee_store_id" property="storeId" jdbcType="VARCHAR" />
+    <result column="promo_Id" property="promoId" jdbcType="VARCHAR" />
+    <result column="promotion_name" property="promotionName" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="record_date" property="recordTime" jdbcType="TIMESTAMP" />
+    <result column="order_state" property="orderState" jdbcType="VARCHAR" />
+    <result column="shipping_state" property="shippingState" jdbcType="VARCHAR" />
+    <result column="payment_state" property="paymentState" jdbcType="VARCHAR" />
+    <result column="total" property="orderPrice" jdbcType="DOUBLE" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, order_id, promo_id, discount_amount,record_date
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from scp_coupon_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from scp_coupon_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByOrderId" parameterType="java.lang.String">
+    delete from scp_coupon_record
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.CouponRecordPo">
+    insert into scp_coupon_record (id, order_id, promo_id, 
+      discount_amount)
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{promoId,jdbcType=VARCHAR}, 
+      #{discountAmount,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.CouponRecordPo">
+    insert into scp_coupon_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="promoId != null">
+        promo_id,
+      </if>
+      <if test="discountAmount != null">
+        discount_amount,
+      </if>
+      <if test="recordTime != null">
+        record_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="promoId != null">
+        #{promoId,jdbcType=VARCHAR},
+      </if>
+      <if test="discountAmount != null">
+        #{discountAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="recordTime !=null">
+        #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.CouponRecordPo">
+    update scp_coupon_record
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="promoId != null">
+        promo_id = #{promoId,jdbcType=VARCHAR},
+      </if>
+      <if test="discountAmount != null">
+        discount_amount = #{discountAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="recordTime !=null">
+        record_date=#{recordTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.CouponRecordPo">
+    update scp_coupon_record
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      promo_id = #{promoId,jdbcType=VARCHAR},
+      discount_amount = #{discountAmount,jdbcType=DOUBLE},
+      record_date=#{recordTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <!--                                            模板外自定义sql                        -->
+
+  <!--查询参与数据 已使用 -->
+  <select id="queryRecordList" resultMap="baseResultMapDetail" parameterType="com.yatang.sc.order.domain.CouponRecordParamPo">
+      SELECT c.id ,c.order_id,c.promo_id,c.record_date,
+      pro.promotion_name,
+      o.branch_company_id,o.franchisee_id,o.franchisee_store_id,o.order_state,o.shipping_state,o.payment_state,
+      p.total
+      FROM scp_coupon_record c
+      LEFT JOIN scp_order o ON c.order_id=o.id
+      LEFT JOIN scp_promotion pro ON c.promo_id=pro.id
+      LEFT JOIN scp_order_price p ON o.price_info=p.id
+      <where>
+        1=1
+        <if test="promoId !=null">
+          AND c.promo_id=#{promoId,jdbcType=VARCHAR}
+        </if>
+        <if test="orderId!=null">
+          AND c.order_id=#{orderId,jdbcType=VARCHAR}
+        </if>
+        <if test="orderState !=null">
+          AND o.order_state=#{orderState,jdbcType=VARCHAR}
+        </if>
+        <if test="paymentState!=null">
+          AND o.payment_state=#{paymentState,jdbcType=VARCHAR}
+        </if>
+        <if test="shippingState !=null">
+          AND o.shipping_state=#{shippingState,jdbcType=VARCHAR}
+        </if>
+        <if test="storeIds !=null and storeIds.size>0">
+          AND o.franchisee_store_id IN
+          <foreach collection="storeIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+        <if test="recordTimeStart !=null">
+          AND c.record_date &gt;=#{recordTimeStart,jdbcType=TIMESTAMP}
+        </if>
+        <if test="recordTimeEnd !=null">
+          AND c.record_date &lt;=#{recordTimeEnd,jdbcType=TIMESTAMP}
+        </if>
+        <if test="franchiseeIds !=null and franchiseeIds.size>0">
+          AND o.franchisee_id IN
+          <foreach collection="franchiseeIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+      </where>
+    ORDER BY c.id DESC
+  </select>
+</mapper>

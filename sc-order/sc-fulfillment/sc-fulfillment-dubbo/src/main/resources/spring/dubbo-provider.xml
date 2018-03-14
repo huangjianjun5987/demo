@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+
+	<dubbo:service interface="com.yatang.sc.fulfillment.dubboservice.OrderFulfillerDubboService" ref="orderFulfillerDubboService" timeout="1200000" version="1.0" />
+    <!--退换货-->
+    <dubbo:service interface="com.yatang.sc.fulfillment.dubboservice.OrderReturnRequestWriteDubboService"  ref="orderReturnRequestWriteDubboService" timeout="120000" version="1.0"/>
+
+	<!-- 更新小超库存-->
+	<!--<dubbo:reference interface="com.yatang.xc.pos.cloud.dubboservice.IPurchaseOrderDubboService" id="iPurchaseOrderDubboService"   timeout="120000" version="1.0.0"/>-->
+
+
+	<!-- 电商订单更新接口-->
+	<dubbo:reference interface="com.yatang.dubboservice.SyncGYLOrderStateService" id="syncGYLOrderStateService" timeout="120000" version="1.0" />
+
+
+
+	<import resource="classpath*:com/yatang/sc/inventory/dubboservice/dubbo-consumer.xml"/>
+	<import resource="classpath*:com/yatang/sc/glink/dubboservice/dubbo-consumer.xml"/>
+	<import resource="classpath*:com/yatang/sc/biz/dubboservice/dubbo-consumer.xml"/>
+	<import resource="classpath*:com/yatang/xc/mbd/biz/prod/dubboservice/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/xc/mbd/biz/org/dubboservice/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/sc/payment/dubbo/service/dubbo-consumer.xml"/>
+	<import resource="classpath*:com/yatang/sc/purchase/dubboservice/dubbo-consumer.xml"/>
+	<import resource="classpath*:com/yatang/xc/mbd/org/es/dubboservice/dubbo-consumer.xml"/>
+    <import resource="classpath*:com/yatang/sc/order/dubboservice/dubbo-consumer.xml"/>
+    <import resource="classpath*:com/yatang/xc/oc/b/member/biz/core/dubboservice/dubbo-consumer.xml"/>
+	<import resource="classpath*:com/yatang/xc/mbd/pi/es/dubboservice/dubbo-consumer.xml"/>
+</beans>

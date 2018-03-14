@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yatang.sc.order.dao.FranchiseeDao">
+
+  <resultMap id="franchiseeSettlementResult" type="com.yatang.sc.order.domain.FranchiseeSettlement">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+    <result column="order_state" jdbcType="VARCHAR" property="orderState" />
+    <result column="shipping_state" jdbcType="VARCHAR" property="shippingState" />
+    <result column="payment_state" jdbcType="VARCHAR" property="paymentState" />
+    <result column="branch_company_id" jdbcType="VARCHAR" property="branchCompanyId" />
+    <result column="franchisee_id" jdbcType="VARCHAR" property="franchiseeId" />
+    <result column="branch_company_arehouse" jdbcType="VARCHAR" property="branchCompanyArehouseCode" />
+    <result column="product_id" jdbcType="VARCHAR" property="productId" />
+    <result column="completed_quantity" jdbcType="BIGINT" property="completedQuantity" />
+    <result column="quantity" jdbcType="BIGINT" property="quantity" />
+    <result column="sale_price" jdbcType="DOUBLE" property="salePrice" />
+    <result column="total" jdbcType="DOUBLE" property="total" />
+    <result column="order_discount_share" jdbcType="DOUBLE" property="orderDiscountShare" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+
+
+  </resultMap>
+
+  <select id="queryFranchiseeSettlementCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    SELECT
+      COUNT(ci.id)
+    FROM
+    scp_order o
+    LEFT JOIN scp_order_items oi ON oi.order_id = o.id
+    LEFT JOIN scp_commerce_item ci ON oi.commerce_item_id = ci.id
+    LEFT JOIN scp_item_price ip ON ci.item_price_info = ip.id
+    LEFT JOIN scp_order_payments op ON op.order_id = o.id
+    LEFT JOIN scp_payment_group pg ON pg.id = op.payment_group_id
+    LEFT JOIN scp_refund r ON pg.trans_num = r.pay_trade_no
+    <where>
+      o.shipping_state = 'YQS'
+      <if test="orderId != null">
+        AND o.id=#{orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="branchCompanyIds != null and branchCompanyIds.size > 0">
+        AND o.branch_company_id IN
+        <foreach collection="branchCompanyIds" index="index" item="item" open="(" separator="," close=")">
+          #{item,jdbcType=VARCHAR}
+        </foreach>
+      </if>
+      <if test="franchiseeId != null">
+        AND o.franchisee_id = #{franchiseeId,jdbcType=VARCHAR}
+      </if>
+
+      <if test="completeDateStart != null" >
+        AND o.completed_time <![CDATA[   >  ]]> #{completeDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="completeDateEnd != null" >
+        AND o.completed_time <![CDATA[   <  ]]> #{completeDateEnd,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="payDateStart != null" >
+        AND pg.pay_date <![CDATA[   >  ]]> #{payDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="payDateEnd != null" >
+        AND pg.pay_date <![CDATA[   <  ]]> #{payDateEnd,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="refundDateStart != null" >
+        AND r.refund_time <![CDATA[   >  ]]> #{refundDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="refundDateEnd != null" >
+        AND r.refund_time <![CDATA[   <  ]]> #{refundDateEnd,jdbcType=TIMESTAMP}
+      </if>
+      <choose>
+        <when test="isPayState != null and isRefound == null">
+          AND (o.payment_state= 'YZF'|| o.payment_state= 'GSN')
+        </when>
+        <when test="isPayState == null and isRefound != null">
+          AND o.payment_state= 'YTK'
+        </when>
+        <when test="isPayState != null and isRefound != null">
+          AND (o.payment_state= 'YZF'|| o.payment_state= 'GSN' || o.payment_state= 'YTK')
+        </when>
+      </choose>
+
+    </where>
+  </select>
+
+  <select id="queryFranchiseeSettlementList" resultMap="franchiseeSettlementResult" parameterType="java.util.Map">
+    SELECT
+      o.id,o.order_type,o.order_state,o.shipping_state,o.payment_state,o.branch_company_id,o.franchisee_id,o.branch_company_arehouse,
+      ci.quantity,ci.product_id,ci.completed_quantity,ip.amount,ip.sale_price,ip.order_discount_share,sop.total
+    FROM
+    scp_order o
+    LEFT JOIN scp_order_price sop ON o.price_info = sop.id
+    LEFT JOIN scp_order_items oi ON oi.order_id = o.id
+    LEFT JOIN scp_commerce_item ci ON oi.commerce_item_id = ci.id
+    LEFT JOIN scp_item_price ip ON ci.item_price_info = ip.id
+    LEFT JOIN scp_order_payments op ON op.order_id = o.id
+    LEFT JOIN scp_payment_group pg ON pg.id = op.payment_group_id
+    LEFT JOIN scp_refund r ON pg.trans_num = r.pay_trade_no
+    <where>
+      o.shipping_state = 'YQS'
+      <if test="orderId != null">
+        AND o.id=#{orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="branchCompanyIds != null and branchCompanyIds.size > 0">
+        AND o.branch_company_id IN
+        <foreach collection="branchCompanyIds" index="index" item="item" open="(" separator="," close=")">
+          #{item,jdbcType=VARCHAR}
+        </foreach>
+      </if>
+      <if test="franchiseeId != null">
+        AND o.franchisee_id = #{franchiseeId,jdbcType=VARCHAR}
+      </if>
+
+      <if test="completeDateStart != null" >
+        AND o.completed_time <![CDATA[   >  ]]> #{completeDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="completeDateEnd != null" >
+        AND o.completed_time <![CDATA[   <  ]]> #{completeDateEnd,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="payDateStart != null" >
+        AND pg.pay_date <![CDATA[   >  ]]> #{payDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="payDateEnd != null" >
+        AND pg.pay_date <![CDATA[   <  ]]> #{payDateEnd,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="refundDateStart != null" >
+        AND r.refund_time <![CDATA[   >  ]]> #{refundDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="refundDateEnd != null" >
+        AND r.refund_time <![CDATA[   <  ]]> #{refundDateEnd,jdbcType=TIMESTAMP}
+      </if>
+      <choose>
+        <when test="isPayState != null and isRefound == null">
+          AND (o.payment_state= 'YZF'|| o.payment_state= 'GSN')
+        </when>
+        <when test="isPayState == null and isRefound != null">
+          AND o.payment_state= 'YTK'
+        </when>
+        <when test="isPayState != null and isRefound != null">
+          AND (o.payment_state= 'YZF'|| o.payment_state= 'GSN' || o.payment_state= 'YTK')
+        </when>
+      </choose>
+    </where>
+     ORDER BY o.submit_time DESC limit #{page},#{pageSize}
+
+  </select>
+
+  <resultMap id="franchiseePaymentResult" type="com.yatang.sc.order.domain.FranchiseePayment">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+    <result column="order_state" jdbcType="VARCHAR" property="orderState" />
+    <result column="shipping_state" jdbcType="VARCHAR" property="shippingState" />
+    <result column="payment_state" jdbcType="VARCHAR" property="paymentState" />
+    <result column="branch_company_id" jdbcType="VARCHAR" property="branchCompanyId" />
+    <result column="franchisee_id" jdbcType="VARCHAR" property="franchiseeId" />
+    <result column="branch_company_arehouse" jdbcType="VARCHAR" property="branchCompanyArehouseCode" />
+    <result column="pay_date" jdbcType="TIMESTAMP" property="payDate" />
+    <result column="amount" jdbcType="BIGINT" property="amount" />
+    <result column="payment_method" jdbcType="VARCHAR" property="paymentMethod" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="trans_num" jdbcType="VARCHAR" property="transNum" />
+    <result column="refund_time" jdbcType="TIMESTAMP" property="refundDate" />
+    <result column="refund_amount" jdbcType="DOUBLE" property="refundAmount" />
+    <result column="refund_method" jdbcType="VARCHAR" property="refundMethod" />
+    <result column="refund_trade_no" jdbcType="VARCHAR" property="refundTradeNo" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+
+  </resultMap>
+
+  <select id="queryFranchiseePayementCount" resultType="java.lang.Long" parameterType="java.util.Map">
+    SELECT COUNT(o.id)
+    FROM
+    scp_order o
+    LEFT JOIN
+      scp_order_payments op
+    ON
+      o.id = op.order_id
+    LEFT JOIN
+      scp_payment_group pg
+    ON
+      op.payment_group_id = pg.id
+    LEFT JOIN
+      scp_refund r
+    ON
+      pg.trans_num = r.pay_trade_no
+    <where>
+      1=1
+      <if test="orderId != null">
+        AND o.id=#{orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="branchCompanyIds != null and branchCompanyIds.size > 0">
+        AND o.branch_company_id IN
+        <foreach collection="branchCompanyIds" index="index" item="item" open="(" separator="," close=")">
+          #{item,jdbcType=VARCHAR}
+        </foreach>
+      </if>
+      <if test="franchiseeId != null">
+        AND o.franchisee_id = #{franchiseeId,jdbcType=VARCHAR}
+      </if>
+
+      <if test="completeDateStart != null" >
+        AND o.completed_time <![CDATA[   >  ]]> #{completeDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="completeDateEnd != null" >
+        AND o.completed_time <![CDATA[   <  ]]> #{completeDateEnd,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="payDateStart != null" >
+        AND pg.pay_date <![CDATA[   >  ]]> #{payDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="payDateEnd != null" >
+        AND pg.pay_date <![CDATA[   <  ]]> #{payDateEnd,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="refundDateStart != null" >
+        AND r.refund_time <![CDATA[   >  ]]> #{refundDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="refundDateEnd != null" >
+        AND r.refund_time <![CDATA[   <  ]]> #{refundDateEnd,jdbcType=TIMESTAMP}
+      </if>
+      <choose>
+        <when test="isPayState != null and isRefound == null">
+          AND (o.payment_state= 'YZF'|| o.payment_state= 'GSN')
+        </when>
+        <when test="isPayState == null and isRefound != null">
+          AND o.payment_state= 'YTK'
+        </when>
+        <when test="isPayState != null and isRefound != null">
+          AND (o.payment_state= 'YZF'|| o.payment_state= 'GSN' || o.payment_state= 'YTK')
+        </when>
+      </choose>
+
+    </where>
+
+  </select>
+
+  <select id="queryFranchiseePaymentList" resultMap="franchiseePaymentResult" parameterType="java.util.Map">
+    SELECT
+      o.id,o.order_type,o.order_state,o.shipping_state,o.payment_state,o.branch_company_id,o.franchisee_id,o.branch_company_arehouse
+/*    ,pg.pay_date,pg.amount,pg.payment_method,pg.trans_num,pg.comment,
+      r.refund_time,r.refund_amount,r.refund_trade_no,r.remark*/
+    FROM
+      scp_order_payments op
+    LEFT JOIN
+      scp_payment_group pg
+    ON
+      op.payment_group_id = pg.id
+    LEFT JOIN
+      scp_refund r
+    ON
+      pg.trans_num = r.pay_trade_no
+    LEFT JOIN
+      scp_order o
+    ON
+      op.order_id = o.id
+    <where>
+      1=1
+      <if test="orderId != null">
+        AND o.id=#{orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="branchCompanyIds != null and branchCompanyIds.size > 0">
+        AND o.branch_company_id IN
+        <foreach collection="branchCompanyIds" index="index" item="item" open="(" separator="," close=")">
+          #{item,jdbcType=VARCHAR}
+        </foreach>
+      </if>
+      <if test="franchiseeId != null">
+        AND o.franchisee_id = #{franchiseeId,jdbcType=VARCHAR}
+      </if>
+
+      <if test="completeDateStart != null" >
+        AND o.completed_time <![CDATA[   >  ]]> #{completeDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="completeDateEnd != null" >
+        AND o.completed_time <![CDATA[   <  ]]> #{completeDateEnd,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="payDateStart != null" >
+        AND pg.pay_date <![CDATA[   >  ]]> #{payDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="payDateEnd != null" >
+        AND pg.pay_date <![CDATA[   <  ]]> #{payDateEnd,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="refundDateStart != null" >
+        AND r.refund_time <![CDATA[   >  ]]> #{refundDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="refundDateEnd != null" >
+        AND r.refund_time <![CDATA[   <  ]]> #{refundDateEnd,jdbcType=TIMESTAMP}
+      </if>
+      <choose>
+        <when test="isPayState != null and isRefound == null">
+          AND (o.payment_state= 'YZF'|| o.payment_state= 'GSN')
+        </when>
+        <when test="isPayState == null and isRefound != null">
+          AND o.payment_state= 'YTK'
+        </when>
+        <when test="isPayState != null and isRefound != null">
+          AND (o.payment_state= 'YZF'|| o.payment_state= 'GSN' || o.payment_state= 'YTK')
+        </when>
+      </choose>
+    </where>
+    ORDER BY o.submit_time DESC limit #{page},#{pageSize}
+  </select>
+
+</mapper>

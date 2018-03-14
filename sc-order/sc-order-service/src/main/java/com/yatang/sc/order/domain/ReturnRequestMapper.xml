@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.ReturnRequestDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.returned.ReturnRequestPo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="profile_id" property="profileId" jdbcType="VARCHAR"/>
+        <result column="branch_company_id" property="branchCompanyId" jdbcType="VARCHAR"/>
+        <result column="branch_company_arehouse" property="branchCompanyArehouse" jdbcType="VARCHAR"/>
+        <result column="franchisee_id" property="franchiseeId" jdbcType="VARCHAR"/>
+        <result column="franchisee_store_id" property="franchiseeStoreId" jdbcType="VARCHAR"/>
+        <result column="shipping_group" property="shippingGroup" jdbcType="VARCHAR"/>
+        <result column="return_request_type" property="returnRequestType" jdbcType="VARCHAR"/>
+        <result column="completed_time" property="completedTime" jdbcType="TIMESTAMP"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="SMALLINT"/>
+        <result column="state_detail" property="stateDetail" jdbcType="VARCHAR"/>
+        <result column="shipping_state" property="shippingState" jdbcType="VARCHAR"/>
+        <result column="shipping_state_detail" property="shippingStateDetail" jdbcType="VARCHAR"/>
+        <result column="product_state" property="productState" jdbcType="SMALLINT"/>
+        <result column="product_state_detail" property="productStateDetail" jdbcType="VARCHAR"/>
+        <result column="creation_time" property="creationTime" jdbcType="TIMESTAMP"/>
+        <result column="return_reason_type" property="returnReasonType" jdbcType="SMALLINT"/>
+        <result column="return_reason" property="returnReason" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="DOUBLE" />
+        <result column="actual_amount" property="actualAmount" jdbcType="DOUBLE" />
+        <result column="refund_amount" property="refundAmount" jdbcType="DOUBLE" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, profile_id, branch_company_id, branch_company_arehouse, franchisee_id, franchisee_store_id,
+    shipping_group, return_request_type, completed_time, order_id, description, state, state_detail,
+    shipping_state,shipping_state_detail, product_state, product_state_detail, creation_time, return_reason_type,
+    return_reason,amount,actual_amount,refund_amount
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_return_request
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from scp_return_request
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.yatang.sc.order.domain.returned.ReturnRequestPo">
+    insert into scp_return_request (id, profile_id, branch_company_id, 
+      branch_company_arehouse, franchisee_id, franchisee_store_id,
+      shipping_group, return_request_type, completed_time, order_id,
+      description, state, state_detail,shipping_state_detail,
+      shipping_state, product_state, product_state_detail, creation_time,
+      return_reason)
+    values (#{id,jdbcType=VARCHAR}, #{profileId,jdbcType=VARCHAR}, #{branchCompanyId,jdbcType=VARCHAR}, 
+      #{branchCompanyArehouse,jdbcType=VARCHAR}, #{franchiseeId,jdbcType=VARCHAR}, #{franchiseeStoreId,jdbcType=VARCHAR},
+      #{shippingGroup,jdbcType=VARCHAR}, #{returnRequestType,jdbcType=VARCHAR}, #{completedTime,jdbcType=TIMESTAMP}, #{orderId,jdbcType=VARCHAR},
+      #{description,jdbcType=VARCHAR}, #{state,jdbcType=SMALLINT}, #{stateDetail,jdbcType=VARCHAR},
+      #{shippingState,jdbcType=VARCHAR}, #{shippingStateDetail,jdbcType=VARCHAR}, #{productState,jdbcType=SMALLINT}, #{productStateDetail,jdbcType=VARCHAR}, #{creationTime,jdbcType=TIMESTAMP},
+      #{returnReason,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.returned.ReturnRequestPo">
+        insert into scp_return_request
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="profileId != null">
+                profile_id,
+            </if>
+            <if test="branchCompanyId != null">
+                branch_company_id,
+            </if>
+            <if test="branchCompanyArehouse != null">
+                branch_company_arehouse,
+            </if>
+            <if test="franchiseeId != null">
+                franchisee_id,
+            </if>
+            <if test="franchiseeStoreId != null">
+                franchisee_store_id,
+            </if>
+            <if test="shippingGroup != null">
+                shipping_group,
+            </if>
+            <if test="returnRequestType != null">
+                return_request_type,
+            </if>
+            <if test="completedTime != null">
+                completed_time,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="stateDetail != null">
+                state_detail,
+            </if>
+            <if test="shippingState != null">
+                shipping_state,
+            </if>
+            <if test="shippingStateDetail != null">
+                shipping_state_detail,
+            </if>
+            <if test="productState != null">
+                product_state,
+            </if>
+            <if test="productStateDetail != null">
+                product_state_detail,
+            </if>
+            <if test="creationTime != null">
+                creation_time,
+            </if>
+            <if test="returnReason != null">
+                return_reason,
+            </if>
+            <if test="returnReasonType != null">
+                return_reason_type,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="actualAmount != null">
+              actual_amount,
+            </if>
+            <if test="refundAmount != null">
+                refund_amount,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="profileId != null">
+                #{profileId,jdbcType=VARCHAR},
+            </if>
+            <if test="branchCompanyId != null">
+                #{branchCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="branchCompanyArehouse != null">
+                #{branchCompanyArehouse,jdbcType=VARCHAR},
+            </if>
+            <if test="franchiseeId != null">
+                #{franchiseeId,jdbcType=VARCHAR},
+            </if>
+            <if test="franchiseeStoreId != null">
+                #{franchiseeStoreId,jdbcType=VARCHAR},
+            </if>
+            <if test="shippingGroup != null">
+                #{shippingGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="returnRequestType != null">
+                #{returnRequestType,jdbcType=VARCHAR},
+            </if>
+            <if test="completedTime != null">
+                #{completedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=SMALLINT},
+            </if>
+            <if test="stateDetail != null">
+                #{stateDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="shippingState != null">
+                #{shippingState,jdbcType=VARCHAR},
+            </if>
+            <if test="shippingStateDetail != null">
+                #{shippingStateDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="productState != null">
+                #{productState,jdbcType=SMALLINT},
+            </if>
+            <if test="productStateDetail != null">
+                #{productStateDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="creationTime != null">
+                #{creationTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="returnReason != null">
+                #{returnReason,jdbcType=VARCHAR},
+            </if>
+            <if test="returnReasonType != null">
+                #{returnReasonType,jdbcType=SMALLINT},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DOUBLE},
+            </if>
+            <if test="actualAmount != null">
+                #{actualAmount,jdbcType=DOUBLE},
+            </if>
+            <if test="refundAmount != null">
+                #{refundAmount,jdbcType=DOUBLE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.returned.ReturnRequestPo">
+        update scp_return_request
+        <set>
+            <if test="profileId != null">
+                profile_id = #{profileId,jdbcType=VARCHAR},
+            </if>
+            <if test="branchCompanyId != null">
+                branch_company_id = #{branchCompanyId,jdbcType=VARCHAR},
+            </if>
+            <if test="branchCompanyArehouse != null">
+                branch_company_arehouse = #{branchCompanyArehouse,jdbcType=VARCHAR},
+            </if>
+            <if test="franchiseeId != null">
+                franchisee_id = #{franchiseeId,jdbcType=VARCHAR},
+            </if>
+            <if test="franchiseeStoreId != null">
+                franchisee_store_id = #{franchiseeStoreId,jdbcType=VARCHAR},
+            </if>
+            <if test="shippingGroup != null">
+                shipping_group = #{shippingGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="returnRequestType != null">
+                return_request_type = #{returnRequestType,jdbcType=VARCHAR},
+            </if>
+            <if test="completedTime != null">
+                completed_time = #{completedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=SMALLINT},
+            </if>
+            <if test="stateDetail != null">
+                state_detail = #{stateDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="shippingState != null">
+                shipping_state = #{shippingState,jdbcType=VARCHAR},
+            </if>
+            <if test="shippingStateDetail != null">
+                shipping_state_detail = #{shippingStateDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="productState != null">
+                product_state = #{productState,jdbcType=SMALLINT},
+            </if>
+            <if test="productStateDetail != null">
+                product_state_detail = #{productStateDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="creationTime != null">
+                creation_time = #{creationTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="returnReason != null">
+                return_reason = #{returnReason,jdbcType=VARCHAR},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=DOUBLE},
+            </if>
+            <if test="actualAmount != null">
+                actual_amount = #{actualAmount,jdbcType=DOUBLE},
+            </if>
+            <if test="refundAmount != null">
+                refund_amount = #{refundAmount,jdbcType=DOUBLE},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.returned.ReturnRequestPo">
+    update scp_return_request
+    set profile_id = #{profileId,jdbcType=VARCHAR},
+      branch_company_id = #{branchCompanyId,jdbcType=VARCHAR},
+      branch_company_arehouse = #{branchCompanyArehouse,jdbcType=VARCHAR},
+      franchisee_id = #{franchiseeId,jdbcType=VARCHAR},
+      franchisee_store_id = #{franchiseeStoreId,jdbcType=VARCHAR},
+      shipping_group = #{shippingGroup,jdbcType=VARCHAR},
+      return_request_type = #{returnRequestType,jdbcType=VARCHAR},
+      completed_time = #{completedTime,jdbcType=TIMESTAMP},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      state = #{state,jdbcType=SMALLINT},
+      state_detail = #{stateDetail,jdbcType=VARCHAR},
+      shipping_state = #{shippingState,jdbcType=VARCHAR},
+      product_state = #{productState,jdbcType=SMALLINT},
+      product_state_detail = #{productStateDetail,jdbcType=VARCHAR},
+      creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      return_reason = #{returnReason,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DOUBLE},
+      actual_amount = #{actualAmount,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+    <resultMap id="ReturnBaseResultMap" type="com.yatang.sc.order.domain.returned.ReturnRequestListPo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="return_request_type" property="returnRequestType" jdbcType="VARCHAR"/>
+        <result column="creation_time" property="creationTime" jdbcType="TIMESTAMP"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="branch_company_id" property="branchCompanyId" jdbcType="VARCHAR"/>
+        <result column="franchisee_id" property="franchiseeId" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="SMALLINT"/>
+        <result column="state_detail" property="stateDetail" jdbcType="VARCHAR"/>
+        <result column="shipping_state" property="shippingState" jdbcType="SMALLINT"/>
+        <result column="shipping_state_detail" property="shippingStateDetail" jdbcType="VARCHAR"/>
+        <result column="product_state" property="productState" jdbcType="SMALLINT"/>
+        <result column="product_state_detail" property="productStateDetail" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="DOUBLE"/>
+        <result column="actual_amount" property="actualAmount" jdbcType="DOUBLE"/>
+        <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+        <!--<result column="franchisee_store_id" property="franchiseeStoreId" jdbcType="VARCHAR" />-->
+        <!--<result column="return_request_type" property="returnRequestType" jdbcType="VARCHAR" />-->
+        <!--<result column="payment_state" property="paymentState" jdbcType="VARCHAR" />-->
+    </resultMap>
+    <!--根据传入参数查询退货单管理列表 -->
+    <select id="queryReturnRequestList" parameterType="com.yatang.sc.order.domain.returned.ReturnRequestQueryParamPo"
+            resultMap="ReturnBaseResultMap">
+        SELECT
+        srr.id, return_request_type, srr.branch_company_id, srr.franchisee_id,
+        order_id, srr.state, srr.state_detail,srr.shipping_state, srr.shipping_state_detail,
+        srr.product_state, srr.product_state_detail, srr.creation_time,
+        srr.amount,srr.actual_amount,order_type
+        FROM scp_return_request srr
+        LEFT JOIN scp_order o
+        ON srr.order_id=o.id
+        <where>
+            1=1
+            <if test="id != null ">
+                AND srr.id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="profileId != null ">
+                AND srr.profile_id = #{profileId,jdbcType=VARCHAR}
+            </if>
+            <if test="returnRequestTypes != null">
+                AND return_request_type IN
+                <foreach collection="returnRequestTypes" item="type" index="index"
+                         open="(" close=")" separator=",">
+                    #{type,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+            <if test="returnRequestType != null and returnRequestType!=''">
+                AND return_request_type = #{returnRequestType,jdbcType=VARCHAR}
+            </if>
+            <if test="branchCompanyId != null ">
+                AND srr.branch_company_id = #{branchCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="branchCompanyIds != null and branchCompanyIds.size()>0">
+                AND srr.branch_company_id IN
+                <foreach collection="branchCompanyIds" item="companyId" index="index"
+                         open="(" close=")" separator=",">
+                    #{companyId,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+            <if test="franchiseeId !=null">
+                AND srr.franchisee_id = #{franchiseeId,jdbcType=VARCHAR}
+            </if>
+            <if test="orderId !=null">
+                AND order_id = #{orderId,jdbcType=VARCHAR}
+            </if>
+            <if test="state != null">
+                AND srr.state = #{state,jdbcType=SMALLINT}
+            </if>
+            <if test="shippingState != null">
+                AND srr.shipping_state = #{shippingState,jdbcType=SMALLINT}
+            </if>
+            <if test="startCreateTime != null and endCreateTime != null">
+                AND date_format(srr.creation_time,'%Y-%m-%d')
+                BETWEEN
+                date_format(#{startCreateTime,jdbcType=TIMESTAMP},'%Y-%m-%d')
+                AND
+                date_format(#{endCreateTime,jdbcType=TIMESTAMP},'%Y-%m-%d')
+            </if>
+            <if test="startCreateTime != null and endCreateTime == null">
+                AND
+                <![CDATA[ date_format(srr.creation_time,'%Y-%m-%d') >= date_format(#{startCreateTime,jdbcType=TIMESTAMP},'%Y-%m-%d') ]]>
+            </if>
+            <if test="startCreateTime == null and endCreateTime != null">
+                AND
+                <![CDATA[ date_format(srr.creation_time,'%Y-%m-%d') <= date_format(#{endCreateTime,jdbcType=TIMESTAMP},'%Y-%m-%d') ]]>
+            </if>
+            <if test="productState != null">
+                AND srr.product_state = #{productState,jdbcType=SMALLINT}
+            </if>
+            <if test="paymentState != null and paymentState==YTK">
+                AND o.payment_state = 'YTK'
+            </if>
+            <if test="paymentState != null and paymentState!=YTK">
+                AND o.payment_state != 'YTK'
+            </if>
+            <if test="orderType !=null">
+                AND order_type = #{orderType,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ORDER BY srr.creation_time DESC
+    </select>
+
+
+    <!--自定义-->
+    <!--根据订单编号编号查询-->
+    <select id="selectCountByOrderId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM
+        scp_return_request
+        WHENEVER order_id = #{orderId,jdbcType=VARCHAR}
+    </select>
+    <!--检查能否创建退换货单(是否有处于处理状态的退货单(已取消除外))-->
+    <select id="getReturnReceiptCountByOrderId" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT  COUNT(1) FROM
+        scp_return_request
+        WHERE    order_id = #{orderId,jdbcType=VARCHAR}
+        AND  state !=4
+    </select>
+
+    <!--获取退货单状态-->
+    <select id="getOrderReturnedReceiptState" resultType="java.lang.Short">
+        SELECT state FROM
+        scp_return_request
+        WHERE
+        id = #{returnId,jdbcType=VARCHAR}
+    </select>
+    <!--退货单操作(取消,确认,关闭)-->
+    <update id="operateOrderReturnedReceipt"
+            parameterType="com.yatang.sc.order.domain.returned.OrderReturnOperateMessagePo">
+        UPDATE scp_return_request
+        SET state = #{operateType,jdbcType=SMALLINT}
+        <if test="remark != null">
+            , state_detail = #{remark,jdbcType=VARCHAR}
+        </if>
+        WHERE
+        id = #{returnId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="getReturnReceiptCountByOrderIdAndReturnRequestType" resultType="java.lang.Integer">
+        SELECT  COUNT(1) FROM
+        scp_return_request
+        WHERE    order_id = #{orderId,jdbcType=VARCHAR}
+       AND return_request_type=#{returnRequestType}
+    </select>
+
+    <select id="queryReturnRequestByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_return_request
+        where order_id = #{orderId,jdbcType=VARCHAR}
+        ORDER BY creation_time DESC
+        LIMIT 1
+    </select>
+</mapper>

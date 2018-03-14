@@ -1,0 +1,1 @@
+ALTER TABLE scp_price_adjustment ADD COLUMN `activity_ids` VARCHAR(500) NULL COMMENT '以应用的活动IDs';

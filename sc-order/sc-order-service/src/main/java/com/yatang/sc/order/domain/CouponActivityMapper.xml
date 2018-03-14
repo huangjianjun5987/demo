@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yatang.sc.order.dao.CouponActivityDao">
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.CouponActivityPo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="store_id" jdbcType="VARCHAR" property="storeId" />
+    <result column="promo_id" jdbcType="VARCHAR" property="promoId" />
+    <result column="activity_date" jdbcType="TIMESTAMP" property="activityDate" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    id, store_id, promo_id, activity_date, state, modify_user, modify_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from scp_coupon_activity
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from scp_coupon_activity
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.CouponActivityPo">
+    insert into scp_coupon_activity (id, store_id, promo_id, 
+      activity_date, state, modify_user)
+    values (#{id,jdbcType=BIGINT}, #{storeId,jdbcType=VARCHAR}, #{promoId,jdbcType=VARCHAR}, 
+      #{activityDate,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR}, #{modifyUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.CouponActivityPo">
+    insert into scp_coupon_activity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="promoId != null">
+        promo_id,
+      </if>
+      <if test="avtivityDate != null">
+        activity_date,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="modifyUser != null">
+        modify_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="storeId != null">
+        #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="promoId != null">
+        #{promoId,jdbcType=VARCHAR},
+      </if>
+      <if test="avtivityDate != null">
+        #{activityDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUser != null">
+        #{modifyUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.CouponActivityPo">
+    update scp_coupon_activity
+    <set>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="promoId != null">
+        promo_id = #{promoId,jdbcType=VARCHAR},
+      </if>
+      <if test="avtivityDate != null">
+        activity_date = #{avtivityDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUser != null">
+        modify_user = #{modifyUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateStateToUsed" parameterType="java.lang.Long">
+      update scp_coupon_activity
+      SET
+      state = 'used'
+      WHERE ID in (
+      <foreach collection="activityIds" item="activityId" separator=",">
+        #{activityId}
+      </foreach>
+      )
+  </update>
+
+  <update id="updateStateToActive" parameterType="java.lang.Long">
+      update scp_coupon_activity
+      SET
+      state = 'active'
+      WHERE ID in (
+      <foreach collection="activityIds" item="activityId" separator=",">
+        #{activityId}
+      </foreach>
+      )
+  </update>
+
+
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.CouponActivityPo">
+    update scp_coupon_activity
+    set store_id = #{storeId,jdbcType=VARCHAR},
+      promo_id = #{promoId,jdbcType=VARCHAR},
+      activity_date = #{activityDate,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+	<!-- 根据门店ID和优惠券ID查询数量 -->
+	<select id="selectCountByStoreIdAndPromoId" resultType="int">
+		select count(1)
+		from scp_coupon_activity
+		where store_id
+		= #{storeId,jdbcType=VARCHAR} AND
+		promo_id = #{promoId,jdbcType=VARCHAR}
+	</select>
+
+  <!--查询参与数据 （未使用及作废记录）-->
+  <select id="queryActivityActiveList" resultMap="BaseResultMap" parameterType="com.yatang.sc.order.domain.CouponActivityParamPo">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM scp_coupon_activity
+    <where>
+      1=1
+      <if test="state!=null">
+        AND state=#{state,jdbcType=VARCHAR}
+      </if>
+      <if test="storeIds !=null and storeIds.size>0">
+        AND store_id IN
+        <foreach collection="storeIds" item="item" index="index" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="activityDateStart !=null">
+        AND activity_date &gt;= #{activityDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="activityDateEnd !=null">
+        AND activity_date &lt;= #{activityDateEnd,jdbcType=TIMESTAMP}
+      </if>
+      <if test="canceledDateStart !=null">
+        AND modify_time &gt;= #{canceledDateStart,jdbcType=TIMESTAMP}
+      </if>
+      <if test="canceledDateEnd !=null">
+        AND modify_time &lt;= #{canceledDateEnd,jdbcType=TIMESTAMP}
+      </if>
+      <if test="promoId!=null">
+         AND promo_id = #{promoId,jdbcType=VARCHAR}
+      </if>
+
+    </where>
+    ORDER BY id DESC
+
+  </select>
+
+  <resultMap id="CouponActivityFullResultMap" type="com.yatang.sc.order.domain.CouponActivityRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="store_id" property="storeId" jdbcType="VARCHAR" />
+    <result column="promo_id" property="promoId" jdbcType="VARCHAR" />
+    <result column="activity_date" property="avtivityDate" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+
+    <association property="promotion" javaType="com.yatang.sc.order.domain.PromotionPo">
+      <id property="id" column="pid" jdbcType="BIGINT"/>
+      <result column="status" property="status" jdbcType="VARCHAR" />
+      <result column="promotion_type" property="promotionType" jdbcType="VARCHAR" />
+      <result column="promotion_name" property="promotionName" jdbcType="VARCHAR" />
+      <result column="promotion_discription" property="promotionDiscription" jdbcType="VARCHAR" />
+      <result column="start_date" property="startDate" jdbcType="TIMESTAMP" />
+      <result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+      <result column="discount_type" property="discountType" jdbcType="VARCHAR" />
+      <result column="quanify_amount" property="quanifyAmount" jdbcType="DECIMAL" />
+      <result column="discount" property="discount" jdbcType="DECIMAL" />
+      <result column="note" property="note" jdbcType="VARCHAR" />
+      <result column="type" property="type" jdbcType="INTEGER" />
+      <result column="is_superpose_user_discount" property="isSuperposeUserDiscount" jdbcType="TINYINT" />
+      <result column="is_superpose_proOrCou_discount" property="isSuperposeProOrCouDiscount" jdbcType="INTEGER"/>
+      <association property="promoCategoriesPo"
+                   javaType="com.yatang.sc.order.domain.PromoCategoriesPo" column="pid"
+                   select="com.yatang.sc.order.dao.PromoCategoriesDao.queryByPromoId">
+      </association>
+      <association property="stores"
+                   javaType="com.yatang.sc.order.domain.PromoStoresPo" column="pid"
+                   select="com.yatang.sc.order.dao.PromoStoresDao.queryByPromoId">
+      </association>
+      <collection property="companiesPoList"
+                  ofType="com.yatang.sc.order.domain.PromoCompaniesPo" column="pid"
+                  select="com.yatang.sc.order.dao.PromoCompaniesPoDao.queryByPromoId">
+      </collection>
+    </association>
+  </resultMap>
+
+  <!--查询已使用/未使用的优惠券-->
+  <select id="queryStoreCouponActivities" resultMap="CouponActivityFullResultMap">
+    SELECT
+    c.id, c.store_id, c.promo_id, c.activity_date, c.state, p.id as pid, p.status, p.promotion_type, p.promotion_name,
+    p.promotion_discription, p.start_date, p.end_date, p.discount_type, p.quanify_amount, p.discount, p.note, p.type, p.is_superpose_user_discount, p.is_superpose_proOrCou_discount
+    FROM
+    scp_coupon_activity c left join scp_promotion p on c.promo_id=p.id
+    WHERE
+    p.status = 'released'
+    AND store_id = #{storeId,jdbcType=VARCHAR}
+    AND state = #{state,jdbcType=VARCHAR}
+    <if test="state !='used'">
+      AND <![CDATA[ NOW() < p.end_date ]]>
+    </if>
+  </select>
+
+  <!--查询已过期的优惠券-->
+  <select id="queryOverdueCouponActivityItems" parameterType="java.lang.String" resultMap="CouponActivityFullResultMap">
+    SELECT
+    c.id, c.store_id, c.promo_id, c.activity_date, c.state, p.id as pid, p.status, p.promotion_type, p.promotion_name,
+    p.promotion_discription, p.start_date, p.end_date, p.discount_type, p.quanify_amount, p.discount, p.note, p.type, p.is_superpose_user_discount, p.is_superpose_proOrCou_discount
+    FROM
+    scp_coupon_activity c left join scp_promotion p on c.promo_id=p.id
+    WHERE
+    p.status = 'released'
+    AND c.store_id= #{storeId,jdbcType=VARCHAR}
+    AND c.state='active'
+    AND NOW() > p.end_date
+  </select>
+
+  <!--查询未过期的优惠券-->
+  <select id="queryAvailableCouponActivities" parameterType="java.lang.String" resultMap="CouponActivityFullResultMap">
+    SELECT
+    c.id, c.store_id, c.promo_id, c.activity_date, c.state, p.id as pid, p.status, p.promotion_type, p.promotion_name,
+    p.promotion_discription, p.start_date, p.end_date, p.discount_type, p.quanify_amount, p.discount, p.note, p.type, p.is_superpose_user_discount, p.is_superpose_proOrCou_discount
+    FROM
+    scp_coupon_activity c left join scp_promotion p on c.promo_id=p.id
+    WHERE
+    p.status = 'released'
+    AND c.store_id= #{storeId,jdbcType=VARCHAR}
+    AND c.state='active'
+    AND NOW() BETWEEN p.start_date AND p.end_date
+    ORDER BY p.end_date ASC
+  </select>
+
+  <!--优惠券批量作废-->
+  <update id="cancelCoupons">
+    update scp_coupon_activity
+    SET
+    state = 'canceled',
+    modify_user = #{modifyUser,jdbcType=VARCHAR}
+    WHERE ID in (
+    <foreach collection="ids" item="item" separator=",">
+      #{item}
+    </foreach>
+    )
+  </update>
+
+  <!--校验优惠券是否已使用-->
+  <select id="checkCouponsState" resultType="java.lang.Integer">
+    select
+    count(id)
+    from scp_coupon_activity
+    <where>
+      state !='active' and id in
+      <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+        #{item, jdbcType=BIGINT}
+      </foreach>
+    </where>
+  </select>
+
+<select id="findByPromotionIds" resultType="java.lang.String" >
+	select distinct promo_id 
+	from scp_coupon_activity where store_id =#{storeId,jdbcType=VARCHAR} and  promo_id in
+	<foreach item="item" index="index" collection="promotionIds" open="("
+		separator="," close=")">
+		#{item,jdbcType=VARCHAR}
+	</foreach>
+</select>  
+
+<resultMap id="getCouponReceiveCountMap" type="HashMap">  
+    <result property="key" column="promo_id" />  
+    <result property="value" column="receiveCount" />  
+</resultMap>  
+
+<select id="getCouponReceiveCount" resultMap="getCouponReceiveCountMap" >
+	select count( promo_id) receiveCount, promo_id
+	from scp_coupon_activity where store_id =#{storeId,jdbcType=VARCHAR} and  promo_id in
+	<foreach item="item" index="index" collection="promotionIds" open="("
+		separator="," close=")">
+		#{item,jdbcType=VARCHAR}
+	</foreach>
+	 group by promo_id
+</select>  
+
+</mapper>

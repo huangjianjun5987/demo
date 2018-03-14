@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yatang.sc.order.dao.OrderRefundDao">
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.OrderRefundPo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="return_order_id" jdbcType="VARCHAR" property="returnOrderId" />
+    <result column="refund_id" jdbcType="VARCHAR" property="refundId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, return_order_id, refund_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from scp_return_refund
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--根据退货单据号查询退货退款单关系记录-->
+  <select id="selectByReturnOrderId" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT COUNT(id) FROM scp_return_refund
+    where return_order_id = #{returnOrderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from scp_return_refund
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.OrderRefundPo">
+    insert into scp_return_refund (id, return_order_id, refund_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{returnOrderId,jdbcType=VARCHAR}, #{refundId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.OrderRefundPo">
+    insert into scp_return_refund
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="returnOrderId != null">
+        return_order_id,
+      </if>
+      <if test="refundId != null">
+        refund_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="returnOrderId != null">
+        #{returnOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="refundId != null">
+        #{refundId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.OrderRefundPo">
+    update scp_return_refund
+    <set>
+      <if test="returnOrderId != null">
+        return_order_id = #{returnOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="refundId != null">
+        refund_id = #{refundId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.OrderRefundPo">
+    update scp_return_refund
+    set return_order_id = #{returnOrderId,jdbcType=VARCHAR},
+      refund_id = #{refundId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryByReturnId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM scp_return_refund
+    WHERE return_order_id = #{returnId,jdbcType=VARCHAR}
+    ORDER BY id DESC
+    LIMIT 1
+  </select>
+</mapper>

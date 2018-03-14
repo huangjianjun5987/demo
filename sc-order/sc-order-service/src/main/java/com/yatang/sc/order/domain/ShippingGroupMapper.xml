@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.ShippingGroupDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.ShippingGroup" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="actual_ship_date" property="actualShipDate" jdbcType="TIMESTAMP" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="shipping_price_Info" property="shippingPriceInfo" jdbcType="BIGINT" />
+    <result column="ship_on_date" property="shipOnDate" jdbcType="DATE" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="shipping_method" property="shippingMethod" jdbcType="VARCHAR" />
+    <result column="special_instructions" property="specialInstructions" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="SMALLINT" />
+    <result column="state_detail" property="stateDetail" jdbcType="VARCHAR" />
+    <result column="submit_date" property="submitDate" jdbcType="TIMESTAMP" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="detail_address" property="detailAddress" jdbcType="VARCHAR" />
+    <result column="postcode" property="postcode" jdbcType="VARCHAR" />
+    <result column="consignee_name" property="consigneeName" jdbcType="VARCHAR" />
+    <result column="cellphone" property="cellphone" jdbcType="VARCHAR" />
+    <result column="shipping_no" property="shippingNo" jdbcType="VARCHAR" />
+    <result column="estimated_arrival_date" property="estimatedArrivalDate" jdbcType="DATE" />
+    <result column="deliveryer" property="deliveryer" jdbcType="VARCHAR" />
+    <result column="deliveryer_phone" property="deliveryerPhone" jdbcType="VARCHAR" />
+    <result column="shipping_modes" property="shippingModes" jdbcType="VARCHAR" />
+    <result column="singed_cert_img" property="singedCertImg" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, actual_ship_date, description, shipping_price_Info, ship_on_date, type, shipping_method,
+    special_instructions, state, state_detail, submit_date, province, city, district,
+    detail_address, postcode, consignee_name, cellphone, shipping_no, estimated_arrival_date,
+    deliveryer, deliveryer_phone,shipping_modes,singed_cert_img,remarks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from scp_shipping_group
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from scp_shipping_group
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.ShippingGroup" >
+    insert into scp_shipping_group (id, actual_ship_date, description,
+    shipping_price_Info, ship_on_date, type,
+    shipping_method, special_instructions, state,
+    state_detail, submit_date, province,
+    city, district, detail_address,
+    postcode, consignee_name, cellphone,
+    shipping_no, estimated_arrival_date, deliveryer,
+    deliveryer_phone,shipping_modes,singed_cert_img,remarks)
+    values (#{id,jdbcType=VARCHAR}, #{actualShipDate,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR},
+    #{shippingPriceInfo,jdbcType=BIGINT}, #{shipOnDate,jdbcType=DATE}, #{type,jdbcType=VARCHAR},
+    #{shippingMethod,jdbcType=VARCHAR}, #{specialInstructions,jdbcType=VARCHAR}, #{state,jdbcType=SMALLINT},
+    #{stateDetail,jdbcType=VARCHAR}, #{submitDate,jdbcType=TIMESTAMP}, #{province,jdbcType=VARCHAR},
+    #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR},
+    #{postcode,jdbcType=VARCHAR}, #{consigneeName,jdbcType=VARCHAR}, #{cellphone,jdbcType=VARCHAR},
+    #{shippingNo,jdbcType=VARCHAR}, #{estimatedArrivalDate,jdbcType=DATE}, #{deliveryer,jdbcType=VARCHAR},
+    #{deliveryerPhone,jdbcType=VARCHAR},#{shippingModes,jdbcType=VARCHAR},
+    #{singedCertImg,jdbcType=VARCHAR},#{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.ShippingGroup" >
+    insert into scp_shipping_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="actualShipDate != null" >
+        actual_ship_date,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="shippingPriceInfo != null" >
+        shipping_price_Info,
+      </if>
+      <if test="shipOnDate != null" >
+        ship_on_date,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="shippingMethod != null" >
+        shipping_method,
+      </if>
+      <if test="specialInstructions != null" >
+        special_instructions,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="stateDetail != null" >
+        state_detail,
+      </if>
+      <if test="submitDate != null" >
+        submit_date,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="detailAddress != null" >
+        detail_address,
+      </if>
+      <if test="postcode != null" >
+        postcode,
+      </if>
+      <if test="consigneeName != null" >
+        consignee_name,
+      </if>
+      <if test="cellphone != null" >
+        cellphone,
+      </if>
+      <if test="shippingNo != null" >
+        shipping_no,
+      </if>
+      <if test="estimatedArrivalDate != null" >
+        estimated_arrival_date,
+      </if>
+      <if test="deliveryer != null" >
+        deliveryer,
+      </if>
+      <if test="deliveryerPhone != null" >
+        deliveryer_phone,
+      </if>
+      <if test="shippingModes != null" >
+        shipping_modes,
+      </if>
+      <if test="singedCertImg != null" >
+          singed_cert_img,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="actualShipDate != null" >
+        #{actualShipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingPriceInfo != null" >
+        #{shippingPriceInfo,jdbcType=BIGINT},
+      </if>
+      <if test="shipOnDate != null" >
+        #{shipOnDate,jdbcType=DATE},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingMethod != null" >
+        #{shippingMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="specialInstructions != null" >
+        #{specialInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="stateDetail != null" >
+        #{stateDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="submitDate != null" >
+        #{submitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAddress != null" >
+        #{detailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneeName != null" >
+        #{consigneeName,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null" >
+        #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingNo != null" >
+        #{shippingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="estimatedArrivalDate != null" >
+        #{estimatedArrivalDate,jdbcType=DATE},
+      </if>
+      <if test="deliveryer != null" >
+        #{deliveryer,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryerPhone != null" >
+        #{deliveryerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingModes != null" >
+        #{shippingModes,jdbcType=VARCHAR},
+      </if>
+      <if test="singedCertImg != null" >
+        #{singedCertImg,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.ShippingGroup" >
+    update scp_shipping_group
+    <set >
+      <if test="actualShipDate != null" >
+        actual_ship_date = #{actualShipDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingPriceInfo != null" >
+        shipping_price_Info = #{shippingPriceInfo,jdbcType=BIGINT},
+      </if>
+      <if test="shipOnDate != null" >
+        ship_on_date = #{shipOnDate,jdbcType=DATE},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingMethod != null" >
+        shipping_method = #{shippingMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="specialInstructions != null" >
+        special_instructions = #{specialInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="stateDetail != null" >
+        state_detail = #{stateDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="submitDate != null" >
+        submit_date = #{submitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAddress != null" >
+        detail_address = #{detailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        postcode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneeName != null" >
+        consignee_name = #{consigneeName,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null" >
+        cellphone = #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingNo != null" >
+        shipping_no = #{shippingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="estimatedArrivalDate != null" >
+        estimated_arrival_date = #{estimatedArrivalDate,jdbcType=DATE},
+      </if>
+      <if test="deliveryer != null" >
+        deliveryer = #{deliveryer,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryerPhone != null" >
+        deliveryer_phone = #{deliveryerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingModes != null" >
+        shipping_modes = #{shippingModes,jdbcType=VARCHAR},
+      </if>
+      <if test="singedCertImg != null" >
+        singed_cert_img = #{singedCertImg,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.ShippingGroup" >
+    update scp_shipping_group
+    set actual_ship_date = #{actualShipDate,jdbcType=TIMESTAMP},
+    description = #{description,jdbcType=VARCHAR},
+    shipping_price_Info = #{shippingPriceInfo,jdbcType=BIGINT},
+    ship_on_date = #{shipOnDate,jdbcType=DATE},
+    type = #{type,jdbcType=VARCHAR},
+    shipping_method = #{shippingMethod,jdbcType=VARCHAR},
+    special_instructions = #{specialInstructions,jdbcType=VARCHAR},
+    state = #{state,jdbcType=SMALLINT},
+    state_detail = #{stateDetail,jdbcType=VARCHAR},
+    submit_date = #{submitDate,jdbcType=TIMESTAMP},
+    province = #{province,jdbcType=VARCHAR},
+    city = #{city,jdbcType=VARCHAR},
+    district = #{district,jdbcType=VARCHAR},
+    detail_address = #{detailAddress,jdbcType=VARCHAR},
+    postcode = #{postcode,jdbcType=VARCHAR},
+    consignee_name = #{consigneeName,jdbcType=VARCHAR},
+    cellphone = #{cellphone,jdbcType=VARCHAR},
+    shipping_no = #{shippingNo,jdbcType=VARCHAR},
+    estimated_arrival_date = #{estimatedArrivalDate,jdbcType=DATE},
+    deliveryer = #{deliveryer,jdbcType=VARCHAR},
+    deliveryer_phone = #{deliveryerPhone,jdbcType=VARCHAR},
+    shipping_modes= #{shippingModes,jdbcType=VARCHAR},
+    singed_cert_img= #{singedCertImg,jdbcType=VARCHAR},
+    remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

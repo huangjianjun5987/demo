@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.InvoiceInfoDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.UserInvoiceInfo" >
+    <id column="invoice_id" property="invoiceId" jdbcType="BIGINT" />
+    <result column="profile_id" property="profileId" jdbcType="VARCHAR" />
+    <result column="invoice_type" property="invoiceType" jdbcType="VARCHAR" />
+    <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="taxpayer_identification_number" property="taxpayerIdentificationNumber" jdbcType="VARCHAR" />
+    <result column="registered_address" property="registeredAddress" jdbcType="VARCHAR" />
+    <result column="company_phone" property="companyPhone" jdbcType="VARCHAR" />
+    <result column="deposit_bank" property="depositBank" jdbcType="VARCHAR" />
+    <result column="account_number" property="accountNumber" jdbcType="VARCHAR" />
+    <result column="entry_datetime" property="entryDatetime" jdbcType="TIMESTAMP" />
+    <result column="update_datetime" property="updateDatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    invoice_id, profile_id, invoice_type, invoice_title, company_name, taxpayer_identification_number, 
+    registered_address, company_phone, deposit_bank, account_number, entry_datetime, 
+    update_datetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from invoice_info
+    where invoice_id = #{invoiceId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByProfileId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from invoice_info
+    where profile_id = #{profileId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from invoice_info
+    where invoice_id = #{invoiceId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.UserInvoiceInfo" >
+    <selectKey keyProperty="invoiceId" resultType="java.lang.Long" order="AFTER">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
+    insert into invoice_info (invoice_id, profile_id, invoice_type, 
+      invoice_title, company_name, taxpayer_identification_number, 
+      registered_address, company_phone, deposit_bank, 
+      account_number, entry_datetime, update_datetime
+      )
+    values (#{invoiceId,jdbcType=BIGINT}, #{profileId,jdbcType=VARCHAR}, #{invoiceType,jdbcType=VARCHAR},
+      #{invoiceTitle,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{taxpayerIdentificationNumber,jdbcType=VARCHAR}, 
+      #{registeredAddress,jdbcType=VARCHAR}, #{companyPhone,jdbcType=VARCHAR}, #{depositBank,jdbcType=VARCHAR}, 
+      #{accountNumber,jdbcType=VARCHAR}, #{entryDatetime,jdbcType=TIMESTAMP}, #{updateDatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.UserInvoiceInfo" >
+    insert into invoice_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="invoiceId != null" >
+        invoice_id,
+      </if>
+      <if test="profileId != null" >
+        profile_id,
+      </if>
+      <if test="invoiceType != null" >
+        invoice_type,
+      </if>
+      <if test="invoiceTitle != null" >
+        invoice_title,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="taxpayerIdentificationNumber != null" >
+        taxpayer_identification_number,
+      </if>
+      <if test="registeredAddress != null" >
+        registered_address,
+      </if>
+      <if test="companyPhone != null" >
+        company_phone,
+      </if>
+      <if test="depositBank != null" >
+        deposit_bank,
+      </if>
+      <if test="accountNumber != null" >
+        account_number,
+      </if>
+      <if test="entryDatetime != null" >
+        entry_datetime,
+      </if>
+      <if test="updateDatetime != null" >
+        update_datetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="invoiceId != null" >
+        #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="profileId != null" >
+        #{profileId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null" >
+        #{invoiceType,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null" >
+        #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerIdentificationNumber != null" >
+        #{taxpayerIdentificationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAddress != null" >
+        #{registeredAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone != null" >
+        #{companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBank != null" >
+        #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNumber != null" >
+        #{accountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDatetime != null" >
+        #{entryDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDatetime != null" >
+        #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.UserInvoiceInfo" >
+    update invoice_info
+    <set >
+      <if test="profileId != null" >
+        profile_id = #{profileId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null" >
+        invoice_type = #{invoiceType,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null" >
+        invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerIdentificationNumber != null" >
+        taxpayer_identification_number = #{taxpayerIdentificationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAddress != null" >
+        registered_address = #{registeredAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone != null" >
+        company_phone = #{companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBank != null" >
+        deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNumber != null" >
+        account_number = #{accountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDatetime != null" >
+        entry_datetime = #{entryDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDatetime != null" >
+        update_datetime = #{updateDatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where invoice_id = #{invoiceId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.UserInvoiceInfo" >
+    update invoice_info
+    set profile_id = #{profileId,jdbcType=VARCHAR},
+      invoice_type = #{invoiceType,jdbcType=VARCHAR},
+      invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      taxpayer_identification_number = #{taxpayerIdentificationNumber,jdbcType=VARCHAR},
+      registered_address = #{registeredAddress,jdbcType=VARCHAR},
+      company_phone = #{companyPhone,jdbcType=VARCHAR},
+      deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      account_number = #{accountNumber,jdbcType=VARCHAR},
+      entry_datetime = #{entryDatetime,jdbcType=TIMESTAMP},
+      update_datetime = #{updateDatetime,jdbcType=TIMESTAMP}
+    where invoice_id = #{invoiceId,jdbcType=BIGINT}
+  </update>
+</mapper>

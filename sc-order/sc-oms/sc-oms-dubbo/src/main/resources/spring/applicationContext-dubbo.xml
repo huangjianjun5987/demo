@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/>
+
+	<context:property-placeholder location="classpath:rocketmq-consumer.properties" ignore-unresolvable="true"/>
+
+	<!-- 注解扫描器 -->
+	<context:component-scan base-package="com.yatang.sc.purchase" />
+
+
+	<import resource="classpath*:config/spring/applicationContext.xml"/>
+
+	<!--心愿单处理结果通知小超B端MQ（发送端） yinyuxin -->
+	<bean id="wishMqProducer" class="com.busi.mq.producer.SimpleMQProducer" init-method="init"
+		  destroy-method="destroy">
+		<property name="namesrvAddr" value="${rocketmq.wishMsg.nameserver.address}"/>
+		<property name="producerGroup" value="${rocketmq.wishMsg.producergroup}"/>
+		<property name="encoder" ref="wishMqEncoder"/>
+	</bean>
+	<bean id="wishMqEncoder" class="com.busi.mq.message.encoder.JSONStringEncoder">
+		<property name="msgTopic" value="${rocketmq.wishMsg.topic}"/>
+		<property name="msgTag" value="${rocketmq.wishMsg.tag}"/>
+	</bean>
+
+
+</beans>

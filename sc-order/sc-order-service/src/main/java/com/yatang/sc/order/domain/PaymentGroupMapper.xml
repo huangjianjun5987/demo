@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.PaymentGroupDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.PaymentGroup" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="currency_code" property="currencyCode" jdbcType="VARCHAR" />
+    <result column="amount_authorized" property="amountAuthorized" jdbcType="DOUBLE" />
+    <result column="amount_credited" property="amountCredited" jdbcType="DOUBLE" />
+    <result column="amount_debited" property="amountDebited" jdbcType="DOUBLE" />
+    <result column="credit_status" property="creditStatus" jdbcType="VARCHAR" />
+    <result column="debit_status" property="debitStatus" jdbcType="VARCHAR" />
+    <result column="payment_method" property="paymentMethod" jdbcType="VARCHAR" />
+    <result column="trans_num" property="transNum" jdbcType="VARCHAR" />
+    <result column="pay_record_no" property="payRecordNo" jdbcType="VARCHAR" />
+    <result column="special_Instructions" property="specialInstructions" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="SMALLINT" />
+    <result column="state_detail" property="stateDetail" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="pay_date" property="payDate" jdbcType="TIMESTAMP" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="last_operator" property="lastOperator" jdbcType="VARCHAR" />
+    <result column="pay_account" property="payAccount" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, amount, currency_code, amount_authorized, amount_credited, amount_debited, 
+    credit_status, debit_status, payment_method, trans_num, special_Instructions, state, 
+    state_detail, channel, pay_date,pay_record_no,comment,last_operator,pay_account
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from scp_payment_group
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from scp_payment_group
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.PaymentGroup" >
+    insert into scp_payment_group (id, order_id, amount, 
+      currency_code, amount_authorized, amount_credited, 
+      amount_debited, credit_status, debit_status, 
+      payment_method, trans_num, special_Instructions, 
+      state, state_detail, channel, pay_record_no,
+      pay_date,comment,last_operator,pay_account)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, 
+      #{currencyCode,jdbcType=VARCHAR}, #{amountAuthorized,jdbcType=DOUBLE}, #{amountCredited,jdbcType=DOUBLE}, 
+      #{amountDebited,jdbcType=DOUBLE}, #{creditStatus,jdbcType=VARCHAR}, #{debitStatus,jdbcType=VARCHAR}, 
+      #{paymentMethod,jdbcType=VARCHAR}, #{transNum,jdbcType=VARCHAR}, #{specialInstructions,jdbcType=VARCHAR}, 
+      #{state,jdbcType=SMALLINT}, #{stateDetail,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}, #{payRecordNo,jdbcType=VARCHAR},
+      #{payDate,jdbcType=TIMESTAMP},#{comment,jdbcType=VARCHAR},#{lastOperator,jdbcType=VARCHAR},#{payAccount,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.PaymentGroup" >
+    insert into scp_payment_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="currencyCode != null" >
+        currency_code,
+      </if>
+      <if test="amountAuthorized != null" >
+        amount_authorized,
+      </if>
+      <if test="amountCredited != null" >
+        amount_credited,
+      </if>
+      <if test="amountDebited != null" >
+        amount_debited,
+      </if>
+      <if test="creditStatus != null" >
+        credit_status,
+      </if>
+      <if test="debitStatus != null" >
+        debit_status,
+      </if>
+      <if test="paymentMethod != null" >
+        payment_method,
+      </if>
+      <if test="transNum != null" >
+        trans_num,
+      </if>
+      <if test="specialInstructions != null" >
+        special_Instructions,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="stateDetail != null" >
+        state_detail,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="payDate != null" >
+        pay_date,
+      </if>
+      <if test="payRecordNo != null" >
+        pay_record_no
+      </if>
+      <if test="comment != null" >
+        comment
+      </if>
+      <if test="lastOperator != null" >
+        last_operator
+      </if>
+      <if test="payAccount != null" >
+        pay_account
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="currencyCode != null" >
+        #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amountAuthorized != null" >
+        #{amountAuthorized,jdbcType=DOUBLE},
+      </if>
+      <if test="amountCredited != null" >
+        #{amountCredited,jdbcType=DOUBLE},
+      </if>
+      <if test="amountDebited != null" >
+        #{amountDebited,jdbcType=DOUBLE},
+      </if>
+      <if test="creditStatus != null" >
+        #{creditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="debitStatus != null" >
+        #{debitStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod != null" >
+        #{paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="transNum != null" >
+        #{transNum,jdbcType=VARCHAR},
+      </if>
+      <if test="specialInstructions != null" >
+        #{specialInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="stateDetail != null" >
+        #{stateDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="payDate != null" >
+        #{payDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payRecordNo != null" >
+        #{payRecordNo,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="lastOperator != null" >
+        #{lastOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="payAccount != null" >
+        #{payAccount,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.PaymentGroup" >
+    update scp_payment_group
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="currencyCode != null" >
+        currency_code = #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amountAuthorized != null" >
+        amount_authorized = #{amountAuthorized,jdbcType=DOUBLE},
+      </if>
+      <if test="amountCredited != null" >
+        amount_credited = #{amountCredited,jdbcType=DOUBLE},
+      </if>
+      <if test="amountDebited != null" >
+        amount_debited = #{amountDebited,jdbcType=DOUBLE},
+      </if>
+      <if test="creditStatus != null" >
+        credit_status = #{creditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="debitStatus != null" >
+        debit_status = #{debitStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod != null" >
+        payment_method = #{paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="transNum != null" >
+        trans_num = #{transNum,jdbcType=VARCHAR},
+      </if>
+      <if test="specialInstructions != null" >
+        special_Instructions = #{specialInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="stateDetail != null" >
+        state_detail = #{stateDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="payDate != null" >
+        pay_date = #{payDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payRecordNo != null" >
+        pay_record_no= #{payRecordNo,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        comment= #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="lastOperator != null" >
+        last_operator=  #{lastOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="payAccount != null" >
+        pay_account= #{payAccount,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.PaymentGroup" >
+    update scp_payment_group
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DOUBLE},
+      currency_code = #{currencyCode,jdbcType=VARCHAR},
+      amount_authorized = #{amountAuthorized,jdbcType=DOUBLE},
+      amount_credited = #{amountCredited,jdbcType=DOUBLE},
+      amount_debited = #{amountDebited,jdbcType=DOUBLE},
+      credit_status = #{creditStatus,jdbcType=VARCHAR},
+      debit_status = #{debitStatus,jdbcType=VARCHAR},
+      payment_method = #{paymentMethod,jdbcType=VARCHAR},
+      trans_num = #{transNum,jdbcType=VARCHAR},
+      special_Instructions = #{specialInstructions,jdbcType=VARCHAR},
+      state = #{state,jdbcType=SMALLINT},
+      state_detail = #{stateDetail,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=VARCHAR},
+      pay_date = #{payDate,jdbcType=TIMESTAMP},
+      pay_record_no = #{payRecordNo,jdbcType=TIMESTAMP},
+      comment=#{comment,jdbcType=VARCHAR},
+      last_operator=#{lastOperator,jdbcType=VARCHAR},
+      pay_account=#{payAccount,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from scp_payment_group
+     where order_id = #{orderId}
+  </select>
+</mapper>

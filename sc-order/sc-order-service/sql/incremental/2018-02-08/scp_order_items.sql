@@ -1,0 +1,1 @@
+ALTER TABLE scp_order_items ADD COLUMN `delete` TINYINT DEFAULT 0 COMMENT '是否删除';

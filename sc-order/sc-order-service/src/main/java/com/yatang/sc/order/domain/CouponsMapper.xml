@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.CouponsDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.CouponsPo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="total_quantity" property="totalQuantity" jdbcType="BIGINT" />
+    <result column="person_qty" property="personQty" jdbcType="BIGINT" />
+    <result column="grant_qty" property="grantQty" jdbcType="BIGINT" />
+    <result column="used_qty" property="usedQty" jdbcType="BIGINT" />
+    <result column="grant_channel" property="grantChannel" jdbcType="VARCHAR" />
+    <result column="coupon_type" property="couponType" jdbcType="VARCHAR" />
+
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="promotion_type" property="promotionType" jdbcType="VARCHAR" />
+    <result column="promotion_name" property="promotionName" jdbcType="VARCHAR" />
+    <result column="promotion_discription" property="promotionDiscription" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="discount_type" property="discountType" jdbcType="VARCHAR"/>
+    <result column="quanify_amount" property="quanifyAmount" jdbcType="DECIMAL"/>
+    <result column="discount" property="discount" jdbcType="DECIMAL"/>
+    <result column="note" property="note" jdbcType="VARCHAR"/>
+    <result column="is_superpose_user_discount" property="isSuperposeUserDiscount" jdbcType="INTEGER"/>
+    <result column="is_superpose_proOrCou_discount" property="isSuperposeProOrCouDiscount" jdbcType="TINYINT"/>
+    <result column="type" property="type" jdbcType="INTEGER"/>
+    <association property="promoCategoriesPo" javaType="com.yatang.sc.order.domain.PromoCategoriesPo" column="id"
+                 select="com.yatang.sc.order.dao.PromoCategoriesDao.queryByPromoId" >
+    </association>
+    <collection property="companiesPoList" ofType="com.yatang.sc.order.domain.PromoCompaniesPo" column="id"
+                select="com.yatang.sc.order.dao.PromoCompaniesPoDao.queryByPromoId">
+    </collection>
+  </resultMap>
+
+  <resultMap id="BaseResultMapBack" type="com.yatang.sc.order.domain.CouponsPo">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="total_quantity" property="totalQuantity" jdbcType="BIGINT" />
+    <result column="person_qty" property="personQty" jdbcType="BIGINT" />
+    <result column="grant_qty" property="grantQty" jdbcType="BIGINT" />
+    <result column="used_qty" property="usedQty" jdbcType="BIGINT" />
+    <result column="grant_channel" property="grantChannel" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    c.id, c.total_quantity, c.person_qty, c.grant_qty, c.used_qty, c.grant_channel, c.coupon_type
+  </sql>
+  <sql id="Base_Column_Prom">
+    p.status,p.promotion_type,p.promotion_name,p.promotion_discription,p.start_date,p.end_date,p.discount_type,p.quanify_amount
+    ,p.discount,p.note,p.is_superpose_user_discount,p.is_superpose_proOrCou_discount,p.type,p.create_date
+  </sql>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="Base_Column_Prom"/>
+    from scp_coupons c left join scp_promotion p on c.id=p.id
+    where c.id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from scp_coupons
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.CouponsPo" >
+    insert into scp_coupons (id, total_quantity, person_qty,
+    grant_qty, used_qty, grant_channel
+    )
+    values (#{id,jdbcType=VARCHAR}, #{totalQuantity,jdbcType=BIGINT}, #{personQty,jdbcType=BIGINT},
+    #{grantQty,jdbcType=BIGINT}, #{usedQty,jdbcType=BIGINT}, #{grantChannel,jdbcType=VARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.CouponsPo" >
+    insert into scp_coupons
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="totalQuantity != null" >
+        total_quantity,
+      </if>
+      <if test="personQty != null" >
+        person_qty,
+      </if>
+      <if test="grantQty != null" >
+        grant_qty,
+      </if>
+      <if test="usedQty != null" >
+        used_qty,
+      </if>
+      <if test="grantChannel != null" >
+        grant_channel,
+      </if>
+      <if test="couponType != null" >
+        coupon_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="totalQuantity != null" >
+        #{totalQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="personQty != null" >
+        #{personQty,jdbcType=BIGINT},
+      </if>
+      <if test="grantQty != null" >
+        #{grantQty,jdbcType=BIGINT},
+      </if>
+      <if test="usedQty != null" >
+        #{usedQty,jdbcType=BIGINT},
+      </if>
+      <if test="grantChannel != null" >
+        #{grantChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="couponType != null" >
+        #{couponType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.CouponsPo" >
+    update scp_coupons
+    <set >
+      <if test="totalQuantity != null" >
+        total_quantity = #{totalQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="personQty != null" >
+        person_qty = #{personQty,jdbcType=BIGINT},
+      </if>
+      <if test="grantQty != null" >
+        grant_qty = #{grantQty,jdbcType=BIGINT},
+      </if>
+      <if test="usedQty != null" >
+        used_qty = #{usedQty,jdbcType=BIGINT},
+      </if>
+      <if test="grantChannel != null" >
+        grant_channel = #{grantChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="couponType != null" >
+       coupon_type = #{couponType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.CouponsPo" >
+    update scp_coupons
+    set total_quantity = #{totalQuantity,jdbcType=BIGINT},
+    person_qty = #{personQty,jdbcType=BIGINT},
+    grant_qty = #{grantQty,jdbcType=BIGINT},
+    used_qty = #{usedQty,jdbcType=BIGINT},
+    grant_channel = #{grantChannel,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--                                    模板外自定义sql                                          -->
+  <!--查询返券类型的优惠券 -->
+  <select id="queryToGiveCoupons" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="Base_Column_Prom"/>
+    from scp_coupons c left join scp_promotion p on c.id=p.id
+    where c.coupon_type = 'toGive' and <![CDATA[p.start_date<current_date() and p.end_date>current_date() ]]> and p.status = 'released' order by discount desc
+  </select>
+
+  <!--查询列表 -->
+  <select id="queryList" parameterType="com.yatang.sc.order.domain.CouponsParamPo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="Base_Column_Prom"/>
+    from scp_coupons c,scp_promotion p
+    <if test="branchCompanyId != null">
+      INNER JOIN
+      (
+      SELECT promo_id FROM scp_promo_companies WHERE company_id = #{branchCompanyId,jdbcType=VARCHAR}
+      UNION ALL
+      SELECT sp1.id FROM scp_promotion sp1 LEFT JOIN scp_promo_companies sc
+      ON sp1.id = sc.promo_id WHERE sc.company_id IS NULL
+      ) t1 ON p.id = t1.promo_id
+    </if>
+    <where>
+      1=1
+      and c.id=p.id
+      <if test="id != null">
+        AND c.id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="promotionName != null">
+        AND p.promotion_name LIKE
+        CONCAT('%',(#{promotionName,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="startDate != null and endDate != null">
+        AND <![CDATA[ date_format(p.end_date,'%Y-%m-%d %H:%i') >= date_format(#{startDate,jdbcType=TIMESTAMP},'%Y-%m-%d %H:%i') ]]>
+        AND <![CDATA[ date_format(p.start_date,'%Y-%m-%d %H:%i') <= date_format(#{endDate,jdbcType=TIMESTAMP},'%Y-%m-%d %H:%i') ]]>
+      </if>
+      <!-- 用于查询已结束状态的优惠券-->
+      <if test="startDate == null and endDate != null">
+        AND <![CDATA[ date_format(p.end_date,'%Y-%m-%d %H:%i') <= date_format(#{endDate,jdbcType=TIMESTAMP},'%Y-%m-%d %H:%i') ]]>
+      </if>
+      <!-- 用于查询未结束状态的优惠券-->
+      <if test="startDate != null and endDate == null">
+        AND <![CDATA[ date_format(p.end_date,'%Y-%m-%d %H:%i') >= date_format(#{startDate,jdbcType=TIMESTAMP},'%Y-%m-%d %H:%i') ]]>
+      </if>
+      <if test="status">
+        AND p.status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="couponType != null">
+        AND c.coupon_type = #{couponType,jdbcType=VARCHAR}
+      </if>
+    </where>
+    ORDER BY p.create_date DESC
+  </select>
+
+  <!--查询可发放的优惠券列表 -->
+  <select id="queryAliveCouponsList" parameterType="com.yatang.sc.order.domain.CouponsParamPo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="Base_Column_Prom"/>
+    from scp_coupons c,scp_promotion p
+    <if test="branchCompanyId != null">
+      INNER JOIN
+      (
+      SELECT promo_id FROM scp_promo_companies WHERE company_id = #{branchCompanyId,jdbcType=VARCHAR}
+      UNION ALL
+      SELECT sp1.id FROM scp_promotion sp1 LEFT JOIN scp_promo_companies sc
+      ON sp1.id = sc.promo_id WHERE sc.company_id IS NULL
+      ) t1 ON p.id = t1.promo_id
+    </if>
+    <where>
+      type=1
+      AND <![CDATA[ NOW() < p.end_date ]]>
+      AND p.status = 'released'
+      and c.coupon_type = 'default'
+      and c.id=p.id
+      and <![CDATA[c.total_quantity > c.grant_qty]]>
+      <if test="grantChannel !=null">
+        AND c.grant_channel=#{grantChannel,jdbcType=VARCHAR}
+      </if>
+      <if test="promotionName != null">
+        AND p.promotion_name LIKE
+        CONCAT('%',(#{promotionName,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="startDate != null and endDate != null">
+        AND <![CDATA[ date_format(p.end_date,'%Y-%m-%d %H:%i') >= date_format(#{startDate,jdbcType=TIMESTAMP},'%Y-%m-%d %H:%i') ]]>
+        AND <![CDATA[ date_format(p.start_date,'%Y-%m-%d %H:%i') <= date_format(#{endDate,jdbcType=TIMESTAMP},'%Y-%m-%d %H:%i') ]]>
+      </if>
+      <if test="status">
+        AND p.status = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="id !=null">
+        AND c.id=#{id,jdbcType=VARCHAR}
+      </if>
+    </where>
+    ORDER BY p.publish_date DESC
+  </select>
+
+  <!-- 根据id查询详情-->
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />,
+    <include refid="Base_Column_Prom"/>
+    from scp_coupons c,scp_promotion p
+    where c.id=p.id and c.id=#{id,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateUsedQty" parameterType="java.lang.String" >
+    update scp_coupons
+    set used_qty = used_qty + 1
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="revertUsedQty" parameterType="java.lang.String" >
+    update scp_coupons
+    set used_qty = used_qty -1
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="revertGrantQty" parameterType="java.lang.String" >
+    update scp_coupons
+    set grant_qty = grant_qty + 1
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateGrantQty">
+  	update scp_coupons set grant_qty = grant_qty + #{currentGrant,jdbcType=INTEGER}
+  	where id=#{id,jdbcType=VARCHAR} and total_quantity>= grant_qty + #{currentGrant,jdbcType=INTEGER}
+  
+  </update>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	<!--————————————————————————————————————business向外提供dubbo此处开始————————————————————————————————————-->
+	<dubbo:service interface="com.yatang.sc.order.dubboservice.WebOrderDubboService" ref="webOrderDubboService" timeout="120000" version="1.0"/>
+
+	<!--取消订单接口-->
+	<dubbo:service interface="com.yatang.sc.order.dubboservice.CancelOrderDubboService" ref="cancelOrderDubboService" timeout="120000" version="1.0"/>
+
+	<!--订单支付成功确认接口-->
+	<dubbo:service interface="com.yatang.sc.order.dubboservice.OrderPaymentDubboService" ref="orderPaymentDubboService" timeout="120000" version="1.0"/>
+
+	<!-- 物流方式-->
+	<dubbo:service interface="com.yatang.sc.order.dubboservice.ShippingMethodDubboService" ref="shippingMethodDubboService" timeout="120000" version="1.0"/>
+
+	<!-- 促销-->
+	<dubbo:service interface="com.yatang.sc.order.dubboservice.PromotionDubboService" ref="promotionDubboService" timeout="120000" version="1.0"/>
+
+	<!-- 加盟商结算-->
+	<dubbo:service interface="com.yatang.sc.order.dubboservice.FranchiseeSimpleQueryDubboService" ref="franchiseeSimpleQueryDubboService" timeout="120000" version="1.0"/>
+	
+	<!-- 优惠券-->
+	<dubbo:service interface="com.yatang.sc.coupon.dubboservice.CouponActivityDubbleService" ref="couponActivityDubbleService" timeout="120000" version="1.0"/>
+	
+	<!-- 优惠券-->
+	<dubbo:service interface="com.yatang.sc.coupon.dubboservice.CouponsWriteDubboService" ref="couponsWriteDubboService" timeout="120000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.coupon.dubboservice.CouponsQueryDubboService" ref="couponsQueryDubboService" timeout="120000" version="1.0"/>
+
+	<!-- 退换货-->
+	<dubbo:service interface="com.yatang.sc.order.dubboservice.WebReturnRequestDubboService" ref="webReturnRequestDubboService" timeout="120000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.order.dubboservice.OrderRefundDubboService" ref="orderRefundDubboService" timeout="120000" version="1.0"/>
+
+	<!-- 心愿单-后台-->
+	<dubbo:service interface="com.yatang.sc.wish.dubboService.WishBackQueryDubboService" ref="wishBackQueryDubboService" timeout="120000" version="1.0"/>
+	<dubbo:service interface="com.yatang.sc.wish.dubboService.WishBackWriteDubboService" ref="wishBackWriteDubboService" timeout="120000" version="1.0"/>
+
+	<import resource="classpath*:com/yatang/xc/*/**/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/sc/payment/dubbo/service/dubbo-consumer.xml"/>
+	<import resource="classpath*:com/yatang/sc/biz/dubboservice/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/sc/inventory/dubboservice/dubbo-consumer.xml"/>
+
+</beans>

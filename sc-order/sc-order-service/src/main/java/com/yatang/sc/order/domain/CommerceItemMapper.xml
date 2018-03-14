@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.CommerceItemDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.CommerceItem" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="catalog_id" property="catalogId" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="SMALLINT" />
+    <result column="state_detail" property="stateDetail" jdbcType="VARCHAR" />
+    <result column="item_price_info" property="itemPriceInfo" jdbcType="BIGINT" />
+    <result column="shipped_quantity" property="shippedQuantity" jdbcType="BIGINT" />
+    <result column="completed_quantity" property="completedQuantity" jdbcType="BIGINT" />
+    <result column="return_quantity" property="returnQuantity" jdbcType="BIGINT" />
+    <result column="sku_id" property="skuId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="is_selected" property="isSelected" jdbcType="BIT" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="av_cost" property="avCost" jdbcType="DOUBLE" />
+    <result column="creation_time" property="creationTime" jdbcType="TIMESTAMP" />
+    <result column="sale_quantity" property="saleQuantity" jdbcType="BIGINT" />
+    <result column="unit_quantity" property="unitQuantity" jdbcType="INTEGER" />
+    <result column="sell_full_case" property="sellFullCase" jdbcType="INTEGER" />
+    <result column="abnormal_goods" property="abnormalGoods" jdbcType="TINYINT" />
+    <result column="abnormal_resonse" property="abnormalResonse" jdbcType="VARCHAR" />
+    <association property="itemPrice" column="item_price_info" javaType="com.yatang.sc.order.domain.ItemPrice" select="com.yatang.sc.order.dao.ItemPriceDao.selectByPrimaryKey"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, catalog_id, quantity, state, state_detail, item_price_info, shipped_quantity, 
+    completed_quantity, return_quantity, sku_id, product_id, is_selected, type, creation_time,av_cost,sale_quantity,unit_quantity,sell_full_case,abnormal_goods,abnormal_resonse
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from scp_commerce_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from scp_commerce_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.CommerceItem" >
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
+    insert into scp_commerce_item ( catalog_id, quantity,
+      state, state_detail, item_price_info, 
+      shipped_quantity, completed_quantity, return_quantity, 
+      sku_id, product_id, is_selected, 
+      type, creation_time,av_cost,sale_quantity,unit_quantity,sell_full_case,abnormal_goods,abnormal_resonse)
+    values (#{catalogId,jdbcType=VARCHAR}, #{quantity,jdbcType=BIGINT},
+      #{state,jdbcType=SMALLINT}, #{stateDetail,jdbcType=VARCHAR}, #{itemPriceInfo,jdbcType=BIGINT},
+      #{shippedQuantity,jdbcType=BIGINT}, #{completedQuantity,jdbcType=BIGINT}, #{returnQuantity,jdbcType=BIGINT}, 
+      #{skuId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{isSelected,jdbcType=BIT}, 
+      #{type,jdbcType=VARCHAR}, #{creationTime,jdbcType=TIMESTAMP},#{avCost,jdbcType=DOUBLE},#{saleQuantity,jdbcType=BIGINT},#{unitQuantity,jdbcType=INTEGER},#{sellFullCase,jdbcType=INTEGER}
+    , #{abnormalGoods,jdbcType=TINYINT}, #{abnormalResonse,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.CommerceItem" >
+    insert into scp_commerce_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="catalogId != null" >
+        catalog_id,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="stateDetail != null" >
+        state_detail,
+      </if>
+      <if test="itemPriceInfo != null" >
+        item_price_info,
+      </if>
+      <if test="shippedQuantity != null" >
+        shipped_quantity,
+      </if>
+      <if test="completedQuantity != null" >
+        completed_quantity,
+      </if>
+      <if test="returnQuantity != null" >
+        return_quantity,
+      </if>
+      <if test="skuId != null" >
+        sku_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="isSelected != null" >
+        is_selected,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="creationTime != null" >
+        creation_time,
+      </if>
+      <if test="avCost != null" >
+        av_cost,
+      </if>
+      <if test="saleQuantity != null" >
+        sale_quantity,
+      </if>
+      <if test="unitQuantity != null" >
+        unit_quantity,
+      </if>
+      <if test="selFullCase != null" >
+        sell_full_case,
+      </if>
+      <if test="abnormalGoods != null" >
+        abnormal_goods,
+      </if>
+      <if test="abnormalResonse != null" >
+        abnormal_resonse,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="catalogId != null" >
+        #{catalogId,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="stateDetail != null" >
+        #{stateDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="itemPriceInfo != null" >
+        #{itemPriceInfo,jdbcType=BIGINT},
+      </if>
+      <if test="shippedQuantity != null" >
+        #{shippedQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="completedQuantity != null" >
+        #{completedQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="returnQuantity != null" >
+        #{returnQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null" >
+        #{skuId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="isSelected != null" >
+        #{isSelected,jdbcType=BIT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="creationTime != null" >
+        #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="avCost != null" >
+        #{avCost,jdbcType=DOUBLE},
+      </if>
+      <if test="saleQuantity != null" >
+        #{saleQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="unitQuantity != null" >
+        #{unitQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="sellFullCase != null" >
+        #{sellFullCase,jdbcType=INTEGER},
+      </if>
+      <if test="abnormalGoods != null" >
+        #{abnormalGoods,jdbcType=TINYINT},
+      </if>
+      <if test="abnormalResonse != null" >
+        #{abnormalResonse,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.CommerceItem" >
+    update scp_commerce_item
+    <set >
+      <if test="catalogId != null" >
+        catalog_id = #{catalogId,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="stateDetail != null" >
+        state_detail = #{stateDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="itemPriceInfo != null" >
+        item_price_info = #{itemPriceInfo,jdbcType=BIGINT},
+      </if>
+      <if test="shippedQuantity != null" >
+        shipped_quantity = #{shippedQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="completedQuantity != null" >
+        completed_quantity = #{completedQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="returnQuantity != null" >
+        return_quantity = #{returnQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null" >
+        sku_id = #{skuId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="isSelected != null" >
+        is_selected = #{isSelected,jdbcType=BIT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="creationTime != null" >
+        creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="avCost != null" >
+        av_cost = #{avCost,jdbcType=DOUBLE},
+      </if>
+      <if test="saleQuantity != null" >
+        sale_quantity = #{saleQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="unitQuantity != null" >
+        unit_quantity = #{unitQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="sellFullCase != null" >
+        sell_full_case = #{sellFullCase,jdbcType=INTEGER},
+      </if>
+      <if test="abnormalGoods != null" >
+        abnormal_goods = #{abnormalGoods,jdbcType=TINYINT},
+      </if>
+      <if test="abnormalResonse != null" >
+        abnormal_resonse = #{abnormalResonse,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.CommerceItem" >
+    update scp_commerce_item
+    set catalog_id = #{catalogId,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=BIGINT},
+      state = #{state,jdbcType=SMALLINT},
+      state_detail = #{stateDetail,jdbcType=VARCHAR},
+      item_price_info = #{itemPriceInfo,jdbcType=BIGINT},
+      shipped_quantity = #{shippedQuantity,jdbcType=BIGINT},
+      completed_quantity = #{completedQuantity,jdbcType=BIGINT},
+      return_quantity = #{returnQuantity,jdbcType=BIGINT},
+      sku_id = #{skuId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
+      is_selected = #{isSelected,jdbcType=BIT},
+      type = #{type,jdbcType=VARCHAR},
+      creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      av_cost = #{avCost,jdbcType=DOUBLE},
+      sale_quantity = #{saleQuantity,jdbcType=BIGINT},
+      unit_quantity = #{unitQuantity,jdbcType=INTEGER},
+      sell_full_case = #{sellFullCase,jdbcType=INTEGER},
+      abnormal_goods = #{abnormalGoods,jdbcType=TINYINT},
+      abnormal_resonse = #{abnormalResonse,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="getCommerceItemForOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT ci.id, ci.catalog_id, ci.quantity, ci.state, ci.state_detail, ci.item_price_info, ci.shipped_quantity,
+    ci.unit_quantity,ci.sale_quantity,ci.sell_full_case,
+    ci.completed_quantity, ci.return_quantity, ci.sku_id, ci.product_id,
+     ci.is_selected, ci.type, ci.creation_time,ci.av_cost,ci.abnormal_goods,ci.abnormal_resonse
+    FROM scp_order_items oi
+    LEFT JOIN scp_commerce_item ci
+    ON oi.commerce_item_id = ci.id
+    WHERE oi.order_id =#{orderId,jdbcType=VARCHAR} and ci.quantity >0
+  </select>
+
+  <resultMap id="salePriceBaseResultMap" type="com.yatang.sc.order.domain.CommerceItem" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="catalog_id" property="catalogId" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="SMALLINT" />
+    <result column="state_detail" property="stateDetail" jdbcType="VARCHAR" />
+    <result column="item_price_info" property="itemPriceInfo" jdbcType="BIGINT" />
+    <result column="shipped_quantity" property="shippedQuantity" jdbcType="BIGINT" />
+    <result column="completed_quantity" property="completedQuantity" jdbcType="BIGINT" />
+    <result column="return_quantity" property="returnQuantity" jdbcType="BIGINT" />
+    <result column="sku_id" property="skuId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="is_selected" property="isSelected" jdbcType="BIT" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="creation_time" property="creationTime" jdbcType="TIMESTAMP" />
+    <result column="av_cost" property="avCost" jdbcType="DOUBLE" />
+    <result column="abnormal_goods" property="abnormalGoods" jdbcType="TINYINT" />
+    <result column="abnormal_resonse" property="abnormalResonse" jdbcType="VARCHAR" />
+    <association property="itemPrice" javaType="com.yatang.sc.order.domain.ItemPrice">
+      <id column="item_price_info" property="id"/>
+      <result column="amount" property="amount" jdbcType="DOUBLE" />
+      <result column="currency_code" property="currencyCode" jdbcType="VARCHAR" />
+      <result column="final_reason_code" property="finalReasonCode" jdbcType="VARCHAR" />
+      <result column="list_price" property="listPrice" jdbcType="DOUBLE" />
+      <result column="order_discount_share" property="orderDiscountShare" jdbcType="DOUBLE" />
+      <result column="quantity_as_qualifier" property="quantityAsQualifier" jdbcType="BIGINT" />
+      <result column="quantity_discounted" property="quantityDiscounted" jdbcType="BIGINT" />
+      <result column="raw_total_price" property="rawTotalPrice" jdbcType="DOUBLE" />
+      <result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
+    </association>
+  </resultMap>
+
+  <select id="getCommerceItemAndPriceForOrderId" parameterType="java.lang.String" resultMap="salePriceBaseResultMap">
+    SELECT ci.id, ci.catalog_id, ci.quantity, ci.state,ci.av_cost, ci.state_detail, ci.item_price_info, ci.shipped_quantity,
+    ci.completed_quantity, ci.return_quantity, ci.sku_id, ci.product_id, ci.is_selected, ci.type, ci.creation_time,
+    ci.item_price_info,pi.amount,pi.currency_code,pi.final_reason_code,pi.list_price,pi.order_discount_share,pi.quantity_as_qualifier,
+    pi.quantity_discounted,pi.raw_total_price,pi.sale_price,ci.abnormal_goods,ci.abnormal_resonse
+    FROM scp_order_items oi
+       LEFT JOIN scp_commerce_item ci ON oi.commerce_item_id = ci.id
+       LEFT JOIN scp_item_price pi ON ci.item_price_info = pi.id
+    WHERE oi.order_id =#{orderId,jdbcType=VARCHAR} and ci.quantity >0 and oi.delete=false
+  </select>
+
+  <update id="updateState" parameterType="java.lang.Long">
+    update scp_commerce_item
+    SET
+    state = #{state,jdbcType=SMALLINT},
+    state_detail = #{stateDetail,jdbcType=VARCHAR}
+    WHERE ID in (
+      <foreach collection="itemIds" item="itemId" separator=",">
+        #{itemId}
+      </foreach>
+    )
+  </update>
+</mapper>

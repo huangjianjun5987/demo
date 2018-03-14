@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.CouponPurchaseRecordDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.CouponPurchaseRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="commerce_item_id" property="commerceItemId" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, commerce_item_id, order_id, quantity
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from scp_coupon_purchase_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from scp_coupon_purchase_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.CouponPurchaseRecord" >
+    insert into scp_coupon_purchase_record (id, commerce_item_id, order_id, 
+      quantity)
+    values (#{id,jdbcType=BIGINT}, #{commerceItemId,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, 
+      #{quantity,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.CouponPurchaseRecord" >
+    insert into scp_coupon_purchase_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="commerceItemId != null" >
+        commerce_item_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="commerceItemId != null" >
+        #{commerceItemId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.CouponPurchaseRecord" >
+    update scp_coupon_purchase_record
+    <set >
+      <if test="commerceItemId != null" >
+        commerce_item_id = #{commerceItemId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.CouponPurchaseRecord" >
+    update scp_coupon_purchase_record
+    set commerce_item_id = #{commerceItemId,jdbcType=BIGINT},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="queryByCommerceItemId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from scp_coupon_purchase_record
+    where commerce_item_id = #{commerceItemId,jdbcType=BIGINT}
+  </select>
+</mapper>

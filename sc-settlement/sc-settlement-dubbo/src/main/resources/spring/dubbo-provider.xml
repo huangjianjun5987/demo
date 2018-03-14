@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	<!--————————————————————————————————————business向外提供dubbo此处开始————————————————————————————————————-->
+	<!--简易结算服务-->
+	<dubbo:service interface="com.yatang.sc.settlement.dubboservice.SimpleSettlementQueryDubboService" ref="simpleSettlementQueryDubboService" timeout="1200000" version="1.0" />
+
+	<import resource="classpath*:com/yatang/xc/mbd/biz/org/dubboservice/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/sc/biz/dubboservice/dubbo-consumer.xml" />
+	<import resource="classpath*:com/yatang/xc/mbd/biz/prod/dubboservice/dubbo-consumer.xml" />
+</beans>

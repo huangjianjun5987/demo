@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<bean id="autoCheckOrderInventorySchedulerId" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="autoCheckOrderInventoryScheduler"/>
+		<property name="targetMethod" value="execute"/>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="autoCompleteOrderSchedulerId" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="autoCompleteOrderScheduler"/>
+		<property name="targetMethod" value="execute"/>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="autoSendOrderToWMSSchedulerId" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="autoSendOrderToWMSScheduler"/>
+		<property name="targetMethod" value="execute"/>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="cancelNonpaymentOrderSchedulerId" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="cancelNonpaymentOrderScheduler"/>
+		<property name="targetMethod" value="execute"/>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="autoApproveSchedulerId" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="autoApproveScheduler"/>
+		<property name="targetMethod" value="execute"/>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="autoSendOrderIndexId" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="autoSendOrderIndexScheduler"/>
+		<property name="targetMethod" value="execute"/>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="saleOrderStateMsgRetrySchedulerId" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="saleOrderStateMsgRetryScheduler"/>
+		<property name="targetMethod" value="execute"/>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="autoReceiveOrderSchedulerId" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="AutoReceiveOrderScheduler"/>
+		<property name="targetMethod" value="execute"/>
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- 触发器 CRON表达式 -->
+	<bean id="autoCheckOrderInventorySchedulerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="autoCheckOrderInventorySchedulerId"></property>
+		<property name="cronExpression" value="0 0/30 * * * ?"></property>
+	</bean>
+
+	<bean id="autoCompleteOrderSchedulerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="autoCompleteOrderSchedulerId"></property>
+		<property name="cronExpression" value="0 0 0/1 * * ?"></property>
+	</bean>
+
+	<bean id="autoSendOrderToWMSSchedulerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="autoSendOrderToWMSSchedulerId"></property>
+		<property name="cronExpression" value="0 0 0/1 * * ?"></property>
+	</bean>
+
+	<bean id="cancelNonpaymentOrderSchedulerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="cancelNonpaymentOrderSchedulerId"></property>
+		<property name="cronExpression" value="0 0/5 * * * ?"></property>
+	</bean>
+
+	<bean id="autoApproveSchedulerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="autoApproveSchedulerId"></property>
+		<property name="cronExpression" value="0 0 0/1 * * ?"></property>
+	</bean>
+
+	<bean id="autoSendOrderIndexSchedulerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="autoSendOrderIndexId"></property>
+		<property name="cronExpression" value="${orderIndex.trigger}"></property>
+	</bean>
+
+	<bean id="saleOrderStateMsgRetrySchedulerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="saleOrderStateMsgRetrySchedulerId"></property>
+		<property name="cronExpression" value="0 0/5 * * * ?"></property>
+	</bean>
+
+	<bean id="autoReceiveOrderSchedulerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="autoReceiveOrderSchedulerId"></property>
+		<property name="cronExpression" value="0 0/2 * * * ?"></property>
+	</bean>
+
+	<!-- 把触发器加入到任务列表中 -->
+	<bean id="testScheduler"
+		  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="autoCheckOrderInventorySchedulerTrigger" />
+				<ref bean="autoCompleteOrderSchedulerTrigger" />
+				<ref bean="autoSendOrderToWMSSchedulerTrigger" />
+				<ref bean="cancelNonpaymentOrderSchedulerTrigger" />
+				<ref bean="autoApproveSchedulerTrigger" />
+				<ref bean="autoSendOrderIndexSchedulerTrigger"/>
+				<ref bean="saleOrderStateMsgRetrySchedulerTrigger"/>
+				<ref bean="autoReceiveOrderSchedulerTrigger"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>

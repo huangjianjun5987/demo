@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.ShippingPriceAdjDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.ShippingPriceAdj" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shipping_price_id" property="shippingPriceId" jdbcType="BIGINT" />
+    <result column="adjustment_id" property="adjustmentId" jdbcType="BIGINT" />
+    <result column="sequence" property="sequence" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, shipping_price_id, adjustment_id, sequence
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from scp_shipping_price_adj
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <select id="selectByShippingPriceId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from scp_shipping_price_adj
+    where shipping_price_id = #{shippingPriceId,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from scp_shipping_price_adj
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.ShippingPriceAdj" >
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
+    insert into scp_shipping_price_adj ( shipping_price_id, adjustment_id,
+      sequence)
+    values (  #{shippingPriceId,jdbcType=BIGINT}, #{adjustmentId,jdbcType=BIGINT},
+      #{sequence,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.ShippingPriceAdj" >
+    insert into scp_shipping_price_adj
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shippingPriceId != null" >
+        shipping_price_id,
+      </if>
+      <if test="adjustmentId != null" >
+        adjustment_id,
+      </if>
+      <if test="sequence != null" >
+        sequence,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="shippingPriceId != null" >
+        #{shippingPriceId,jdbcType=BIGINT},
+      </if>
+      <if test="adjustmentId != null" >
+        #{adjustmentId,jdbcType=BIGINT},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.ShippingPriceAdj" >
+    update scp_shipping_price_adj
+    <set >
+      <if test="shippingPriceId != null" >
+        shipping_price_id = #{shippingPriceId,jdbcType=BIGINT},
+      </if>
+      <if test="adjustmentId != null" >
+        adjustment_id = #{adjustmentId,jdbcType=BIGINT},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.ShippingPriceAdj" >
+    update scp_shipping_price_adj
+    set shipping_price_id = #{shippingPriceId,jdbcType=BIGINT},
+      adjustment_id = #{adjustmentId,jdbcType=BIGINT},
+      sequence = #{sequence,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

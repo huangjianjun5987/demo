@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.WishDetailDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.WishDetailPo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="wish_list_id" property="wishListId" jdbcType="BIGINT" />
+    <result column="store_id" property="storeId" jdbcType="VARCHAR" />
+    <result column="franchiser_id" property="franchiserId" jdbcType="VARCHAR" />
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+
+    <result column="gb_code" property="gbCode" jdbcType="VARCHAR" />
+    <result column="product_code" property="productCode" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_img" property="productImg" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, wish_list_id, store_id, franchiser_id, store_name, quantity, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sc_wish_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sc_wish_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.WishDetailPo" >
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
+    insert into sc_wish_detail (id, wish_list_id, store_id,
+      franchiser_id, store_name, quantity, 
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{wishListId,jdbcType=BIGINT}, #{storeId,jdbcType=VARCHAR}, 
+      #{franchiserId,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, #{quantity,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.WishDetailPo" >
+    insert into sc_wish_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="wishListId != null" >
+        wish_list_id,
+      </if>
+      <if test="storeId != null" >
+        store_id,
+      </if>
+      <if test="franchiserId != null" >
+        franchiser_id,
+      </if>
+      <if test="storeName != null" >
+        store_name,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="wishListId != null" >
+        #{wishListId,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="franchiserId != null" >
+        #{franchiserId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null" >
+        #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.WishDetailPo" >
+    update sc_wish_detail
+    <set >
+      <if test="wishListId != null" >
+        wish_list_id = #{wishListId,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null" >
+        store_id = #{storeId,jdbcType=VARCHAR},
+      </if>
+      <if test="franchiserId != null" >
+        franchiser_id = #{franchiserId,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null" >
+        store_name = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.WishDetailPo" >
+    update sc_wish_detail
+    set wish_list_id = #{wishListId,jdbcType=BIGINT},
+      store_id = #{storeId,jdbcType=VARCHAR},
+      franchiser_id = #{franchiserId,jdbcType=VARCHAR},
+      store_name = #{storeName,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!-- 根据心愿单id 查询心愿单详情 yinyuxin-->
+  <select id="queryWishDetailByWishListIdAndStoreId" parameterType="com.yatang.sc.order.domain.WishDetailPo" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM sc_wish_detail
+    WHERE 1=1
+    <if test="wishListId != null">
+      AND  wish_list_id=#{wishListId,jdbcType=BIGINT}
+    </if>
+    <if test="storeId != null">
+      AND store_id=#{storeId,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <!-- 根据心愿单id 查询心愿单清单门店id的集合 yinyuxin-->
+  <select id="queryWishDetailIdsByWishListId" parameterType="java.lang.Long" resultType="java.lang.String">
+    SELECT store_id
+    FROM sc_wish_detail
+    WHERE wish_list_id=#{wishListId,jdbcType=BIGINT}
+  </select>
+
+
+
+  <select id="getWishDetailList" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from sc_wish_detail
+    where franchiser_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryWishDetailCountByCondition" resultType="java.lang.Long" parameterType="java.util.Map">
+    select
+    count(wd.id)
+    from sc_wish_detail wd LEFT JOIN sc_wish_list wl on wd.wish_list_id = wl.id
+    where 1=1
+    <if test="wishListId != null and wishListId != 0">
+      AND wd.wish_list_id = #{wishListId,jdbcType=BIGINT}
+    </if>
+    <if test="storeId != null and storeId != ''">
+      AND wd.store_id = #{storeId,jdbcType=VARCHAR}
+    </if>
+    <if test="userId != null and userId != ''">
+      AND wd.franchiser_id = #{userId,jdbcType=VARCHAR}
+    </if>
+    <if test="barCode != null and barCode != ''">
+      AND wl.gb_code = #{barCode,jdbcType=VARCHAR}
+    </if>
+
+    <if test="status != null and status.size > 0">
+      AND wl.status IN
+      <foreach collection="status" item="item" index="index" open="(" close=")" separator=",">
+        #{item,jdbcType=VARCHAR}
+      </foreach>
+    </if>
+  </select>
+
+  <select id="queryWishDetailByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    wd.id, wd.wish_list_id, wd.store_id, wd.franchiser_id, wd.store_name, wd.quantity, wd.create_time,
+    wl.status,wl.gb_code,wl.product_name,wl.product_code,wl.product_img,wl.status
+    from sc_wish_detail wd LEFT JOIN sc_wish_list wl on wd.wish_list_id = wl.id
+    where 1=1
+    <if test="wishListId != null and wishListId != 0">
+      AND wd.wish_list_id = #{wishListId,jdbcType=BIGINT}
+    </if>
+    <if test="storeId != null and storeId != ''">
+      AND wd.store_id = #{storeId,jdbcType=VARCHAR}
+    </if>
+    <if test="userId != null and userId != ''">
+      AND wd.franchiser_id = #{userId,jdbcType=VARCHAR}
+    </if>
+    <if test="barCode != null and barCode != ''">
+      AND wl.gb_code = #{barCode,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status.size > 0">
+      AND wl.status IN
+      <foreach collection="status" item="item" index="index" open="(" close=")" separator=",">
+        #{item,jdbcType=VARCHAR}
+      </foreach>
+    </if>
+    ORDER BY wl.status DESC,wl.complete_time DESC limit #{start},#{end}
+  </select>
+</mapper>

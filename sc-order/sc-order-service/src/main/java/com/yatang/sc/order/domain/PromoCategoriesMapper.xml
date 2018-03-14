@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.PromoCategoriesDao">
+    <resultMap id="baseResultMap" type="com.yatang.sc.order.domain.PromoCategoriesPo">
+        <id column="promo_id" property="promoId" jdbcType="VARCHAR" />
+        <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+        <result column="category_level" property="categoryLevel" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        promo_id, category_id, category_name, category_level
+    </sql>
+
+    <select id="queryByPromoId" resultMap="baseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM scp_promo_categories
+        WHERE promo_id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.yatang.sc.order.domain.PromoCategoriesPo">
+        INSERT INTO scp_promo_categories
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="promoId != null">
+                promo_id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="categoryName != null">
+                category_name,
+            </if>
+            <if test="categoryLevel != null">
+                category_level,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="promoId != null">
+                #{promoId,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryName != null">
+                #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryLevel != null">
+                #{categoryLevel,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

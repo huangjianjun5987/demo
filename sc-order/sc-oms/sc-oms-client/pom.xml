@@ -1,0 +1,77 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.yatang.sc</groupId>
+		<artifactId>sc-oms</artifactId>
+		<version>dev-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+	<artifactId>sc-oms-client</artifactId>
+	<packaging>jar</packaging>
+	<name>sc-oms-client</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.busi.common</groupId>
+			<artifactId>busi-common</artifactId>
+			<version>dev-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-order-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+		</dependency>
+		<!-- jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.1.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.2.4.Final</version>
+		</dependency>
+		<!-- lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.16</version>
+			<scope>provided</scope>
+		</dependency>
+        <dependency>
+            <groupId>com.yatang.xc.oc.core.product</groupId>
+            <artifactId>core-product-client</artifactId>
+            <version>dev-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.yatang.sc</groupId>
+            <artifactId>sc-common</artifactId>
+            <version>dev-SNAPSHOT</version>
+        </dependency>
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-purchase-client</artifactId>
+			<version>dev-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>

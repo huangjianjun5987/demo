@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.PromoRecordsDao">
+    <resultMap id="baseResultMap" type="com.yatang.sc.order.domain.PromoRecordsPo">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="promo_id" property="promoId" jdbcType="VARCHAR" />
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+        <result column="discount" property="discount" jdbcType="DECIMAL" />
+    </resultMap>
+
+
+
+    <sql id="Base_Column_List">
+        id,promo_id, order_id,discount
+    </sql>
+
+    <select id="queryById" resultMap="baseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM scp_promo_records
+        WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="queryByPromoId" resultMap="baseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM scp_promo_records
+        WHERE promo_id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryByPromoOrOrderId" resultMap="baseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM scp_promo_records
+        <where>
+            1=1
+            <if test="promoId != null">
+                AND promo_id = #{promoId,jdbcType=VARCHAR}
+            </if>
+            <if test="orderId != null">
+                AND order_id = #{orderId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM scp_promo_records
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.yatang.sc.order.domain.PromoRecordsPo">
+        INSERT INTO scp_promo_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="promoId != null">
+                promo_id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="discount != null">
+                discount
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="promoId != null">
+                #{promoId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="discount != null">
+                #{discount,jdbcType=DECIMAL}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKey"
+            parameterType="com.yatang.sc.order.domain.PromoRecordsPo">
+        UPDATE scp_promo_records
+        <set>
+            <if test="promoId != null">
+                promo_id = #{promoId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="discount != null">
+                discount = #{discount,jdbcType=DECIMAL},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="getParticipateDataPageListCount" parameterType="java.util.Map" resultType="java.lang.Long" >
+        SELECT count(spr.id)
+        FROM scp_promo_records spr
+        left join`scp_order` so
+        on spr.order_id = so.id
+        WHERE 1=1
+        AND spr.promo_id = #{promoId,jdbcType=VARCHAR}
+        <if test="orderId !=null ">
+            AND so.id =#{orderId,jdbcType=VARCHAR}
+        </if>
+        <if test="orderState != null" >
+            and order_state = #{orderState,jdbcType=VARCHAR}
+        </if>
+        <if test="paymentState != null" >
+            and payment_state = #{paymentState,jdbcType=VARCHAR}
+        </if>
+        <if test="shippingState != null" >
+            and shipping_state = #{shippingState,jdbcType=VARCHAR}
+        </if>
+        <if test="franchiseeStoreId !=null ">
+            AND so.franchisee_store_id =#{franchiseeStoreId,jdbcType=VARCHAR}
+        </if>
+        <if test="branchCompanyId !=null ">
+            AND so.branch_company_id =#{branchCompanyId,jdbcType=VARCHAR}
+        </if>
+        <if test="startTime != null" >
+            and so.submit_time  <![CDATA[   >=  ]]> #{startTime,jdbcType=VARCHAR}
+        </if>
+        <if test="endTime != null" >
+            and so.submit_time <![CDATA[   <=  ]]> #{endTime,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="getParticipateDataPageList" parameterType="java.util.Map" resultType="java.util.Map" >
+        SELECT  spr.`promo_id` promoId,spr.`discount` discount,so.`id` orderId,so.`submit_time` submitTime,so.`order_state` orderState,so.`payment_state` paymentState ,
+        so.`shipping_state` shippingState ,so.`state_detail` stateDetail,sop.`total` total, so.`franchisee_store_id` franchiseeStoreId, so.`branch_company_id` branchCompanyId
+        FROM scp_promo_records spr
+        left join `scp_order` so
+        on spr.order_id = so.id
+        LEFT JOIN `scp_order_price` sop
+        ON so.`price_info`= sop.`id`
+        WHERE 1=1
+        AND spr.promo_id = #{promoId,jdbcType=VARCHAR}
+        <if test="orderId !=null ">
+            AND so.id =#{orderId,jdbcType=VARCHAR}
+        </if>
+        <if test="orderState != null" >
+            and order_state = #{orderState,jdbcType=VARCHAR}
+        </if>
+        <if test="paymentState != null" >
+            and payment_state = #{paymentState,jdbcType=VARCHAR}
+        </if>
+        <if test="shippingState != null" >
+            and shipping_state = #{shippingState,jdbcType=VARCHAR}
+        </if>
+        <if test="franchiseeStoreId !=null ">
+            AND so.franchisee_store_id =#{franchiseeStoreId,jdbcType=VARCHAR}
+        </if>
+        <if test="branchCompanyId !=null ">
+            AND so.branch_company_id =#{branchCompanyId,jdbcType=VARCHAR}
+        </if>
+        <if test="startTime != null" >
+            and so.submit_time  <![CDATA[   >=  ]]> #{startTime,jdbcType=VARCHAR}
+        </if>
+        <if test="endTime != null" >
+            and so.submit_time <![CDATA[   <=  ]]> #{endTime,jdbcType=VARCHAR}
+        </if>
+        ORDER BY so.submit_time DESC
+        limit #{start},#{end}
+    </select>
+
+
+</mapper>

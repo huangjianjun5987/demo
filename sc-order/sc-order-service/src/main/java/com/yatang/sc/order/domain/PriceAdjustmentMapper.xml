@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.PriceAdjustmentDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.PriceAdjustment" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="adjustment" property="adjustment" jdbcType="DOUBLE" />
+    <result column="adjustment_description" property="adjustmentDescription" jdbcType="VARCHAR" />
+    <result column="pricing_model" property="pricingModel" jdbcType="VARCHAR" />
+    <result column="quantity_adjusted" property="quantityAdjusted" jdbcType="BIGINT" />
+    <result column="total_adjustment" property="totalAdjustment" jdbcType="DOUBLE" />
+    <result column="pricing_model_type" property="pricingModelType" jdbcType="INTEGER" />
+    <result column="activity_ids" property="activityIds" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, adjustment, adjustment_description, pricing_model, quantity_adjusted, total_adjustment, pricing_model_type,activity_ids
+  </sql>
+  <sql id="Join_Column_List" >
+    a.id id, adjustment, adjustment_description, pricing_model, quantity_adjusted, total_adjustment, pricing_model_type,activity_ids
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from scp_price_adjustment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="queryByOrderPriceId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Join_Column_List" />
+    from scp_price_adjustment a left join scp_order_price_adj b on a.id=b.adjustment_id
+    where b.order_price_id = #{orderPriceId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from scp_price_adjustment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.PriceAdjustment" >
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
+    insert into scp_price_adjustment ( adjustment, adjustment_description,
+      pricing_model, quantity_adjusted, total_adjustment, pricing_model_type,activity_ids
+      )
+    values (  #{adjustment,jdbcType=DOUBLE}, #{adjustmentDescription,jdbcType=VARCHAR},
+      #{pricingModel,jdbcType=VARCHAR}, #{quantityAdjusted,jdbcType=BIGINT}, #{totalAdjustment,jdbcType=DOUBLE},
+      #{pricingModelType,jdbcType=INTEGER},#{activityIds,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.PriceAdjustment" >
+    insert into scp_price_adjustment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="adjustment != null" >
+        adjustment,
+      </if>
+      <if test="adjustmentDescription != null" >
+        adjustment_description,
+      </if>
+      <if test="pricingModel != null" >
+        pricing_model,
+      </if>
+      <if test="quantityAdjusted != null" >
+        quantity_adjusted,
+      </if>
+      <if test="totalAdjustment != null" >
+        total_adjustment,
+      </if>
+      <if test="pricingModelType != null" >
+        pricing_model_type,
+      </if>
+      <if test="activityIds != null" >
+        activity_ids,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="adjustment != null" >
+        #{adjustment,jdbcType=DOUBLE},
+      </if>
+      <if test="adjustmentDescription != null" >
+        #{adjustmentDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="pricingModel != null" >
+        #{pricingModel,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityAdjusted != null" >
+        #{quantityAdjusted,jdbcType=BIGINT},
+      </if>
+      <if test="totalAdjustment != null" >
+        #{totalAdjustment,jdbcType=DOUBLE},
+      </if>
+      <if test="pricingModelType != null" >
+        #{pricingModelType,jdbcType=INTEGER},
+      </if>
+      <if test="activityIds != null" >
+        #{activityIds,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.PriceAdjustment" >
+    update scp_price_adjustment
+    <set >
+      <if test="adjustment != null" >
+        adjustment = #{adjustment,jdbcType=DOUBLE},
+      </if>
+      <if test="adjustmentDescription != null" >
+        adjustment_description = #{adjustmentDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="pricingModel != null" >
+        pricing_model = #{pricingModel,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityAdjusted != null" >
+        quantity_adjusted = #{quantityAdjusted,jdbcType=BIGINT},
+      </if>
+      <if test="totalAdjustment != null" >
+        total_adjustment = #{totalAdjustment,jdbcType=DOUBLE},
+      </if>
+      <if test="pricingModelType != null" >
+        pricing_model_type = #{pricingModelType,jdbcType=INTEGER},
+      </if>
+      <if test="activityIds != null" >
+        activity_ids = #{activityIds,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.PriceAdjustment" >
+    update scp_price_adjustment
+    set adjustment = #{adjustment,jdbcType=DOUBLE},
+      adjustment_description = #{adjustmentDescription,jdbcType=VARCHAR},
+      pricing_model = #{pricingModel,jdbcType=VARCHAR},
+      quantity_adjusted = #{quantityAdjusted,jdbcType=BIGINT},
+      total_adjustment = #{totalAdjustment,jdbcType=DOUBLE},
+      pricing_model_type = #{pricingModelType,jdbcType=INTEGER},
+      activity_ids = #{activityIds,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

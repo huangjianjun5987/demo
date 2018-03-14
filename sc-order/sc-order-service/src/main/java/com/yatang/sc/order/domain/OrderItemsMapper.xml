@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.OrderItemsDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.OrderItems" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="commerce_item_id" property="commerceItemId" jdbcType="BIGINT" />
+    <result column="delete" property="delete" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, commerce_item_id,`delete`
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from scp_order_items
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="getOrderItemsForOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from scp_order_items
+    where order_id = #{orderId,jdbcType=VARCHAR} AND `delete`=false
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from scp_order_items
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.OrderItems" >
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
+    insert into scp_order_items (order_id, commerce_item_id
+      )
+    values (#{orderId,jdbcType=VARCHAR}, #{commerceItemId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.OrderItems" >
+    insert into scp_order_items
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="commerceItemId != null" >
+        commerce_item_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="commerceItemId != null" >
+        #{commerceItemId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.OrderItems" >
+    update scp_order_items
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="commerceItemId != null" >
+        commerce_item_id = #{commerceItemId,jdbcType=BIGINT},
+      </if>
+      <if test="delete != null" >
+        `delete` = #{delete,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.OrderItems" >
+    update scp_order_items
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      commerce_item_id = #{commerceItemId,jdbcType=BIGINT},
+      `delete` = #{delete,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <resultMap id="queryOrderItemsByOrderIdResultMap" type="com.yatang.sc.order.domain.QuerOrderItemsPo">
+    <result column="product_id" jdbcType="VARCHAR" property="product_id"/>
+    <result column="sku_id" jdbcType="VARCHAR" property="sku_id"/>
+    <result column="quantity" jdbcType="BIGINT" property="num"/>
+    <result column="sale_price" jdbcType="DOUBLE" property="price"/>
+
+  </resultMap>
+
+  <select id="queryOrderItemsByOrderId" parameterType="java.lang.String" resultMap="queryOrderItemsByOrderIdResultMap">
+    SELECT
+      ci.product_id,
+      ci.sku_id,
+      CASE ci.sell_full_case
+         WHEN 0 THEN ci.quantity
+         WHEN 1 THEN ci.sale_quantity
+      ELSE ci.quantity END
+      quantity,
+      ip.sale_price
+    FROM
+      scp_order_items oi
+    LEFT JOIN scp_commerce_item ci
+      ON oi.commerce_item_id = ci.id
+    LEFT JOIN scp_item_price ip
+      ON ci.item_price_info = ip.id
+    WHERE oi.order_id =#{orderId,jdbcType=VARCHAR} AND oi.`delete` = false
+
+  </select>
+
+
+  <resultMap id="orderItemPoMap" type="com.yatang.sc.order.domain.orderIndex.OrderItemIndex" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="BIGINT" />
+    <result column="state_detail" property="stateDetail" jdbcType="VARCHAR" />
+    <result column="sale_quantity" property="saleQuantity" jdbcType="BIGINT" />
+    <result column="shipped_quantity" property="shippedQuantity" jdbcType="BIGINT" />
+    <result column="completed_quantity" property="completedQuantity" jdbcType="BIGINT" />
+    <result column="unit_quantity" property="unitQuantity" jdbcType="BIGINT" />
+    <result column="return_quantity" property="returnQuantity" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="list_price" property="listPrice" jdbcType="DOUBLE" />
+
+    <result column="order_discount_share" property="orderDiscountShare" jdbcType="BIGINT" />
+    <result column="quantity_as_qualifier" property="quantityAsQualifier" jdbcType="BIGINT" />
+    <result column="quantity_discounted" property="quantityDiscounted" jdbcType="BIGINT" />
+    <result column="raw_total_price" property="rawTotalPrice" jdbcType="DOUBLE" />
+    <result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
+
+  </resultMap>
+
+  <select id="getOrderItemToScreenPoList" parameterType="java.lang.String" resultMap="orderItemPoMap">
+
+    SELECT
+    ci.id,
+    ci.product_id,
+    ci.quantity,
+    ci.state_detail,
+    ci.sale_quantity,
+    ci.shipped_quantity,
+    ci.completed_quantity,
+    ci.unit_quantity,
+    ci.return_quantity,
+    ip.order_discount_share,
+    ip.quantity_as_qualifier,
+    ip.amount,
+    ip.list_price,
+    ip.quantity_discounted,
+    ip.raw_total_price,
+    ip.sale_price
+    FROM
+    scp_order_items oi
+    LEFT JOIN scp_commerce_item ci
+    ON oi.commerce_item_id = ci.id
+    LEFT JOIN scp_item_price ip
+    ON ci.item_price_info = ip.id
+    WHERE oi.order_id = #{orderId,jdbcType=VARCHAR} AND oi.`delete` = false
+  </select>
+
+
+</mapper>

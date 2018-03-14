@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 定义模块可被调用的服务,调用方,在Spring加载过程中引用此配置-->
+
+
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.QueryOrderDubboService" id="queryOrderDubboService" timeout="120000" version="1.0"/>
+	<!--查询单个订单-->
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.QueryOrderDetailDubboService" id="queryOrderDetailDubboService" timeout="120000" version="1.0"/>
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.PurchaseDubboService" id="purchaseDubboService" timeout="120000" version="1.0"/>
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.AddressInfoDubboService" id="addressInfoDubboService" timeout="120000" version="1.0"/>
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.SplitOrderService" id="splitOrderService" timeout="120000" version="1.0"/>
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.DirectStoreOrdersDubboService" id="directStoreOrdersDubboService" timeout="120000" version="1.0"/>
+
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.CouponsDubboService" id="couponsDubboService" timeout="120000" version="1.0"/>
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.AddPaymentInfoDubboService" id="addPaymentInfoDubboService" timeout="120000" version="1.0"/>
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.ThirdOrderDubboService" id="thirdOrderDubboService" timeout="120000" version="1.0"/>
+    <!--退换货-->
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.ReturnRequestQueryDubboService" id="returnRequestQueryDubboService" timeout="120000" version="1.0"/>
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.ReturnRequestWriteDubboService" id="returnRequestWriteDubboService" timeout="120000" version="1.0"/>
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.QueryNoPayTimeDubboService" id="queryNoPayTimeDubboService" timeout="120000" version="1.0"/>
+
+	<!--心愿单-->
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.WishQueryDubboService" id="wishQueryDubboService" timeout="120000" version="1.0"/>
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.WishWriteDubboService" id="wishWriteDubboService" timeout="120000" version="1.0"/>
+
+
+</beans>

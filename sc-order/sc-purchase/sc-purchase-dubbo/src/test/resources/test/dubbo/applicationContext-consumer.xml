@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+     xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!-- Dubbo config -->
+	<dubbo:application name="sc-purchase-server" />
+	<dubbo:registry protocol="zookeeper" address="172.30.10.157:2181"/>
+	<dubbo:protocol name="dubbo" port="-1" />
+	<dubbo:monitor protocol="registry" />
+	<dubbo:consumer check="false" />
+<!--
+	 引入provider工程定义的spring信息
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.SupplierQueryDubboService" id="supplierQueryDubboService" timeout="120000" version="1.0" />
+	&lt;!&ndash; 引入字典工程定义的spring信息用于Test &ndash;&gt;
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.DictionaryQueryDubboService" id="dictionaryQueryDubboService" timeout="120000" version="1.0"/>
+
+	&lt;!&ndash; 用户服务 &ndash;&gt;
+	<dubbo:reference interface="com.yatang.sc.purchase.dubboservice.UserDubboService" id="userDubboService" timeout="120000" version="1.0"/>-->
+
+</beans>

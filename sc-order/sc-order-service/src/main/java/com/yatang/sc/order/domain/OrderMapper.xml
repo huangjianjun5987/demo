@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.OrderDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.Order" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="profile_id" property="profileId" jdbcType="VARCHAR" />
+    <result column="branch_company_id" property="branchCompanyId" jdbcType="VARCHAR" />
+    <result column="branch_company_arehouse" property="branchCompanyArehouse" jdbcType="VARCHAR" />
+    <result column="franchisee_id" property="franchiseeId" jdbcType="VARCHAR" />
+    <result column="franchisee_store_id" property="franchiseeStoreId" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="SMALLINT" />
+    <result column="state_detail" property="stateDetail" jdbcType="VARCHAR" />
+    <result column="order_state" property="orderState" jdbcType="VARCHAR" />
+    <result column="shipping_state" property="shippingState" jdbcType="VARCHAR" />
+    <result column="payment_state" property="paymentState" jdbcType="VARCHAR" />
+    <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
+    <result column="creation_time" property="creationTime" jdbcType="TIMESTAMP" />
+    <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="completed_time" property="completedTime" jdbcType="TIMESTAMP" />
+    <result column="price_info" property="priceInfo" jdbcType="BIGINT" />
+    <result column="created_by_order_id" property="createdByOrderId" jdbcType="VARCHAR" />
+    <result column="sales_channel" property="salesChannel" jdbcType="VARCHAR" />
+    <result column="agent_id" property="agentId" jdbcType="VARCHAR" />
+    <result column="site_id" property="siteId" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="BIGINT" />
+    <result column="invoice_info" property="invoiceInfo" jdbcType="BIGINT" />
+    <result column="shipping_group" property="shippingGroup" jdbcType="VARCHAR" />
+    <result column="payment_group" property="paymentGroup" jdbcType="VARCHAR" />
+    <result column="cancel_reason" property="cancelReason" jdbcType="VARCHAR" />
+    <result column="interactive_pending_res" property="interactivePendingRes"/>
+    <result column="pending_split" property="pendingSplit"/>
+    <result column="cancel_status" property="cancelStatus"/>
+    <result column="third_pary_order_no" property="thirdPartOrderNo" jdbcType="VARCHAR"/>
+    <result column="receipt_no" property="receiptNo" jdbcType="VARCHAR"/>
+    <result column="purchase_order_no" property="purchaseOrderNo" jdbcType="VARCHAR"/>
+    <result column="from" property="from" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, profile_id, branch_company_id, branch_company_arehouse,franchisee_id, franchisee_store_id, order_type,
+    state, state_detail, order_state, shipping_state, payment_state, submit_time, creation_time, 
+    last_modified_time, completed_time, price_info, created_by_order_id, sales_channel, cancel_status,
+    agent_id, site_id, description, version, invoice_info, shipping_group, payment_group,cancel_reason,pending_split,
+    interactive_pending_res,third_pary_order_no,receipt_no,purchase_order_no,`from`
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from scp_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from scp_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.Order" >
+    insert into scp_order (id, profile_id, branch_company_id,branch_company_arehouse,
+    franchisee_id, franchisee_store_id, order_type,
+    state, state_detail, order_state,
+    shipping_state, payment_state, submit_time,
+    creation_time, last_modified_time, completed_time,
+    price_info, created_by_order_id, sales_channel,
+    agent_id, site_id, description,
+    version, invoice_info, shipping_group,payment_group,third_pary_order_no,receipt_no,purchase_order_no,`from`)
+    values (#{id,jdbcType=VARCHAR}, #{profileId,jdbcType=VARCHAR}, #{branchCompanyId,jdbcType=VARCHAR},#{branchCompanyArehouse,jdbcType=VARCHAR},
+    #{franchiseeId,jdbcType=VARCHAR}, #{franchiseeStoreId,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR},
+    #{state,jdbcType=SMALLINT}, #{stateDetail,jdbcType=VARCHAR}, #{orderState,jdbcType=VARCHAR},
+    #{shippingState,jdbcType=VARCHAR}, #{paymentState,jdbcType=VARCHAR}, #{submitTime,jdbcType=TIMESTAMP},
+    #{creationTime,jdbcType=TIMESTAMP}, #{lastModifiedTime,jdbcType=TIMESTAMP}, #{completedTime,jdbcType=TIMESTAMP},
+    #{priceInfo,jdbcType=BIGINT}, #{createdByOrderId,jdbcType=VARCHAR}, #{salesChannel,jdbcType=VARCHAR},
+    #{agentId,jdbcType=VARCHAR}, #{siteId,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+    #{version,jdbcType=BIGINT}, #{invoiceInfo,jdbcType=BIGINT}, #{shippingGroup,jdbcType=VARCHAR},
+    #{paymentGroup,jdbcType=VARCHAR},#{thirdPartOrderNo,jdbcType=VARCHAR},#{receiptNo,jdbcType=VARCHAR},#{purchaseOrderNo,jdbcType=VARCHAR}
+    ,#{from,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.Order" >
+    insert into scp_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="profileId != null" >
+        profile_id,
+      </if>
+      <if test="branchCompanyId != null" >
+        branch_company_id,
+      </if>
+      <if test="branchCompanyArehouse != null" >
+        branch_company_arehouse,
+      </if>
+
+      <if test="franchiseeId != null" >
+        franchisee_id,
+      </if>
+      <if test="franchiseeStoreId != null" >
+        franchisee_store_id,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="stateDetail != null" >
+        state_detail,
+      </if>
+      <if test="orderState != null" >
+        order_state,
+      </if>
+      <if test="shippingState != null" >
+        shipping_state,
+      </if>
+      <if test="paymentState != null" >
+        payment_state,
+      </if>
+      <if test="submitTime != null" >
+        submit_time,
+      </if>
+      <if test="creationTime != null" >
+        creation_time,
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time,
+      </if>
+      <if test="completedTime != null" >
+        completed_time,
+      </if>
+      <if test="priceInfo != null" >
+        price_info,
+      </if>
+      <if test="createdByOrderId != null" >
+        created_by_order_id,
+      </if>
+      <if test="salesChannel != null" >
+        sales_channel,
+      </if>
+      <if test="agentId != null" >
+        agent_id,
+      </if>
+      <if test="siteId != null" >
+        site_id,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="invoiceInfo != null" >
+        invoice_info,
+      </if>
+      <if test="shippingGroup != null" >
+        shipping_group,
+      </if>
+      <if test="paymentGroup != null" >
+        payment_group,
+      </if>
+      <if test="thirdPartOrderNo != null" >
+        third_pary_order_no,
+      </if>
+      <if test="receiptNo != null" >
+        receipt_no,
+      </if>
+      <if test="purchaseOrderNo != null" >
+        purchase_order_no,
+      </if>
+      <if test="from != null" >
+        `from`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="profileId != null" >
+        #{profileId,jdbcType=VARCHAR},
+      </if>
+      <if test="branchCompanyId != null" >
+        #{branchCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="branchCompanyArehouse != null" >
+        #{branchCompanyArehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="franchiseeId != null" >
+        #{franchiseeId,jdbcType=VARCHAR},
+      </if>
+      <if test="franchiseeStoreId != null" >
+        #{franchiseeStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="stateDetail != null" >
+        #{stateDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null" >
+        #{orderState,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingState != null" >
+        #{shippingState,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentState != null" >
+        #{paymentState,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null" >
+        #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creationTime != null" >
+        #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completedTime != null" >
+        #{completedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priceInfo != null" >
+        #{priceInfo,jdbcType=BIGINT},
+      </if>
+      <if test="createdByOrderId != null" >
+        #{createdByOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="salesChannel != null" >
+        #{salesChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null" >
+        #{agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        #{siteId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceInfo != null" >
+        #{invoiceInfo,jdbcType=BIGINT},
+      </if>
+      <if test="shippingGroup != null" >
+        #{shippingGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentGroup != null" >
+        #{paymentGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPartOrderNo != null" >
+        #{thirdPartOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptNo != null" >
+        #{receiptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseOrderNo != null" >
+        #{purchaseOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="from != null" >
+        #{from,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.Order" >
+    update scp_order
+    <set >
+      <if test="profileId != null" >
+        profile_id = #{profileId,jdbcType=VARCHAR},
+      </if>
+      <if test="branchCompanyId != null" >
+        branch_company_id = #{branchCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="branchCompanyArehouse != null" >
+        branch_company_arehouse = #{branchCompanyArehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="franchiseeId != null" >
+        franchisee_id = #{franchiseeId,jdbcType=VARCHAR},
+      </if>
+      <if test="franchiseeStoreId != null" >
+        franchisee_store_id = #{franchiseeStoreId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="stateDetail != null" >
+        state_detail = #{stateDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null" >
+        order_state = #{orderState,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingState != null" >
+        shipping_state = #{shippingState,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentState != null" >
+        payment_state = #{paymentState,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null" >
+        submit_time = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creationTime != null" >
+        creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completedTime != null" >
+        completed_time = #{completedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priceInfo != null" >
+        price_info = #{priceInfo,jdbcType=BIGINT},
+      </if>
+      <if test="createdByOrderId != null" >
+        created_by_order_id = #{createdByOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="salesChannel != null" >
+        sales_channel = #{salesChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null" >
+        agent_id = #{agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        site_id = #{siteId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      version = version+1,
+      <if test="invoiceInfo != null" >
+        invoice_info = #{invoiceInfo,jdbcType=BIGINT},
+      </if>
+      <if test="shippingGroup != null" >
+        shipping_group = #{shippingGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentGroup != null" >
+        payment_group = #{paymentGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="cancelReason != null" >
+        cancel_reason = #{cancelReason,jdbcType=VARCHAR},
+      </if>
+      <if test="interactivePendingRes != null" >
+        interactive_pending_res = #{interactivePendingRes},
+      </if>
+      <if test="cancelStatus != null" >
+        cancel_status = #{cancelStatus},
+      </if>
+      <if test="thirdPartOrderNo != null" >
+        third_pary_order_no = #{thirdPartOrderNo},
+      </if>
+      <if test="pendingSplit != null" >
+        pending_split = #{pendingSplit},
+      </if>
+      <if test="receiptNo != null" >
+        receipt_no = #{receiptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseOrderNo != null" >
+        purchase_order_no = #{purchaseOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="from != null" >
+        `from` =  #{from,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR} AND version=#{version,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.Order" >
+    update scp_order
+    set profile_id = #{profileId,jdbcType=VARCHAR},
+    branch_company_id = #{branchCompanyId,jdbcType=VARCHAR},
+    branch_company_arehouse = #{branchCompanyArehouse,jdbcType=VARCHAR},
+    franchisee_id = #{franchiseeId,jdbcType=VARCHAR},
+    franchisee_store_id = #{franchiseeStoreId,jdbcType=VARCHAR},
+    order_type = #{orderType,jdbcType=VARCHAR},
+    state = #{state,jdbcType=SMALLINT},
+    state_detail = #{stateDetail,jdbcType=VARCHAR},
+    order_state = #{orderState,jdbcType=VARCHAR},
+    shipping_state = #{shippingState,jdbcType=VARCHAR},
+    payment_state = #{paymentState,jdbcType=VARCHAR},
+    submit_time = #{submitTime,jdbcType=TIMESTAMP},
+    creation_time = #{creationTime,jdbcType=TIMESTAMP},
+    last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+    completed_time = #{completedTime,jdbcType=TIMESTAMP},
+    price_info = #{priceInfo,jdbcType=BIGINT},
+    created_by_order_id = #{createdByOrderId,jdbcType=VARCHAR},
+    sales_channel = #{salesChannel,jdbcType=VARCHAR},
+    agent_id = #{agentId,jdbcType=VARCHAR},
+    site_id = #{siteId,jdbcType=VARCHAR},
+    description = #{description,jdbcType=VARCHAR},
+    version = version+1,
+    invoice_info = #{invoiceInfo,jdbcType=BIGINT},
+    shipping_group = #{shippingGroup,jdbcType=VARCHAR},
+    payment_group = #{paymentGroup,jdbcType=VARCHAR},
+    cancel_reason = #{cancelReason,jdbcType=VARCHAR},
+    interactive_pending_res = #{interactivePendingRes},
+    cancel_status = #{cancelStatus},
+    third_pary_order_no = #{thirdPartOrderNo,jdbcType=VARCHAR},
+    pending_split=#{pendingSplit},
+    receipt_no=#{receiptNo,jdbcType=VARCHAR},
+    purchase_order_no = #{purchaseOrderNo,jdbcType=VARCHAR},
+    `from` =  #{from,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR} and version= #{version,jdbcType=VARCHAR}
+  </update>
+
+
+  <!-- 自定义sql -->
+  <resultMap id="orderList" type="com.yatang.sc.order.domain.Order">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="profile_id" property="profileId" jdbcType="VARCHAR" />
+    <result column="branch_company_id" property="branchCompanyId" jdbcType="VARCHAR" />
+    <result column="branch_company_arehouse" property="branchCompanyArehouse" jdbcType="VARCHAR" />
+    <result column="franchisee_id" property="franchiseeId" jdbcType="VARCHAR" />
+    <result column="franchisee_store_id" property="franchiseeStoreId" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="SMALLINT" />
+    <result column="state_detail" property="stateDetail" jdbcType="VARCHAR" />
+    <result column="order_state" property="orderState" jdbcType="VARCHAR" />
+    <result column="shipping_state" property="shippingState" jdbcType="VARCHAR" />
+    <result column="payment_state" property="paymentState" jdbcType="VARCHAR" />
+    <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
+    <result column="creation_time" property="creationTime" jdbcType="TIMESTAMP" />
+    <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="completed_time" property="completedTime" jdbcType="TIMESTAMP" />
+    <result column="price_info" property="priceInfo" jdbcType="BIGINT" />
+    <result column="created_by_order_id" property="createdByOrderId" jdbcType="VARCHAR" />
+    <result column="sales_channel" property="salesChannel" jdbcType="VARCHAR" />
+    <result column="agent_id" property="agentId" jdbcType="VARCHAR" />
+    <result column="site_id" property="siteId" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="BIGINT" />
+    <result column="invoice_info" property="invoiceInfo" jdbcType="BIGINT" />
+    <result column="shipping_group" property="shippingGroup" jdbcType="VARCHAR" />
+    <result column="payment_group" property="paymentGroup" jdbcType="VARCHAR" />
+
+
+
+
+    <result column="discount_amount" property="discountAmount" jdbcType="DOUBLE" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="payment_method" property="paymentMethod" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="cancel_reason" property="cancelReason" jdbcType="VARCHAR" />
+    <result column="raw_subtotal" property="rawSubtotal" jdbcType="DOUBLE" />
+    <result column="total" property="total" jdbcType="DOUBLE" />
+    <result column="interactive_pending_res" property="interactivePendingRes"/>
+    <result column="pending_split" property="pendingSplit"/>
+    <result column="cancel_status" property="cancelStatus"/>
+    <!--供应商直送配送相关字段 yinyuxin -->
+    <result column="sp_name" property="spName" jdbcType="VARCHAR"/>
+    <result column="singed_cert_img" property="singedCertImg" jdbcType="VARCHAR" />
+
+  </resultMap>
+
+  <!--自定义增强版的sql-->
+  <resultMap id="orderEnhancedList" type="com.yatang.sc.order.domain.OrderEnhancedPo">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="created_by_order_id" property="createdByOrderId" jdbcType="VARCHAR" />
+    <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+    <result column="shipping_no" property="shippingNo" jdbcType="VARCHAR" />
+    <result column="order_state" property="orderState" jdbcType="VARCHAR" />
+    <result column="payment_state" property="paymentState" jdbcType="VARCHAR" />
+    <result column="shipping_state" property="shippingState" jdbcType="VARCHAR" />
+    <result column="branch_company_id" property="branchCompanyId" jdbcType="VARCHAR" />
+    <result column="franchisee_id" property="franchiseeId" jdbcType="VARCHAR" />
+    <result column="third_pary_order_no" property="thirdParyOrderNo" jdbcType="VARCHAR" />
+    <result column="franchisee_store_id" property="franchiseeStoreId" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="DOUBLE" />
+    <result column="cancel_reason" property="cancelReason" jdbcType="VARCHAR" />
+    <result column="consignee_name" property="consigneeName" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <!--<result column="paidPrice" property="actualTotal" jdbcType="DOUBLE" />-->
+    <result column="coupon_discount_amount" property="couponDiscountAmount" jdbcType="DOUBLE" />
+    <result column="discount_amount" property="discountAmount" jdbcType="DOUBLE" />
+    <result column="user_discount_amount" property="userDiscountAmount" jdbcType="DOUBLE" />
+    <result column="discountTotalAmount" property="discountTotalAmount" jdbcType="DOUBLE" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="detail_address" property="detailAddress" jdbcType="VARCHAR" />
+    <result column="postcode" property="postcode" jdbcType="VARCHAR" />
+    <result column="cellphone" property="cellphone" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="BIGINT" />
+    <result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <!--<result column="av_cost" property="avCost" jdbcType="DOUBLE" />-->
+    <!--<result column="cost" property="cost"/>-->
+    <result column="raw_subtotal" property="rawSubtotal"/>
+    <result column="order_amount" property="orderAmount" jdbcType="DOUBLE" />
+    <result column="state_detail" property="stateDetail" jdbcType="VARCHAR" />
+    <result column="sp_name" property="spName" jdbcType="VARCHAR" />
+  </resultMap>
+  <!--增强版结束-->
+
+
+
+  <select id="getOrderCount"  parameterType="java.util.Map" resultType="java.lang.Long">
+    select count(id)
+    from scp_order
+    where profile_id = #{profileId,jdbcType=VARCHAR}
+    <if test="state != null and state != 0" >
+      and state = #{state,jdbcType=SMALLINT}
+    </if>
+    and order_state != 'SP'
+  </select>
+
+  <select id="getOrder" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from scp_order
+    where profile_id = #{profileId,jdbcType=VARCHAR}
+    <if test="state != null and state != 0" >
+      and state = #{state,jdbcType=SMALLINT}
+    </if>
+    and order_state != 'SP'
+    order by creation_time desc
+    limit #{start},#{end}
+  </select>
+
+  <select id="getOrderPageListCount" resultType="java.lang.Long" parameterType="java.util.Map" >
+    SELECT count(o.id)
+    FROM scp_order o LEFT JOIN scp_order_price op ON op.id = o.price_info
+    LEFT JOIN scp_shipping_group spg ON o.shipping_group = spg.id
+    LEFT JOIN scp_provider_shipping_group spsg ON spsg.shipping_group_id=spg.id
+    WHERE 1=1
+    <if test="id != null" >
+      and o.id = #{id,jdbcType=VARCHAR}
+    </if>
+    <if test="createdByOrderId != null" >
+      and o.created_by_order_id = #{createdByOrderId,jdbcType=VARCHAR}
+    </if>
+    <if test="orderType != null" >
+      and o.order_type = #{orderType,jdbcType=VARCHAR}
+    </if>
+    <if test="orderState != null" >
+      and o.order_state = #{orderState,jdbcType=VARCHAR}
+    </if>
+    <if test="paymentState != null" >
+      and o.payment_state = #{paymentState,jdbcType=VARCHAR}
+    </if>
+    <if test="shippingState != null" >
+      and o.shipping_state = #{shippingState,jdbcType=VARCHAR}
+    </if>
+    <if test="franchiseeId != null" >
+      and o.franchisee_id  = #{franchiseeId,jdbcType=VARCHAR}
+    </if>
+    <if test="branchCompanyIds != null and branchCompanyIds.size > 0">
+      and o.branch_company_id IN
+      <foreach collection="branchCompanyIds" index="index" item="item" open="(" separator="," close=")">
+      #{item,jdbcType=VARCHAR}
+      </foreach>
+    </if>
+    <if test="cellphone != null" >
+      and spg.cellphone = #{cellphone,jdbcType=VARCHAR}
+    </if>
+    <if test="thirdPartOrderNo != null" >
+      and o.third_pary_order_no = #{thirdPartOrderNo,jdbcType=VARCHAR}
+    </if>
+
+    <if test="submitStartTime != null" >
+      and o.submit_time  <![CDATA[   >=  ]]> #{submitStartTime,jdbcType=VARCHAR}
+    </if>
+    <if test="submitEndTime != null" >
+      and o.submit_time <![CDATA[   <=  ]]> #{submitEndTime,jdbcType=VARCHAR}
+    </if>
+    <if test="franchiseeStoreId!=null ">
+      and o.franchisee_store_id = #{franchiseeStoreId,jdbcType=VARCHAR}
+    </if>
+    <if test="containParent == 0">
+      and o.order_state != 'SP'
+    </if>
+    <!--增加供应商直送等配送方式查询条件  yinyuxin -->
+    <if test="shippingModes !=null">
+      AND spg.shipping_modes = #{shippingModes,jdbcType=VARCHAR}
+    </if>
+    <if test="spName !=null">
+      AND spsg.sp_name LIKE concat(concat('%',#{spName,jdbcType=VARCHAR}),'%')
+    </if>
+
+  </select>
+  <select id="getOrderPageList" resultMap="orderList" parameterType="java.util.Map" >
+    SELECT o.id,o.created_by_order_id,o.order_type,o.franchisee_id,o.franchisee_store_id,o.branch_company_id,o.submit_time,o.order_state,o.payment_state,o.shipping_state,o.cancel_reason,op.raw_subtotal,op.total,
+    spsg.sp_name,spg.shipping_modes
+    FROM scp_order o LEFT JOIN scp_order_price op ON op.id = o.price_info
+    LEFT JOIN scp_shipping_group spg ON o.shipping_group = spg.id
+    LEFT JOIN scp_provider_shipping_group spsg ON spsg.shipping_group_id=spg.id
+    WHERE 1=1
+    <if test="id != null" >
+      and o.id = #{id,jdbcType=VARCHAR}
+    </if>
+    <if test="createdByOrderId != null" >
+      and o.created_by_order_id = {createdByOrderId,jdbcType=VARCHAR}
+    </if>
+    <if test="orderType != null" >
+      and o.order_type = #{orderType,jdbcType=VARCHAR}
+    </if>
+    <if test="orderState != null" >
+      and o.order_state = #{orderState,jdbcType=VARCHAR}
+    </if>
+    <if test="paymentState != null" >
+      and o.payment_state = #{paymentState,jdbcType=VARCHAR}
+    </if>
+    <if test="shippingState != null" >
+      and o.shipping_state = #{shippingState,jdbcType=VARCHAR}
+    </if>
+    <if test="franchiseeId != null" >
+      and o.franchisee_id  = #{franchiseeId,jdbcType=VARCHAR}
+    </if>
+    <if test="branchCompanyIds != null and branchCompanyIds.size > 0">
+      and o.branch_company_id IN
+      <foreach collection="branchCompanyIds" index="index" item="item" open="(" separator="," close=")">
+        #{item,jdbcType=VARCHAR}
+      </foreach>
+    </if>
+    <if test="cellphone != null" >
+      and spg.cellphone = #{cellphone,jdbcType=VARCHAR}
+    </if>
+    <!--增加供应商直送等配送方式查询条件  yinyuxin -->
+    <if test="shippingModes !=null">
+      AND spg.shipping_modes = #{shippingModes,jdbcType=VARCHAR}
+    </if>
+    <if test="spName !=null">
+      AND spsg.sp_name LIKE concat(concat('%',#{spName,jdbcType=VARCHAR}),'%')
+    </if>
+
+    <if test="thirdPartOrderNo != null" >
+      and o.third_pary_order_no = #{thirdPartOrderNo,jdbcType=VARCHAR}
+    </if>
+    <if test="submitStartTime != null" >
+      and o.submit_time  <![CDATA[   >=  ]]> #{submitStartTime,jdbcType=VARCHAR}
+    </if>
+    <if test="submitEndTime != null" >
+      and o.submit_time <![CDATA[   <=  ]]> #{submitEndTime,jdbcType=VARCHAR}
+    </if>
+    <if test="franchiseeStoreId!=null ">
+      and o.franchisee_store_id = #{franchiseeStoreId,jdbcType=VARCHAR}
+    </if>
+    <if test="containParent == 0">
+      and o.order_state != 'SP'
+    </if>
+    ORDER BY o.submit_time DESC
+    limit #{start},#{end}
+  </select>
+
+  <update id="updateOrderDes" parameterType="java.util.Map" >
+    update scp_order
+    set description = #{description,jdbcType=VARCHAR}
+    where id = #{orderId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getOrdersByState" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM scp_order
+    WHERE 1=1
+    <if test="orderState != null" >
+      and order_state = #{orderState,jdbcType=VARCHAR}
+    </if>
+    <if test="paymentState != null" >
+      and payment_state = #{paymentState,jdbcType=VARCHAR}
+    </if>
+    <if test="shippingState != null" >
+      and shipping_state = #{shippingState,jdbcType=VARCHAR}
+    </if>
+    <if test="submitEndTime != null" >
+      and submit_time <![CDATA[   <  ]]> #{submitEndTime,jdbcType=VARCHAR}
+    </if>
+    <if test="interactivePendingRes != null" >
+      and interactive_pending_res = #{interactivePendingRes,jdbcType=SMALLINT}
+    </if>
+    <if test="companyId != null" >
+      and branch_company_id = #{companyId,jdbcType=VARCHAR}
+    </if>
+    ORDER BY submit_time ASC
+  </select>
+  <update id="updateOrderStateByNewState" parameterType="java.util.List" >
+
+    <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+      update scp_order
+      <set>
+        <if test="orderState != null" >
+          order_state = #{item.orderState,jdbcType=VARCHAR},
+        </if>
+        <if test="paymentState != null" >
+          payment_state = #{item.paymentState,jdbcType=VARCHAR},
+        </if>
+        <if test="shippingState != null" >
+          shipping_state = #{item.shippingState,jdbcType=VARCHAR},
+        </if>
+        <if test="state != null" >
+          state = #{item.state,jdbcType=SMALLINT},
+        </if>
+        last_modified_time = #{item.lastModifiedTime,jdbcType=TIMESTAMP}
+      </set>
+      where id = #{item.id,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+
+  <select id="getSubOrders" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from scp_order
+    where created_by_order_id = #{parentId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getAllOrderCount" resultType="java.lang.Long">
+    select
+      count(id)
+    from scp_order
+
+  </select>
+
+  <select id="getAllOrderId" resultType="java.lang.String" parameterType="java.util.Map">
+    select
+    id
+    from scp_order limit #{start},#{end}
+  </select>
+
+
+  <!--增强版导出订单-->
+  <select id="getEnhancedOrderPageList" resultMap="orderEnhancedList" parameterType="java.util.Map" >
+    SELECT so.id , so.`created_by_order_id`,so.`submit_time` ,so.`order_type` ,ssp.shipping_no,
+    so.`order_state`,so.`payment_state` , so.`shipping_state` ,so.`branch_company_id`
+    ,so.`franchisee_id` ,so.franchisee_store_id,so.`third_pary_order_no` ,so.`cancel_reason` ,ssp.`consignee_name`,ssp.`province`,
+    sop.total,sop.raw_subtotal,sop.amount paidPrice,sop.discount_amount, sop.coupon_discount_amount,sop.user_discount_amount,
+    so.description,
+    ssp.`city` ,ssp.`district` ,ssp.`detail_address` ,ssp.`cellphone`,ssp.`postcode` ,spsg.sp_name,
+    sci.`product_id` , sci.`quantity` ,sop.`amount` order_amount, sip.`sale_price`, sip.`amount` ,
+    sci.`state_detail`
+    FROM `scp_order` so
+    INNER JOIN scp_order_price sop
+    ON so.`price_info` = sop.`id`
+    INNER JOIN `scp_shipping_group` ssp
+    ON so.`shipping_group` = ssp.`id`
+    INNER JOIN scp_provider_shipping_group spsg
+    ON so.`shipping_group` = spsg.`shipping_group_id`
+    INNER JOIN `scp_order_items` soi
+    ON so.`id` = soi.`order_id`
+    LEFT JOIN `scp_commerce_item` sci
+    ON sci.`id` = soi.`commerce_item_id`
+    INNER JOIN scp_item_price sip
+    ON sip.`id` = sci.`item_price_info`
+    WHERE 1=1
+    <if test="id != null" >
+      and so.id = #{id,jdbcType=VARCHAR}
+    </if>
+    <if test="createdByOrderId != null" >
+      and so.created_by_order_id = #{createdByOrderId,jdbcType=VARCHAR}
+    </if>
+    <if test="orderType != null" >
+      and so.order_type = #{orderType,jdbcType=VARCHAR}
+    </if>
+    <if test="orderState != null" >
+      and so.order_state = #{orderState,jdbcType=VARCHAR}
+    </if>
+    <if test="paymentState != null" >
+      and so.payment_state = #{paymentState,jdbcType=VARCHAR}
+    </if>
+    <if test="shippingState != null" >
+      and so.shipping_state = #{shippingState,jdbcType=VARCHAR}
+    </if>
+    <if test="franchiseeId != null" >
+      and so.franchisee_id  = #{franchiseeId,jdbcType=VARCHAR}
+    </if>
+    <if test="branchCompanyIds != null and branchCompanyIds.size > 0">
+      and so.branch_company_id IN
+    <foreach collection="branchCompanyIds" index="index" item="item" open="(" separator="," close=")">
+        #{item,jdbcType=VARCHAR}
+    </foreach>
+    </if>
+
+    <if test="cellphone != null" >
+      and ssp.cellphone = #{cellphone,jdbcType=VARCHAR}
+    </if>
+    <if test="submitStartTime != null" >
+      and so.submit_time  <![CDATA[   >=  ]]> #{submitStartTime,jdbcType=VARCHAR}
+    </if>
+    <if test="submitEndTime != null" >
+      and so.submit_time <![CDATA[   <=  ]]> #{submitEndTime,jdbcType=VARCHAR}
+    </if>
+    <if test="containParent == 0">
+          and so.order_state != 'SP'
+    </if>
+    <if test="shippingModes !=null">
+      AND ssp.shipping_modes = #{shippingModes,jdbcType=VARCHAR}
+    </if>
+    <if test="spName !=null">
+      AND spsg.sp_name LIKE concat(concat('%',#{spName,jdbcType=VARCHAR}),'%')
+    </if>
+    ORDER BY so.submit_time DESC
+    limit #{start},#{end}
+  </select>
+
+  <!--增强版订单数量-->
+  <select id="getEnhancedOrderPageCount" resultType="java.lang.Long" parameterType="java.util.Map" >
+  SELECT count(so.id)
+  FROM `scp_order` so
+  INNER JOIN scp_order_price sop
+  ON so.`price_info` = sop.`id`
+  INNER JOIN `scp_shipping_group` ssp
+  ON so.`shipping_group` = ssp.`id`
+  INNER JOIN scp_provider_shipping_group spsg
+  ON so.`shipping_group` = spsg.`shipping_group_id`
+  INNER JOIN `scp_order_items` soi
+  ON so.`id` = soi.`order_id`
+  LEFT JOIN `scp_commerce_item` sci
+  ON sci.`id` = soi.`commerce_item_id`
+  INNER JOIN scp_item_price sip
+  ON sip.`id` = sci.`item_price_info`
+  WHERE 1=1
+    <if test="id != null" >
+      and so.id = #{id,jdbcType=VARCHAR}
+    </if>
+    <if test="createdByOrderId != null" >
+      and so.created_by_order_id = #{createdByOrderId,jdbcType=VARCHAR}
+    </if>
+    <if test="orderType != null" >
+      and so.order_type = #{orderType,jdbcType=VARCHAR}
+    </if>
+    <if test="orderState != null" >
+      and so.order_state = #{orderState,jdbcType=VARCHAR}
+    </if>
+    <if test="paymentState != null" >
+      and so.payment_state = #{paymentState,jdbcType=VARCHAR}
+    </if>
+    <if test="shippingState != null" >
+      and so.shipping_state = #{shippingState,jdbcType=VARCHAR}
+    </if>
+    <if test="franchiseeId != null" >
+      and so.franchisee_id  = #{franchiseeId,jdbcType=VARCHAR}
+    </if>
+    <if test="branchCompanyIds != null and branchCompanyIds.size > 0">
+      and so.branch_company_id IN
+    <foreach collection="branchCompanyIds" index="index" item="item" open="(" separator="," close=")">
+        #{item,jdbcType=VARCHAR}
+    </foreach>
+    </if>
+
+    <if test="cellphone != null" >
+      and ssp.cellphone = #{cellphone,jdbcType=VARCHAR}
+    </if>
+    <if test="submitStartTime != null" >
+      and so.submit_time  <![CDATA[   >=  ]]> #{submitStartTime,jdbcType=VARCHAR}
+    </if>
+    <if test="submitEndTime != null" >
+      and so.submit_time <![CDATA[   <=  ]]> #{submitEndTime,jdbcType=VARCHAR}
+    </if>
+    <if test="containParent == 0">
+          and so.order_state != 'SP'
+    </if>
+    <if test="shippingModes !=null">
+      AND ssp.shipping_modes = #{shippingModes,jdbcType=VARCHAR}
+    </if>
+    <if test="spName !=null">
+      AND spsg.sp_name LIKE concat(concat('%',#{spName,jdbcType=VARCHAR}),'%')
+    </if>
+  </select>
+  <select id="queryThirdOrderByThirdOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from scp_order
+    where third_pary_order_no = #{thirdPartOrderNo,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryProfileIdByOrderId" parameterType="java.lang.String" resultType="java.lang.String">
+    select
+    franchisee_id
+    from scp_order
+    where id = #{id,jdbcType=VARCHAR} limit 0,1
+  </select>
+
+  <select id="getReadyToAutoReceiveOrderId" resultType="java.lang.String" parameterType="java.util.Date">
+    SELECT o.id FROM scp_order o
+    JOIN scp_shipping_group sg ON o.shipping_group = sg.id
+    WHERE
+      o.order_state = 'A' AND
+      o.shipping_state = 'DSH' AND
+      o.payment_state = 'YZF' AND
+      (o.order_type = 'ZCXS' OR o.order_type = 'ZYYH') AND
+      sg.actual_ship_date <![CDATA[  <  ]]> #{time}
+  </select>
+
+  <select id="getOrdersForCheckInventory" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM scp_order
+    WHERE (order_state ='A' OR order_state='M') AND shipping_state='CGWDH' AND  order_type !='XNSP'
+    ORDER BY submit_time ASC
+  </select>
+
+  <select id="getOrderByReceiptNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM scp_order
+    WHERE receipt_no=#{receiptNo,jdbcType=VARCHAR} limit 1
+  </select>
+</mapper>

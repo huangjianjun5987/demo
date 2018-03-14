@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.InvoiceDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.Invoice" >
+    <id column="invoice_id" property="invoiceId" jdbcType="BIGINT" />
+    <result column="po_number" property="poNumber" jdbcType="VARCHAR" />
+    <result column="invoice_type" property="invoiceType" jdbcType="VARCHAR" />
+    <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="taxpayer_identification_number" property="taxpayerIdentificationNumber" jdbcType="VARCHAR" />
+    <result column="registered_address" property="registeredAddress" jdbcType="VARCHAR" />
+    <result column="company_phone" property="companyPhone" jdbcType="VARCHAR" />
+    <result column="deposit_bank" property="depositBank" jdbcType="VARCHAR" />
+    <result column="account_number" property="accountNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    invoice_id, po_number, invoice_type, invoice_title, company_name, taxpayer_identification_number, 
+    registered_address, company_phone, deposit_bank, account_number
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from scp_invoice
+    where invoice_id = #{invoiceId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from scp_invoice
+    where invoice_id = #{invoiceId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.Invoice" >
+    <selectKey keyProperty="invoiceId" resultType="java.lang.Long" order="AFTER">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
+    insert into scp_invoice (po_number, invoice_type,
+      invoice_title, company_name, taxpayer_identification_number, 
+      registered_address, company_phone, deposit_bank, 
+      account_number)
+    values (#{poNumber,jdbcType=VARCHAR}, #{invoiceType,jdbcType=VARCHAR},
+      #{invoiceTitle,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{taxpayerIdentificationNumber,jdbcType=VARCHAR}, 
+      #{registeredAddress,jdbcType=VARCHAR}, #{companyPhone,jdbcType=VARCHAR}, #{depositBank,jdbcType=VARCHAR},
+      #{accountNumber,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.Invoice" >
+    insert into scp_invoice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="poNumber != null" >
+        po_number,
+      </if>
+      <if test="invoiceType != null" >
+        invoice_type,
+      </if>
+      <if test="invoiceTitle != null" >
+        invoice_title,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="taxpayerIdentificationNumber != null" >
+        taxpayer_identification_number,
+      </if>
+      <if test="registeredAddress != null" >
+        registered_address,
+      </if>
+      <if test="companyPhone != null" >
+        company_phone,
+      </if>
+      <if test="depositBank != null" >
+        deposit_bank,
+      </if>
+      <if test="accountNumber != null" >
+        account_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="invoiceId != null" >
+        #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="poNumber != null" >
+        #{poNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null" >
+        #{invoiceType,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null" >
+        #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerIdentificationNumber != null" >
+        #{taxpayerIdentificationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAddress != null" >
+        #{registeredAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone != null" >
+        #{companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBank != null" >
+        #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNumber != null" >
+        #{accountNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.Invoice" >
+    update scp_invoice
+    <set >
+      <if test="poNumber != null" >
+        po_number = #{poNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null" >
+        invoice_type = #{invoiceType,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null" >
+        invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerIdentificationNumber != null" >
+        taxpayer_identification_number = #{taxpayerIdentificationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredAddress != null" >
+        registered_address = #{registeredAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone != null" >
+        company_phone = #{companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBank != null" >
+        deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNumber != null" >
+        account_number = #{accountNumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where invoice_id = #{invoiceId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.Invoice" >
+    update scp_invoice
+    set po_number = #{poNumber,jdbcType=VARCHAR},
+      invoice_type = #{invoiceType,jdbcType=VARCHAR},
+      invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      taxpayer_identification_number = #{taxpayerIdentificationNumber,jdbcType=VARCHAR},
+      registered_address = #{registeredAddress,jdbcType=VARCHAR},
+      company_phone = #{companyPhone,jdbcType=VARCHAR},
+      deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      account_number = #{accountNumber,jdbcType=VARCHAR}
+    where invoice_id = #{invoiceId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.MqMsgLogDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.MqMsgLog" >
+    <id column="msg_id" property="msgId" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="msg_body" property="msgBody" jdbcType="VARCHAR" />
+    <result column="msg_type" property="msgType" jdbcType="VARCHAR" />
+    <result column="process_result" property="processResult" jdbcType="TINYINT" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="reciv_date" property="recivDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    msg_id,order_id,msg_body,msg_type, process_result, comment, reciv_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mq_msg_log
+    where msg_id = #{msgId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMessageType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from mq_msg_log
+    where msg_type = #{messageType,jdbcType=VARCHAR}  AND resend_success=0
+  </select>
+  <delete id="selectByMsgId" parameterType="java.lang.String" >
+    delete from mq_msg_log
+    where msg_id = #{msgId,jdbcType=VARCHAR} AND resend_success=0
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.MqMsgLog" >
+    insert into mq_msg_log (msg_id,order_id,msg_body,msg_type, process_result, comment, reciv_date)
+    values (#{msgId,jdbcType=VARCHAR},#{orderId,jdbcType=VARCHAR}, #{msgBody,jdbcType=VARCHAR},
+     #{msgType,jdbcType=VARCHAR},0, #{comment,jdbcType=VARCHAR},now())
+  </insert>
+
+  <update id="update" parameterType="com.yatang.sc.order.domain.MqMsgLog">
+    update mq_msg_log
+    <set>
+      process_result = #{processResult,jdbcType=TINYINT},
+      comment = #{comment,jdbcType=VARCHAR},
+    </set>
+    where msg_id = #{msgId,jdbcType=VARCHAR}
+  </update>
+</mapper>

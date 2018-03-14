@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.yatang.sc</groupId>
+		<artifactId>sc-order</artifactId>
+		<version>dev-SNAPSHOT</version>
+	</parent>
+	<groupId>com.yatang.sc</groupId>
+	<artifactId>sc-fulfillment</artifactId>
+	<packaging>pom</packaging>
+	<name>sc-fulfillment</name>
+	<version>dev-SNAPSHOT</version>
+	
+	<modules>
+		<module>sc-fulfillment-client</module>
+		<module>sc-fulfillment-dubbo</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-glink-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

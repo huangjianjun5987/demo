@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.MsgRetryQueueDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.MsgRetryQueue">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="unique_id" property="uniqueId" jdbcType="VARCHAR"/>
+        <result column="msg_body" property="msgBody" jdbcType="VARCHAR"/>
+        <result column="retry_count" property="retryCount" jdbcType="INTEGER"/>
+        <result column="msg_type" property="msgType" jdbcType="VARCHAR"/>
+        <result column="order" property="order" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="last_exec_time" property="lastExecTime" jdbcType="DATE"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id,unique_id,msg_body,retry_count, msg_type, `order`, state,create_time,last_exec_time
+  </sql>
+    <select id="selectByUniqueId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from msg_retry_queue
+        where unique_id = #{uniqueId,jdbcType=VARCHAR} and state='WZX' ORDER BY `order` ASC
+    </select>
+    <select id="selectByUniqueIdAndMsgType" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from msg_retry_queue
+        where unique_id = #{uniqueId,jdbcType=VARCHAR} and msg_type=#{msgType} and state='WZX' limit 0,1
+    </select>
+    <select id="selectWZXUniqueIds" resultType="java.lang.String">
+       <![CDATA[
+      SELECT DISTINCT tmp.unique_id
+        FROM (
+       SELECT
+         unique_id,
+         last_exec_time
+       FROM msg_retry_queue
+       WHERE state = 'WZX' AND retry_count < 20
+       ORDER BY last_exec_time ASC
+        ) tmp
+        ]]>
+    </select>
+
+    <insert id="insert" parameterType="com.yatang.sc.order.domain.MsgRetryQueue">
+    insert into msg_retry_queue (unique_id,msg_body,retry_count, msg_type, `order`, state,create_time,last_exec_time)
+    values (#{uniqueId,jdbcType=VARCHAR},#{msgBody,jdbcType=VARCHAR}, #{retryCount,jdbcType=INTEGER },
+     #{msgType,jdbcType=VARCHAR}, #{order,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR},now(),now())
+  </insert>
+
+    <update id="update" parameterType="com.yatang.sc.order.domain.MsgRetryQueue">
+        update msg_retry_queue
+        <set>
+            <if test="uniqueId != null">
+                unique_id = #{uniqueId,jdbcType=VARCHAR},
+            </if>
+            <if test="msgBody != null">
+                msg_body = #{msgBody,jdbcType=VARCHAR},
+            </if>
+            <if test="retryCount != null">
+                retry_count = #{retryCount,jdbcType=INTEGER},
+            </if>
+            <if test="msgType != null">
+                msg_type = #{msgType,jdbcType=VARCHAR},
+            </if>
+            <if test="order != null">
+                `order` = #{order,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="lastExecTime != null">
+                last_exec_time = #{lastExecTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.ShippingPriceDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.ShippingPrice" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="currency_code" property="currencyCode" jdbcType="VARCHAR" />
+    <result column="final_reason_code" property="finalReasonCode" jdbcType="VARCHAR" />
+    <result column="raw_shipping" property="rawShipping" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, amount, currency_code, final_reason_code, raw_shipping
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from scp_shipping_price
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from scp_shipping_price
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.ShippingPrice" >
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
+    insert into scp_shipping_price (  amount, currency_code,
+      final_reason_code, raw_shipping)
+    values (  #{amount,jdbcType=DOUBLE}, #{currencyCode,jdbcType=VARCHAR},
+      #{finalReasonCode,jdbcType=VARCHAR}, #{rawShipping,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.ShippingPrice" >
+    insert into scp_shipping_price
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="currencyCode != null" >
+        currency_code,
+      </if>
+      <if test="finalReasonCode != null" >
+        final_reason_code,
+      </if>
+      <if test="rawShipping != null" >
+        raw_shipping,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="currencyCode != null" >
+        #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="finalReasonCode != null" >
+        #{finalReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rawShipping != null" >
+        #{rawShipping,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.ShippingPrice" >
+    update scp_shipping_price
+    <set >
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="currencyCode != null" >
+        currency_code = #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="finalReasonCode != null" >
+        final_reason_code = #{finalReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rawShipping != null" >
+        raw_shipping = #{rawShipping,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.ShippingPrice" >
+    update scp_shipping_price
+    set amount = #{amount,jdbcType=DOUBLE},
+      currency_code = #{currencyCode,jdbcType=VARCHAR},
+      final_reason_code = #{finalReasonCode,jdbcType=VARCHAR},
+      raw_shipping = #{rawShipping,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

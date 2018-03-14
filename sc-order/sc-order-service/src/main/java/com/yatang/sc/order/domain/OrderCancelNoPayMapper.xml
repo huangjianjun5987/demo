@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.OrderCancelNoPayDao" >
+    <resultMap id="CancelNoPayResultMap" type="com.yatang.sc.order.domain.CompanyCancelNoPayPo">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="comany_id" property="companyId" jdbcType="VARCHAR" />
+        <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+        <result column="cancel_time" property="cancelTime" jdbcType="INTEGER" />
+        <result column="state" property="state" jdbcType="SMALLINT" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,comany_id,company_name,cancel_time,state
+    </sql>
+
+    <select id="getCompanyCancelNoPay" resultMap="CancelNoPayResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM scp_company_cancelnopay_rule
+        where state = 1
+    </select>
+
+    <select id="getNoPayByCompanyId" parameterType="java.lang.String" resultMap="CancelNoPayResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM scp_company_cancelnopay_rule ssr
+        <where>
+            <if test="companyId != null" >
+                and ssr.comany_id  = #{companyId,jdbcType=VARCHAR}
+            </if>
+                and state = 1
+        </where>
+        LIMIT 1
+    </select>
+</mapper>

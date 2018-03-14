@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.MqFailedMsgDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.MqFailedMsg" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="message_type" property="messageType" jdbcType="VARCHAR" />
+    <result column="resend_success" property="resendSuccess" jdbcType="VARCHAR" />
+    <result column="create_datetime" property="createDateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, message_type, resend_success, create_datetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mq_failed_msg
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMessageType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from mq_failed_msg
+    where message_type = #{messageType,jdbcType=VARCHAR}  AND resend_success=0
+  </select>
+  <delete id="selectByOrderId" parameterType="java.lang.String" >
+    delete from mq_failed_msg
+    where order_id = #{orderId,jdbcType=VARCHAR} AND resend_success=0
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.MqFailedMsg" >
+    insert into mq_failed_msg (order_id, message_type, resend_success, create_datetime)
+    values (#{orderId,jdbcType=VARCHAR}, #{messageType,jdbcType=VARCHAR}, 0,now())
+  </insert>
+
+  <update id="updateToResendSuccess" parameterType="java.lang.String" >
+    update mq_failed_msg
+    <set >
+      resend_success = 1
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

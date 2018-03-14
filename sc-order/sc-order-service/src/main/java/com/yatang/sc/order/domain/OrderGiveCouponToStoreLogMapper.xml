@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.OrderGiveCouponToStoreLogDao" >
+   <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.OrderGiveCouponToStoreLog" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="price_info_id" property="priceInfoId" jdbcType="BIGINT" />
+    <result column="give_coupon_info" property="giveCouponInfo" jdbcType="VARCHAR" />
+    <result column="success" property="success" jdbcType="BIT" />
+    <result column="creationTime" property="creationTime" jdbcType="TIMESTAMP" />
+    <result column="discount" property="discount" jdbcType="DOUBLE" />
+    <result column="give_amount" property="giveAmount" jdbcType="DOUBLE" />
+    
+  </resultMap>
+   <sql id="Base_Column_List" >
+    id, price_info_id, give_coupon_info, success,creationTime, discount,give_amount
+  </sql>
+ 
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.OrderGiveCouponToStoreLog" >
+    insert into scp_order_give_coupon_to_store_log (id,discount,price_info_id,creationTime)
+    values (#{id,jdbcType=VARCHAR}, 
+    		#{discount,jdbcType=DOUBLE},
+    		#{priceInfoId,jdbcType=BIGINT},
+	 		#{creationTime,jdbcType=TIMESTAMP}
+	 		)
+  </insert>
+  
+  
+  <update id="update" parameterType="com.yatang.sc.order.domain.OrderGiveCouponToStoreLog" >
+    update scp_order_give_coupon_to_store_log
+    <set>
+        <if test="giveCouponInfo != null" >
+          give_coupon_info = #{giveCouponInfo,jdbcType=VARCHAR},
+        </if>
+        <if test="success != null" >
+          success = #{success,jdbcType=BIT},
+        </if>
+        <if test="giveAmount != null" >
+          give_amount = #{giveAmount,jdbcType=DOUBLE},
+        </if>
+      </set>
+    where price_info_id = #{priceInfoId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryByPriceInfoId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from scp_order_give_coupon_to_store_log
+    where price_info_id = #{priceInfoId,jdbcType=BIGINT} limit 0,1
+  </select>
+  
+</mapper>

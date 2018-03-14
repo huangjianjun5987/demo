@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:fulfillment.properties,classpath:dubbo_ext.properties" ignore-unresolvable="true"/>
+
+    <dubbo:application name="${ext.dubbo.application.name}" owner="${ext.dubbo.application.name}"/>
+    <dubbo:registry protocol="zookeeper" address="${ext.dubbo.registry.address}" default="true" timeout="10000" />
+    <dubbo:registry protocol="zookeeper" address="${ext.dubbo.sz.registry.address}" default="false" id="szzk" timeout="10000" />
+    <dubbo:protocol name="dubbo" port="${ext.dubbo.protocol.port}" threads="${ext.dubbo.protocol.threads}" threadpool="${ext.dubbo.protocol.threadpool}" payload="${ext.dubbo.protocol.payload}"/>
+    <dubbo:consumer check="${ext.dubbo.consumer.check}" loadbalance="${ext.dubbo.service.loadbalance}" />
+
+    <dubbo:reference registry="szzk" interface="com.yatang.xcsm.remote.api.dubboxservice.OutViperOrderDubboxService" id="outViperOrderDubboxService" timeout="60000" version="1.0" />
+
+    <!-- 注解扫描器 -->
+    <context:component-scan base-package="com.yatang.sc"/>
+
+    <bean id="orderMQMsgConsumer" class="com.busi.mq.comsumer.MQPushConsumerService"
+          init-method="init" destroy-method="destroy">
+        <property name="namesrvAddr" value="${rocketmq.nameserver.address}"/>
+        <property name="consumerGroup" value="${rocketmq.orderMsg.consumergroup}"/>
+        <property name="msgTopic" value="${rocketmq.orderMsg.topic}"/>
+        <property name="msgTag" value="${rocketmq.orderMsg.tag}"/>
+
+        <property name="msgProcessors">
+            <list>
+                <ref bean="orderMsgProcessor"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="orderIndexMQMsgConsumer" class="com.busi.mq.comsumer.MQPushConsumerService"
+          init-method="init" destroy-method="destroy">
+        <property name="namesrvAddr" value="${rocketmq.nameserver.address}"/>
+        <property name="consumerGroup" value="${rocketmq.orderUpdateMsg.consumergroup}"/>
+        <property name="msgTopic" value="${rocketmq.orderUpdateMsg.topic}"/>
+        <property name="msgTag" value="${rocketmq.orderUpdateMsg.tag}"/>
+
+        <property name="msgProcessors">
+            <list>
+                <ref bean="orderIndexMsgProcessor"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!--发送订单屏显消息-->
+    <bean id="orderIndexMQProducer" class="com.busi.mq.producer.SimpleMQProducer" init-method="init"
+          destroy-method="destroy">
+        <property name="namesrvAddr" value="${rocketmq.nameserver.address}"/>
+        <property name="producerGroup" value="${rocketmq.orderIndexMsg.producergroup}"/>
+        <property name="encoder" ref="orderIndexMQEncoder"/>
+    </bean>
+    <bean id="orderIndexMQEncoder" class="com.busi.mq.message.encoder.JSONStringEncoder">
+        <property name="msgTopic" value="${rocketmq.orderIndexMsg.topic}"/>
+        <property name="msgTag" value="${rocketmq.orderIndexMsg.tag}"/>
+    </bean>
+
+    <!--退换货单mq-->
+    <bean id="returnOrderConsumer" class="com.busi.mq.comsumer.MQPushConsumerService"
+          init-method="init" destroy-method="destroy">
+        <property name="namesrvAddr" value="${rocketmq.nameserver.address}"/>
+        <property name="consumerGroup" value="${rocketmq.returnOrderMsg.consumergroup}"/>
+        <property name="msgTopic" value="${rocketmq.returnOrderMsg.topic}"/>
+        <property name="msgTag" value="${rocketmq.returnOrderMsg.tag}"/>
+
+        <property name="msgProcessors">
+            <list>
+                <ref bean="returnOrderMsgProcessor"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="taskExecutor"
+          class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+        <property name="WaitForTasksToCompleteOnShutdown" value="true" />
+    </bean>
+
+    <bean id="xxlJobExecutor" class="com.xxl.job.core.executor.XxlJobExecutor" init-method="start" destroy-method="destroy" >
+
+        <!-- 执行器IP[选填]，为空则自动获取 -->
+        <property name="ip" value="${xxl.job.executor.ip}" />
+        <!-- 执行器端口号[必须] -->
+        <property name="port" value="${xxl.job.executor.port}" />
+        <!-- 执行器AppName[选填]，为空则关闭自动注册 -->
+        <property name="appName" value="${xxl.job.executor.appname}" />
+        <!-- 执行器注册中心地址[选填]，为空则关闭自动注册 -->
+        <property name="adminAddresses" value="${xxl.job.admin.addresses}" />
+        <!-- 执行器日志路径[必填] -->
+        <property name="logPath" value="${xxl.job.executor.logpath}" />
+        <!-- 访问令牌，非空则进行匹配校验[选填] -->
+        <property name="accessToken" value="${xxl.job.accessToken}" />
+    </bean>
+
+    <bean id="redisDistributedLockFactory" class="com.yatang.sc.common.lock.RedisDistributedLockFactory"
+          init-method="initFactory">
+        <property name="lockRedisServer" value="${lock.redis.server}"/>
+    </bean>
+</beans>

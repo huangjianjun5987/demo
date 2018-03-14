@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.ProviderShippingGroupDao">
+    <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.ProviderShippingGroup">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="shipping_group_id" property="shippingGroupId" jdbcType="VARCHAR"/>
+        <result column="sp_id" property="spId" jdbcType="VARCHAR"/>
+        <result column="sp_no" property="spNo" jdbcType="VARCHAR"/>
+        <result column="sp_name" property="spName" jdbcType="VARCHAR"/>
+        <result column="sp_adr_id" property="spAdrId" jdbcType="VARCHAR"/>
+        <result column="sp_adr_no" property="spAdrNo" jdbcType="VARCHAR"/>
+        <result column="sp_adr_name" property="spAdrName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, shipping_group_id, sp_id, sp_no, sp_name, sp_adr_id, sp_adr_no,sp_adr_name
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_provider_shipping_group
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByShippingGroupId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from scp_provider_shipping_group
+        where shipping_group_id = #{shippingGroupId,jdbcType=VARCHAR} limit 1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from scp_provider_shipping_group
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.yatang.sc.order.domain.ProviderShippingGroup">
+    insert into scp_provider_shipping_group (shipping_group_id, sp_id, sp_no, sp_name, sp_adr_id, sp_adr_no,sp_adr_name)
+    values (#{shippingGroupId,jdbcType=VARCHAR}, #{spId,jdbcType=VARCHAR}, #{spNo,jdbcType=VARCHAR},
+    #{spName,jdbcType=BIGINT}, #{spAdrId,jdbcType=VARCHAR}, #{spAdrNo,jdbcType=VARCHAR}, #{spAdrName,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.ProviderShippingGroup">
+        insert into scp_shipping_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shippingGroupId != null">
+                shipping_group_id,
+            </if>
+            <if test="spId != null">
+                sp_id,
+            </if>
+            <if test="spNo != null">
+                sp_no,
+            </if>
+            <if test="spName != null">
+                sp_name,
+            </if>
+            <if test="spAdrId != null">
+                sp_adr_id,
+            </if>
+            <if test="spAdrNo != null">
+                sp_adr_no,
+            </if>
+            <if test="spAdrName != null">
+                sp_adr_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shippingGroupId != null">
+                shipping_group_id= #{shippingGroupId,jdbcType=VARCHAR},
+            </if>
+            <if test="spId != null">
+                sp_id= #{spId,jdbcType=VARCHAR},
+            </if>
+            <if test="spNo != null">
+                sp_no= #{spNo,jdbcType=VARCHAR},
+            </if>
+            <if test="spName != null">
+                sp_name= #{spName,jdbcType=VARCHAR},
+            </if>
+            <if test="spAdrId != null">
+                sp_adr_id= #{spAdrId,jdbcType=VARCHAR},
+            </if>
+            <if test="spAdrNo != null">
+                sp_adr_no= #{spAdrNo,jdbcType=VARCHAR},
+            </if>
+            <if test="spAdrName != null">
+                sp_adr_name= #{spAdrName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.ProviderShippingGroup">
+        update scp_shipping_group
+        <set>
+            <if test="shippingGroupId != null">
+                shipping_group_id= #{shippingGroupId,jdbcType=VARCHAR},
+            </if>
+            <if test="spId != null">
+                sp_id= #{spId,jdbcType=VARCHAR},
+            </if>
+            <if test="spNo != null">
+                sp_no= #{spNo,jdbcType=VARCHAR},
+            </if>
+            <if test="spName != null">
+                sp_name= #{spName,jdbcType=VARCHAR},
+            </if>
+            <if test="spAdrId != null">
+                sp_adr_id= #{spAdrId,jdbcType=VARCHAR},
+            </if>
+            <if test="spAdrNo != null">
+                sp_adr_no= #{spAdrNo,jdbcType=VARCHAR},
+            </if>
+            <if test="spAdrName != null">
+                sp_adr_name= #{spAdrName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.ProviderShippingGroup">
+    update scp_shipping_group
+    set shipping_group_id= #{shippingGroupId,jdbcType=VARCHAR},
+       sp_id= #{spId,jdbcType=VARCHAR},
+       sp_no= #{spNo,jdbcType=VARCHAR},
+       sp_name= #{spName,jdbcType=VARCHAR},
+       sp_adr_id= #{spAdrId,jdbcType=VARCHAR},
+       sp_adr_no= #{spAdrNo,jdbcType=VARCHAR},
+       sp_adr_name= #{spAdrName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

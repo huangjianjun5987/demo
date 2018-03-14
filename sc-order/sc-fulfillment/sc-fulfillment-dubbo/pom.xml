@@ -1,0 +1,270 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.yatang.sc</groupId>
+		<artifactId>sc-fulfillment</artifactId>
+		<version>dev-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+	<artifactId>sc-fulfillment-dubbo</artifactId>
+	<packaging>jar</packaging>
+	<name>sc-fulfillment-dubbo</name>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.yatang.xcsm.common</groupId>
+			<artifactId>xcsm-all-common</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yatang.xcsm.remote.api</groupId>
+			<artifactId>api-business-client</artifactId>
+			<version>dev</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.xuxueli</groupId>
+			<artifactId>xxl-job-core</artifactId>
+			<version>1.8.2</version>
+		</dependency>
+		<!--<dependency>
+			<groupId>com.yatang.xc.pos.cloud</groupId>
+			<artifactId>pos-inventory-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>-->
+		<dependency>
+			<groupId>com.yatang.xc.mbd.pi</groupId>
+			<artifactId>mbd-prd-index-search-client</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
+		<!--<dependency>
+			<groupId>com.yatang.xc.pos.cloud</groupId>
+			<artifactId>pos-inventory-client</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>-->
+		<dependency>
+			<groupId>com.ds.order</groupId>
+			<artifactId>ds-order-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-fulfillment-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-facade-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-order-msg</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-inventory-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.busi.mq</groupId>
+			<artifactId>busi-mq</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.busi.common</groupId>
+			<artifactId>busi-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yatang.xc.oc.base.common</groupId>
+			<artifactId>xcoc-common-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-order-service</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-payment-client</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-purchase-client</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<!-- 主数据服务 -->
+		<dependency>
+			<groupId>com.yatang.xc.oc.core.product</groupId>
+			<artifactId>core-product-client</artifactId>
+			<version>dev-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yatang.xc.oc.core.org</groupId>
+			<artifactId>core-org-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yatang.xc.mbd.org</groupId>
+			<artifactId>mbd-org-index-search-client</artifactId>
+			<version>${parent.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-glink-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba.rocketmq</groupId>
+			<artifactId>rocketmq-client</artifactId>
+		</dependency>
+
+		<!-- dubbo -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.sgroschupf</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>0.1</version>
+		</dependency>
+		<!-- lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.16</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.busi.idgenerator</groupId>
+			<artifactId>busi-idgenerator-client</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+
+		<!-- barcode4j-light -->
+		<dependency>
+			<groupId>net.sf.barcode4j</groupId>
+			<artifactId>barcode4j-light</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+		<!-- quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+        <dependency>
+            <groupId>com.yatang.sc</groupId>
+            <artifactId>sc-facade-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.yatang.sc</groupId>
+            <artifactId>sc-glink-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+		<dependency>
+			<groupId>com.busi.distlock</groupId>
+			<artifactId>busi-distlock</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>com.yatang.sc</groupId>
+			<artifactId>sc-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>com.yatang.sc</groupId>
+            <artifactId>sc-oms-client</artifactId>
+            <version>dev-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.yatang.xc.oc.b.member</groupId>
+            <artifactId>member-core-client</artifactId>
+            <version>dev-SNAPSHOT</version>
+        </dependency>
+
+        <!--		<dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context-support</artifactId>
+                    <version>3.2.4.RELEASE</version>
+                </dependency>-->
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<finalName>sc-fulfillment-dubbo</finalName>
+					<attach>false</attach>
+					<descriptors>
+						<descriptor>assembly/assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+	</build>
+	
+</project>

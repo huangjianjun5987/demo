@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.ItemPriceDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.ItemPrice" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="currency_code" property="currencyCode" jdbcType="VARCHAR" />
+    <result column="final_reason_code" property="finalReasonCode" jdbcType="VARCHAR" />
+    <result column="list_price" property="listPrice" jdbcType="DOUBLE" />
+    <result column="order_discount_share" property="orderDiscountShare" jdbcType="DOUBLE" />
+    <result column="quantity_as_qualifier" property="quantityAsQualifier" jdbcType="BIGINT" />
+    <result column="quantity_discounted" property="quantityDiscounted" jdbcType="BIGINT" />
+    <result column="raw_total_price" property="rawTotalPrice" jdbcType="DOUBLE" />
+    <result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, amount, currency_code, final_reason_code, list_price, order_discount_share, quantity_as_qualifier, 
+    quantity_discounted, raw_total_price, sale_price
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from scp_item_price
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from scp_item_price
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.ItemPrice" >
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
+    insert into scp_item_price (amount, currency_code,
+      final_reason_code, list_price, order_discount_share, 
+      quantity_as_qualifier, quantity_discounted, 
+      raw_total_price, sale_price)
+    values ( #{amount,jdbcType=DOUBLE}, #{currencyCode,jdbcType=VARCHAR},
+      #{finalReasonCode,jdbcType=VARCHAR}, #{listPrice,jdbcType=DOUBLE}, #{orderDiscountShare,jdbcType=DOUBLE}, 
+      #{quantityAsQualifier,jdbcType=BIGINT}, #{quantityDiscounted,jdbcType=BIGINT}, 
+      #{rawTotalPrice,jdbcType=DOUBLE}, #{salePrice,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.ItemPrice" >
+    insert into scp_item_price
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="currencyCode != null" >
+        currency_code,
+      </if>
+      <if test="finalReasonCode != null" >
+        final_reason_code,
+      </if>
+      <if test="listPrice != null" >
+        list_price,
+      </if>
+      <if test="orderDiscountShare != null" >
+        order_discount_share,
+      </if>
+      <if test="quantityAsQualifier != null" >
+        quantity_as_qualifier,
+      </if>
+      <if test="quantityDiscounted != null" >
+        quantity_discounted,
+      </if>
+      <if test="rawTotalPrice != null" >
+        raw_total_price,
+      </if>
+      <if test="salePrice != null" >
+        sale_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="currencyCode != null" >
+        #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="finalReasonCode != null" >
+        #{finalReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="listPrice != null" >
+        #{listPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderDiscountShare != null" >
+        #{orderDiscountShare,jdbcType=DOUBLE},
+      </if>
+      <if test="quantityAsQualifier != null" >
+        #{quantityAsQualifier,jdbcType=BIGINT},
+      </if>
+      <if test="quantityDiscounted != null" >
+        #{quantityDiscounted,jdbcType=BIGINT},
+      </if>
+      <if test="rawTotalPrice != null" >
+        #{rawTotalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="salePrice != null" >
+        #{salePrice,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.ItemPrice" >
+    update scp_item_price
+    <set >
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="currencyCode != null" >
+        currency_code = #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="finalReasonCode != null" >
+        final_reason_code = #{finalReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="listPrice != null" >
+        list_price = #{listPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderDiscountShare != null" >
+        order_discount_share = #{orderDiscountShare,jdbcType=DOUBLE},
+      </if>
+      <if test="quantityAsQualifier != null" >
+        quantity_as_qualifier = #{quantityAsQualifier,jdbcType=BIGINT},
+      </if>
+      <if test="quantityDiscounted != null" >
+        quantity_discounted = #{quantityDiscounted,jdbcType=BIGINT},
+      </if>
+      <if test="rawTotalPrice != null" >
+        raw_total_price = #{rawTotalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="salePrice != null" >
+        sale_price = #{salePrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.ItemPrice" >
+    update scp_item_price
+    set amount = #{amount,jdbcType=DOUBLE},
+      currency_code = #{currencyCode,jdbcType=VARCHAR},
+      final_reason_code = #{finalReasonCode,jdbcType=VARCHAR},
+      list_price = #{listPrice,jdbcType=DOUBLE},
+      order_discount_share = #{orderDiscountShare,jdbcType=DOUBLE},
+      quantity_as_qualifier = #{quantityAsQualifier,jdbcType=BIGINT},
+      quantity_discounted = #{quantityDiscounted,jdbcType=BIGINT},
+      raw_total_price = #{rawTotalPrice,jdbcType=DOUBLE},
+      sale_price = #{salePrice,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

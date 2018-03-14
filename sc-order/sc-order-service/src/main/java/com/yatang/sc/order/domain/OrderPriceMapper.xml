@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.OrderPriceDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.OrderPrice" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="raw_subtotal" property="rawSubtotal" jdbcType="DOUBLE" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="currency_code" property="currencyCode" jdbcType="VARCHAR" />
+    <result column="discount_amount" property="discountAmount" jdbcType="DOUBLE" />
+    <result column="final_reason_code" property="finalReasonCode" jdbcType="VARCHAR" />
+    <result column="manual_adjustment_total" property="manualAdjustmentTotal" jdbcType="DOUBLE" />
+    <result column="shipping" property="shipping" jdbcType="DOUBLE" />
+    <result column="total" property="total" jdbcType="DOUBLE" />
+    <result column="user_discount_amount" property="userDiscountAmount" jdbcType="DOUBLE" />
+    <result column="coupon_discount_amount" property="couponDiscountAmount" jdbcType="DOUBLE" />
+    <result column="is_coupon_activity_reverted" property="couponActivityReverted" jdbcType="BOOLEAN" />
+    <collection  property="adjustments" column="id"  select="com.yatang.sc.order.dao.PriceAdjustmentDao.queryByOrderPriceId"/>
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, raw_subtotal, amount, currency_code, discount_amount, final_reason_code, manual_adjustment_total, 
+    shipping, total,user_discount_amount,coupon_discount_amount,is_coupon_activity_reverted
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from scp_order_price
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <update id="updateOrderPriceCouponActivityReverted" parameterType="java.lang.Long">
+		UPDATE scp_order_price set is_coupon_activity_reverted=1 WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from scp_order_price
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.OrderPrice" >
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+      SELECT LAST_INSERT_ID();
+    </selectKey>
+    insert into scp_order_price (raw_subtotal, amount,
+      currency_code, discount_amount, final_reason_code, 
+      manual_adjustment_total, shipping, total,user_discount_amount,coupon_discount_amount
+      )
+    values ( #{rawSubtotal,jdbcType=DOUBLE}, #{amount,jdbcType=DOUBLE},
+      #{currencyCode,jdbcType=VARCHAR}, #{discountAmount,jdbcType=DOUBLE}, #{finalReasonCode,jdbcType=VARCHAR}, 
+      #{manualAdjustmentTotal,jdbcType=DOUBLE}, #{shipping,jdbcType=DOUBLE}, #{total,jdbcType=DOUBLE},
+      #{userDiscountAmount,jdbcType=DOUBLE},#{couponDiscountAmount,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.OrderPrice" >
+    insert into scp_order_price
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rawSubtotal != null" >
+        raw_subtotal,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="currencyCode != null" >
+        currency_code,
+      </if>
+      <if test="discountAmount != null" >
+        discount_amount,
+      </if>
+      <if test="finalReasonCode != null" >
+        final_reason_code,
+      </if>
+      <if test="manualAdjustmentTotal != null" >
+        manual_adjustment_total,
+      </if>
+      <if test="shipping != null" >
+        shipping,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="userDiscountAmount != null" >
+        user_discount_amount,
+      </if>
+      <if test="couponDiscountAmount != null" >
+        coupon_discount_amount,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="rawSubtotal != null" >
+        #{rawSubtotal,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="currencyCode != null" >
+        #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="discountAmount != null" >
+        #{discountAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="finalReasonCode != null" >
+        #{finalReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="manualAdjustmentTotal != null" >
+        #{manualAdjustmentTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="shipping != null" >
+        #{shipping,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="userDiscountAmount != null" >
+        #{userDiscountAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="couponDiscountAmount != null" >
+        #{couponDiscountAmount,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.OrderPrice" >
+    update scp_order_price
+    <set >
+      <if test="rawSubtotal != null" >
+        raw_subtotal = #{rawSubtotal,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="currencyCode != null" >
+        currency_code = #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="discountAmount != null" >
+        discount_amount = #{discountAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="finalReasonCode != null" >
+        final_reason_code = #{finalReasonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="manualAdjustmentTotal != null" >
+        manual_adjustment_total = #{manualAdjustmentTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="shipping != null" >
+        shipping = #{shipping,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="userDiscountAmount != null" >
+      user_discount_amount = #{userDiscountAmount,jdbcType=DOUBLE},
+    </if>
+      <if test="couponDiscountAmount != null" >
+        coupon_discount_amount = #{couponDiscountAmount,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.OrderPrice" >
+    update scp_order_price
+    set raw_subtotal = #{rawSubtotal,jdbcType=DOUBLE},
+      amount = #{amount,jdbcType=DOUBLE},
+      currency_code = #{currencyCode,jdbcType=VARCHAR},
+      discount_amount = #{discountAmount,jdbcType=DOUBLE},
+      final_reason_code = #{finalReasonCode,jdbcType=VARCHAR},
+      manual_adjustment_total = #{manualAdjustmentTotal,jdbcType=DOUBLE},
+      shipping = #{shipping,jdbcType=DOUBLE},
+      total = #{total,jdbcType=DOUBLE},
+      user_discount_amount = #{userDiscountAmount,jdbcType=DOUBLE},
+      user_discount_amount = #{coupon_discount_amount,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yatang.sc.order.dao.ReturnOrderLogDao" >
+  <resultMap id="BaseResultMap" type="com.yatang.sc.order.domain.ReturnOrderLogPo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="return_id" property="returnId" jdbcType="VARCHAR" />
+    <result column="return_state" property="returnState" jdbcType="SMALLINT" />
+    <result column="operater" property="operater" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, return_id, return_state, operater, create_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from scp_return_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from scp_return_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yatang.sc.order.domain.ReturnOrderLogPo" >
+    insert into scp_return_log (id, return_id, return_state, 
+      operater, create_date)
+    values (#{id,jdbcType=INTEGER}, #{returnId,jdbcType=VARCHAR}, #{returnState,jdbcType=SMALLINT}, 
+      #{operater,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yatang.sc.order.domain.ReturnOrderLogPo" >
+    insert into scp_return_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="returnId != null" >
+        return_id,
+      </if>
+      <if test="returnState != null" >
+        return_state,
+      </if>
+      <if test="operater != null" >
+        operater,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="returnId != null" >
+        #{returnId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnState != null" >
+        #{returnState,jdbcType=SMALLINT},
+      </if>
+      <if test="operater != null" >
+        #{operater,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yatang.sc.order.domain.ReturnOrderLogPo" >
+    update scp_return_log
+    <set >
+      <if test="returnId != null" >
+        return_id = #{returnId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnState != null" >
+        return_state = #{returnState,jdbcType=SMALLINT},
+      </if>
+      <if test="operater != null" >
+        operater = #{operater,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yatang.sc.order.domain.ReturnOrderLogPo" >
+    update scp_return_log
+    set return_id = #{returnId,jdbcType=VARCHAR},
+      return_state = #{returnState,jdbcType=SMALLINT},
+      operater = #{operater,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
